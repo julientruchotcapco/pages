@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Risk, Finance &amp; Compliance – Application Rationalisation Workbench</title>
+<style>
+:root{--navy:#0b2545;--navy2:#13315c;--ink:#1f2937;--mut:#6b7280;--line:#e5e7eb;--bg:#f4f6fa;--card:#fff;--hl:#fff4c2}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Inter,Arial,sans-serif;color:var(--ink);background:var(--bg);font-size:13px;line-height:1.4}
+header{background:var(--navy);color:#fff;padding:8px 18px;display:flex;align-items:center;gap:18px;position:sticky;top:0;z-index:60;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.brand b{display:block;font-size:15px;letter-spacing:.02em}.brand span{font-size:11px;color:#9fb3d1}
+nav.tabs{display:flex;gap:2px;flex-wrap:wrap;flex:1}
+nav.tabs button{background:transparent;color:#c8d3e6;border:0;padding:7px 11px;border-radius:6px;cursor:pointer;font:inherit;font-size:12.5px}
+nav.tabs button:hover{background:rgba(255,255,255,.08);color:#fff}
+nav.tabs button.on{background:#fff;color:var(--navy);font-weight:600}
+.demo{font-size:11px;background:#f59e0b;color:#111;padding:3px 8px;border-radius:999px;font-weight:600;white-space:nowrap}
+main{padding:16px 20px 60px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:14px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+h1{font-size:21px;margin:0 0 4px;color:var(--navy)}
+h2{font-size:17px;margin:0 0 4px;color:var(--navy)}
+h3{font-size:14px;margin:0 0 10px;color:var(--navy)}
+h4{font-size:12.5px;margin:10px 0 6px;color:var(--navy2)}
+.sub{color:var(--mut);margin:0 0 10px}
+.grid{display:grid;gap:14px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g5{grid-template-columns:repeat(5,1fr)}.g6{grid-template-columns:repeat(6,1fr)}
+.g12{grid-template-columns:1.2fr 1fr}.g21{grid-template-columns:2fr 1fr}
+@media(max-width:1100px){.g2,.g3,.g4,.g5,.g6,.g12,.g21{grid-template-columns:1fr 1fr}}
+.kpi{padding:12px 14px}.kpi .l{color:var(--mut);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.kpi .v{font-size:22px;font-weight:700;color:var(--navy);margin:3px 0}.kpi .d{font-size:12px;color:#15803d;font-weight:600}.kpi .d.neg{color:#b91c1c}
+table.t{width:100%;border-collapse:collapse}
+table.t th{text-align:left;font-size:10.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.03em;border-bottom:2px solid var(--line);padding:6px 6px;background:#fafbfc;position:sticky;top:0}
+table.t td{padding:5px 6px;border-bottom:1px solid #f0f2f5;vertical-align:middle}
+table.t tr.click{cursor:pointer}table.t tr.click:hover td{background:#f5f8ff}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600;color:#fff;white-space:nowrap}
+.dchip{display:inline-block;padding:1px 7px;border-radius:4px;font-size:10.5px;font-weight:600;color:var(--c);border:1px solid var(--c);background:#fff;margin:1px 2px 1px 0;white-space:nowrap}
+.achip{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:5px;font-size:12px;color:#fff;margin:3px;cursor:pointer;font-weight:500}
+.achip small{opacity:.85;font-size:10px}
+.achip.gone{opacity:.55;text-decoration:line-through}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+input.in,select.in,textarea.in{border:1px solid #d1d5db;border-radius:5px;padding:4px 6px;font:inherit;font-size:12.5px;width:100%;background:#fff;color:var(--ink)}
+input.in:focus,select.in:focus,textarea.in:focus{outline:2px solid #93c5fd;border-color:#60a5fa}
+input.num{text-align:right}
+.btn{background:var(--navy);color:#fff;border:0;border-radius:6px;padding:6px 12px;cursor:pointer;font:inherit;font-size:12.5px;white-space:nowrap}
+.btn:hover{background:var(--navy2)}
+.btn.ghost{background:#fff;color:var(--navy);border:1px solid #cbd5e1}.btn.ghost:hover{background:#f1f5f9}
+.btn.danger{background:#fff;color:#dc2626;border:1px solid #fecaca;padding:3px 8px}.btn.danger:hover{background:#fef2f2}
+.btn.sm{padding:3px 8px;font-size:11.5px}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:6px 0}
+.toolbar label{display:flex;gap:6px;align-items:center;color:var(--mut);font-size:12px}
+.toolbar .in{width:auto}
+.muted{color:var(--mut)}.small{font-size:11.5px}.b{font-weight:600}
+.badge{display:inline-block;background:#eef2ff;color:#3730a3;border-radius:4px;padding:1px 6px;font-size:11px;font-weight:600}
+.warn{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:6px;padding:6px 10px;margin:6px 0}
+.note{background:#f0f9ff;border:1px solid #bae6fd;color:#075985;border-radius:6px;padding:8px 12px;margin:6px 0}
+details>summary{cursor:pointer;color:var(--navy2);font-weight:600;padding:4px 0}
+/* scores */
+input.sc{width:38px;text-align:center;border:1px solid #d1d5db;border-radius:4px;padding:3px 0;font:inherit;font-weight:600}
+.s1{background:#fecaca}.s2{background:#fed7aa}.s3{background:#fef3c7}.s4{background:#d9f99d}.s5{background:#86efac}
+.bar{height:8px;background:#e5e7eb;border-radius:4px;overflow:hidden}.bar>i{display:block;height:100%;border-radius:4px}
+.hbar{display:grid;grid-template-columns:170px 1fr 54px;gap:8px;align-items:center;margin:3px 0;font-size:12px}
+/* matrix */
+.mx-wrap{overflow:auto;max-height:76vh;border:1px solid var(--line);border-radius:8px;background:#fff}
+table.mx{border-collapse:separate;border-spacing:0;font-size:12px}
+table.mx th,table.mx td{border-right:1px solid #eef0f4;border-bottom:1px solid #eef0f4;padding:0}
+table.mx thead th{position:sticky;top:0;background:#fff;z-index:3}
+table.mx th.vh{height:190px;vertical-align:bottom;width:28px;min-width:28px;max-width:28px;cursor:pointer}
+table.mx th.vh div{writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;font-weight:600;margin:4px auto;font-size:11.5px;color:var(--ink)}
+table.mx th.vh i{display:block;height:6px}
+table.mx .rh{position:sticky;left:0;background:#fff;z-index:2;min-width:340px;max-width:340px;padding:3px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+table.mx thead th.corner{left:0;z-index:5;vertical-align:bottom;text-align:left;padding:8px}
+table.mx td.c{width:28px;height:23px;text-align:center;cursor:pointer;font-size:10.5px;font-weight:700}
+table.mx td.lv3{background:#0b2545;color:#fff}table.mx td.lv2{background:#5b7db1;color:#fff}table.mx td.lv1{background:#cfdcf0;color:#334155}
+table.mx tr.dom td{background:var(--c);color:#fff;font-weight:700;font-size:12.5px;padding:4px 8px}
+table.mx tr.grp td{background:#f1f5f9;font-weight:600;color:var(--navy2);padding:3px 8px}
+table.mx tr.grp td.rh{background:#f1f5f9}
+table.mx td.cnt{min-width:46px;text-align:center;font-weight:600}
+table.mx td.ov{min-width:76px;text-align:center}
+table.mx tfoot td{position:sticky;bottom:0;background:#f8fafc;font-weight:700;text-align:center;font-size:11px;z-index:3}
+table.mx tfoot td.rh{z-index:4;text-align:left}
+table.mx tr.hl td{box-shadow:inset 0 0 0 999px rgba(250,204,21,.22)}
+table.mx .hlc{box-shadow:inset 0 0 0 999px rgba(250,204,21,.28)!important}
+table.mx td.c.cur{outline:2px solid #f59e0b;outline-offset:-2px}
+table.mx th.vh.hlc div{color:#b45309}
+.lg{display:inline-flex;align-items:center;gap:5px;margin-right:12px;font-size:11.5px}
+.lg i{display:inline-block;width:16px;height:14px;border-radius:3px;font-style:normal;text-align:center;font-size:10px;font-weight:700;color:#fff;line-height:14px}
+/* tooltip & modal */
+#tip{position:fixed;pointer-events:none;background:#0f172a;color:#fff;padding:7px 10px;border-radius:6px;font-size:11.5px;max-width:340px;z-index:200;display:none;white-space:pre-line;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:100;display:flex;align-items:flex-start;justify-content:center;padding:40px 20px;overflow:auto}
+.modal.hide{display:none}
+.mbox{background:#fff;border-radius:12px;max-width:1150px;width:100%;padding:20px 24px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.mclose{position:absolute;right:14px;top:10px;border:0;background:transparent;font-size:24px;cursor:pointer;color:var(--mut)}
+#dlg{z-index:150;align-items:center}
+.mbox.dlg{max-width:480px}.mbox.dlg h3{margin:0 0 8px}.mbox.dlg p{margin:0 0 14px;color:#334155}
+.btn.red{background:#dc2626}.btn.red:hover{background:#b91c1c}
+#toast{position:fixed;right:20px;bottom:20px;z-index:210;display:none;color:#fff;padding:10px 16px;border-radius:8px;font-size:12.5px;max-width:420px;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+/* unsaved (draft) rows */
+tr.draft td{background:#fef2f2}
+tr.draft:not(.msg) td{border-top:2px solid #dc2626}
+tr.draft:not(.msg) td:first-child{box-shadow:inset 4px 0 0 #dc2626}
+tr.draft.msg td{color:#991b1b;font-size:11.5px;border-bottom:2px solid #dc2626;padding:4px 8px}
+tr.draft.msg td:first-child{box-shadow:inset 4px 0 0 #dc2626}
+tr.draft .in.bad{border-color:#dc2626;outline:2px solid #fecaca}
+tr.draft .derr{font-weight:700;margin-top:2px}
+tr.draft.flash td{animation:flash .9s 2}
+@keyframes flash{50%{background:#fecaca}}
+/* gantt */
+.gantt{display:grid;grid-template-columns:300px repeat(12,1fr);font-size:12px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.gantt .gh{font-weight:700;color:var(--navy);text-align:center;padding:6px 0;background:#f1f5f9;border-bottom:1px solid var(--line)}
+.gantt .gl{padding:4px 10px;border-bottom:1px solid #f1f3f6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gantt .gl.ph{font-weight:700;color:#fff}
+.gantt .gc{border-left:1px dashed #eef0f4;border-bottom:1px solid #f1f3f6}
+.gantt .gb{margin:5px 2px;border-radius:4px;height:16px;z-index:1;position:relative}
+.gantt .gm{z-index:2;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;color:#b91c1c;white-space:nowrap}
+.gantt .gm b{display:inline-block;width:12px;height:12px;background:#dc2626;transform:rotate(45deg);margin-right:6px}
+.tr-row{display:grid;grid-template-columns:260px 1fr;align-items:center;border-bottom:1px solid #f1f3f6;min-height:26px}
+.tr-track{position:relative;height:26px;background-image:linear-gradient(90deg,#e5e7eb 1px,transparent 1px);background-size:20% 100%}
+.tr-bar{position:absolute;top:5px;height:16px;border-radius:4px;color:#fff;font-size:10px;padding:1px 6px;white-space:nowrap;overflow:hidden;cursor:pointer}
+/* team */
+.org{display:flex;flex-direction:column;align-items:center;margin-top:6px}
+.org .vl{width:2px;height:20px;background:#94a3b8}
+.branches{display:grid;gap:16px;width:100%}
+.br{position:relative;padding-top:20px;display:flex;flex-direction:column;align-items:stretch}
+.br::before{content:'';position:absolute;top:0;left:-8px;right:-8px;height:2px;background:#94a3b8}
+.br:first-child::before{left:50%}.br:last-child::before{right:50%}
+.br::after{content:'';position:absolute;top:0;left:calc(50% - 1px);width:2px;height:20px;background:#94a3b8}
+.wsh{color:#fff;border-radius:8px;padding:7px 10px;font-weight:700;text-align:center;font-size:12.5px}
+.kids{display:flex;flex-direction:column;gap:10px;margin:0 0 0 18px;padding:12px 0 0 18px;border-left:2px solid #94a3b8}
+.kids .pc{position:relative}
+.kids .pc::before{content:'';position:absolute;left:-20px;top:34px;width:18px;height:2px;background:#94a3b8}
+.kids .pc:last-child::after{content:'';position:absolute;left:-21px;top:36px;bottom:0;width:4px;background:#fff}
+.pc{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-left:4px solid var(--c);border-radius:10px;padding:10px 12px;background:#fff;box-shadow:0 1px 3px rgba(15,23,42,.06)}
+.pc.top{width:440px;max-width:100%;background:linear-gradient(135deg,#f8fafc,#eef2ff)}
+.pc .av{width:56px;height:56px;flex:none;border-radius:50%;overflow:hidden;background:#e2e8f0;border:3px solid var(--c);display:flex;align-items:flex-end;justify-content:center}
+.pc.top .av{width:68px;height:68px}
+.pc .av img{width:100%;height:100%;object-fit:cover}
+.pc .r{font-weight:700;color:var(--navy);line-height:1.2}
+.pc .nm{font-size:11px;color:var(--mut);font-style:italic}
+.pc .a{font-size:11px;color:#334155;margin:3px 0 4px}
+.alloc{display:inline-block;background:#0b2545;color:#fff;border-radius:4px;padding:0 5px;font-weight:700;margin-right:4px}
+.alloc.pt{background:#f59e0b}
+.aitg{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:999px;padding:3px 10px 3px 4px;cursor:pointer;font:inherit;font-size:12px;font-weight:600;white-space:nowrap;flex-shrink:0;margin-left:auto}
+.aitg .sw{width:34px;height:18px;border-radius:999px;background:#64748b;position:relative;transition:background .15s}
+.aitg .sw::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:left .15s}
+.aitg.on{background:#0891b2;border-color:#67e8f9}
+.aitg.on .sw{background:#22d3ee}.aitg.on .sw::after{left:18px}
+.pc.off{opacity:.45;filter:grayscale(1);border-style:dashed}
+.offb{display:inline-block;background:#e2e8f0;color:#475569;border-radius:4px;padding:0 5px;font-size:10.5px;font-weight:700}
+.onb{display:inline-block;background:#cffafe;color:#0e7490;border-radius:4px;padding:0 5px;font-size:10.5px;font-weight:700}
+.aibox{border:1px solid #67e8f9;background:linear-gradient(120deg,#ecfeff,#f0f9ff);border-radius:10px}
+.aicol{background:#ecfeff!important}
+.heat{display:grid;grid-template-columns:220px repeat(12,1fr) 70px;font-size:11px}
+.heat div{padding:3px 4px;border-bottom:1px solid #f1f3f6;text-align:center}
+.heat div.l{text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* approach */
+.steps{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.step{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;border-radius:8px;padding:10px 12px;cursor:pointer;position:relative}
+.step:hover{filter:brightness(1.15)}
+.step .n{font-size:22px;font-weight:800;opacity:.35;position:absolute;right:10px;top:4px}
+.step b{display:block;font-size:13px;margin-bottom:4px}.step span{font-size:11.5px;color:#cbd5e1}
+/* north star */
+.ns-dom{display:grid;grid-template-columns:34px 1fr;border-bottom:1px dashed #cbd5e1;padding:8px 0}
+.ns-dl{writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-weight:700;font-size:16px;color:var(--c)}
+.ns-row{display:grid;grid-template-columns:250px 1fr;gap:10px;align-items:center;margin:3px 0}
+.ns-g{background:var(--navy2);color:#fff;padding:7px 10px;border-radius:4px;font-weight:600}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch}
+.flow .fb{background:#eef2ff;border:1px solid #c7d2fe;border-radius:8px;padding:8px 10px;min-width:150px;flex:1}
+.flow .fb b{color:var(--navy);display:block}.flow .ar{align-self:center;color:#94a3b8;font-size:18px}
+.prm{display:grid;grid-template-columns:1fr 90px;gap:8px;align-items:center;margin:3px 0;font-size:12px}
+.prm2{margin:7px 0;font-size:12px}
+.prm2 .pl{display:flex;justify-content:space-between;gap:8px;margin-bottom:2px}
+.prm2 .pc2{display:grid;grid-template-columns:1fr 78px 28px;gap:8px;align-items:center}
+.prm2 .rng{width:100%;accent-color:var(--navy2);cursor:pointer}
+.prm2 .unit{color:#64748b;font-size:11px}
+.prm2.chk{display:flex;gap:8px;align-items:flex-start;cursor:pointer;padding:6px 8px;border:1px solid #e2e8f0;border-radius:6px;background:#f8fafc}
+.prm2.chk input{width:16px;height:16px;margin-top:1px;flex-shrink:0;accent-color:var(--navy2)}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:4px 26px}
+.formgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px 14px}
+.formgrid label{font-size:11px;color:var(--mut);display:block}
+code{background:#f1f5f9;padding:1px 5px;border-radius:4px;font-size:12px}
+.formula{font-family:Consolas,monospace;background:#f8fafc;border-left:3px solid #6366f1;padding:6px 10px;margin:4px 0;font-size:12px;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><b>Rationalisation Workbench</b><span>Risk · Finance ·   Compliance · v0.2</span></div>
+  <nav class="tabs" id="tabs"></nav>
+    <button class="aitg" id="aiToggle" data-act="toggleAI" title="AI Agents Readiness – apply AI-agent acceleration to effort, duration, onboarding and the business case"><span class="sw"></span><span id="aiLbl">AI Agents Readiness: OFF</span></button>
+  <span class="demo" title="All figures are realistic synthetic data for demonstration">Synthetic demo data</span>
+</header>
+<main id="view"></main>
+<div id="tip"></div>
+<div id="toast" role="status"></div>
+<div id="dlg" class="modal hide"><div class="mbox dlg" role="alertdialog" aria-modal="true"><div id="dlgBody"></div><div class="toolbar" style="justify-content:flex-end"><button class="btn ghost" data-act="dlgCancel">Cancel</button><button class="btn red" id="dlgOk" data-act="dlgOk">Delete</button></div></div></div>
+<div id="modal" class="modal hide"><div class="mbox"><button class="mclose" data-act="closeModal" title="Close">&times;</button><div id="mbody"></div></div></div>
+<input type="file" id="fileIn" accept=".json,application/json" style="display:none" data-ch="importFile">
+<script>
+'use strict';
+/* ====================== CONSTANTS ====================== */
+const STORE_KEY='claudeRationalisationWB_v1';
+const DISP={
+  Invest:{c:'#16a34a',d:'Strategic & healthy – extend and make it the go-to platform'},
+  Retain:{c:'#2563eb',d:'Fit for purpose – sustain with BAU upgrades'},
+  Migrate:{c:'#f59e0b',d:'Valuable but technically weak – re-platform / upgrade / move to cloud'},
+  Consolidate:{c:'#9333ea',d:'Overlapping – merge functions into a better-scoring platform'},
+  Retire:{c:'#dc2626',d:'Low value & low health – decommission'}
+};
+const DORDER=['Invest','Retain','Migrate','Consolidate','Retire'];
+const REMOVED=d=>d==='Consolidate'||d==='Retire';
+const BVC=[
+  {k:'fit',n:'Functional fit',lo:'Major functional gaps, heavy workarounds',hi:'Fully meets requirements out-of-the-box'},
+  {k:'strat',n:'Strategic alignment',lo:'Not aligned with target architecture / strategy',hi:'Core to the bank strategy & target architecture'},
+  {k:'reg',n:'Regulatory criticality',lo:'No regulatory dependency',hi:'Directly supports mandatory obligations (CBUAE, FATF, Basel, IFRS)'},
+  {k:'user',n:'User satisfaction',lo:'Users dissatisfied, low adoption',hi:'Highly rated, high adoption'},
+  {k:'usage',n:'Business criticality & usage',lo:'Niche / rarely used',hi:'Business-critical, used daily across functions'}
+];
+const THC=[
+  {k:'vendor',n:'Vendor support status',lo:'Out of support / end-of-life',hi:'Strategic product, active roadmap, long-term support'},
+  {k:'tech',n:'Technology fit',lo:'Obsolete stack, scarce skills',hi:'Modern stack aligned to bank standards'},
+  {k:'cloud',n:'Cloud readiness',lo:'Cannot run in cloud',hi:'Cloud-native / SaaS'},
+  {k:'sec',n:'Security posture',lo:'Known critical gaps, weak IAM',hi:'SSO, encryption, regular pen-tests, compliant'},
+  {k:'integ',n:'Integration complexity (5 = simple)',lo:'Many custom point-to-point batch interfaces',hi:'API-based, standard integration patterns'},
+  {k:'data',n:'Data quality & architecture',lo:'Siloed, poor quality, manual reconciliations',hi:'Governed, BCBS 239-aligned data with lineage'}
+];
+const COST=[
+  {k:'lic',n:'Licence / subscription'},{k:'infra',n:'Infrastructure & hosting'},{k:'support',n:'Vendor support / AMC'},
+  {k:'people',n:'Internal FTE (run)'},{k:'change',n:'Change & enhancements'}
+];
+const LVL={3:'Primary',2:'Secondary',1:'Partial / feeds'};
+const LSYM={3:'P',2:'S',1:'·'};
+const TABS=[['summary','Executive Summary'],['caps','1 · Capabilities'],['matrix','2 · App × Capability Matrix'],['scoring','3 · Scoring'],['dispo','4 · Disposition'],['target','5 · Target State'],['benefits','6 · Benefits'],['howto','How-to'],['settings','Settings']];
+const DEFAULT_SETTINGS={
+  wBV:{fit:25,strat:25,reg:20,user:15,usage:15},
+  wTH:{vendor:20,tech:20,cloud:15,sec:15,integ:15,data:15},
+  wComp:{bv:45,th:35,cost:20},
+  thr:{bv:3,th:3,investBV:4,investTH:3.5,dom:0.6},
+  ovl:{ovPen:0.5,protectInvest:0},
+  effort:{Invest:2.5,Retain:0.3,Migrate:6,Consolidate:5,Retire:2.5},
+  fin:{costPerPoint:90,absorb:20,migSave:30,investUp:10,migTH:4,leadMig:50,leadInv:30,discount:8,trainPerUser:1,dataMigBase:150,dataMigPerCap:20},
+  plan:{retStart:1,retStagger:2,conStart:6,conStagger:3,migStart:3,migStagger:3},
+  ai:{on:0,accInvest:25,accRetain:15,accMigrate:35,accConsolidate:35,accRetire:30,stagger:40,floor:3,train:40,data:35,platSetup:1200,platRun:350,opsSave:10,opsStart:6}
+};
+/* AI agent readiness criteria (1–5 per app) */
+const AIRC=[
+  {k:'code',n:'Source / configuration access',lo:'Vendor black box – no code or config export',hi:'Full source code & configuration in bank repositories'},
+  {k:'docs',n:'Documentation & knowledge',lo:'Tribal knowledge, outdated or no documentation',hi:'Current specs, runbooks, data dictionary, ADRs'},
+  {k:'data',n:'Data accessibility & quality',lo:'Proprietary store, no extract, poor quality',hi:'Open schema, governed data, bulk extract available'},
+  {k:'test',n:'Test automation & regression packs',lo:'Manual testing only, no reference results',hi:'Automated regression suite & golden datasets'},
+  {k:'api',n:'API / integration openness',lo:'Batch file drops, screen-scraping',hi:'Documented APIs, event streams, standard adapters'}
+];
+const AI_DEF_TYPE={'In-house':{code:5,test:0},'Data platform':{code:4,test:0},'Platform':{code:3,test:0},'COTS':{code:2,test:-1},'SaaS':{code:1,test:0}};
+function aiDefault(a){
+  const th=a.th||{},cl=v=>Math.max(1,Math.min(5,Math.round(v))),t=AI_DEF_TYPE[a.type]||AI_DEF_TYPE.COTS;
+  const vendorBuilt=/wipro|custom/i.test(a.vendor||'');
+  return {
+    code:cl(t.code-(vendorBuilt?1:0)),
+    docs:cl(((+th.tech||3)+(+th.vendor||3))/2-(a.type==='In-house'&&!vendorBuilt?0.5:0)),
+    data:cl(+th.data||3),
+    test:a.type==='SaaS'?3:cl((+th.tech||3)+t.test),
+    api:cl(+th.integ||3)
+  };
+}
+const aiOn=()=>!!(+state.settings.ai.on);
+const aiScore=a=>{const x=a.air||aiDefault(a);return avg(AIRC,c=>+x[c.k]||1);};
+const aiMult=s=>0.3+0.7*(Math.max(1,Math.min(5,s))-1)/4;
+const PARAMS={
+  wBV:{t:'Business value – criterion weights (%)',items:BVC.map(c=>[c.k,c.n,0,100,1])},
+  wTH:{t:'Technical health – criterion weights (%)',items:THC.map(c=>[c.k,c.n,0,100,1])},
+  wComp:{t:'Composite score weights (%)',items:[['bv','Business value',0,100,1],['th','Technical health',0,100,1],['cost','Cost efficiency',0,100,1]]},
+  thr:{t:'Disposition thresholds',items:[['bv','High business value if BV ≥',1,5,0.1],['th','Healthy if TH ≥',1,5,0.1],['investBV','Invest if BV ≥',1,5,0.1],['investTH','… and TH ≥',1,5,0.1],['dom','Consolidate/retire trigger: share of primary capabilities covered by a better app ≥',0,1,0.05]]},
+  ovl:{t:'Overlap & redundancy',items:[['ovPen','Overlap penalty on composite',0,1,0.05,'pts','Points deducted from the 1–5 composite when 100% of the app’s Primary/Secondary capabilities are duplicated (scaled by Redundancy %). 0 = no penalty · 0.25 = light · 0.5 = recommended · 1.0 = strong (maximum – a full point is already a quarter of the scale).'],['protectInvest','Protect Invest-grade apps from consolidation',0,1,1,'bool','When ticked, apps meeting the Invest bar are never consolidated, even if a better app covers their capabilities – two overlapping platforms can then both be funded. Unticked (recommended) avoids paying twice for the same capability.']]},
+  effort:{t:'Effort base points by disposition',items:DORDER.map(d=>[d,d,0,20,0.5])},
+  fin:{t:'Financial & benefit assumptions',items:[['costPerPoint','One-off cost per effort point ($K)',0,1000,5],['absorb','Run-cost uplift on survivor (% of removed app TCO)',0,100,1],['migSave','Run-cost reduction after migration (%)',0,100,1],['investUp','Run-cost uplift for Invest apps (%)',0,100,1],['migTH','Technical health after migration (score)',1,5,0.1],['leadMig','Change lead-time reduction after migration (%)',0,100,1],['leadInv','Change lead-time reduction for Invest apps (%)',0,100,1],['discount','Discount rate for NPV (%)',0,30,0.5],['trainPerUser','Absorption onboarding – training cost per migrated user ($K)',0,50,0.1],['dataMigBase','Absorption onboarding – data migration base cost per absorbed app ($K)',0,5000,10],['dataMigPerCap','Absorption onboarding – data migration cost per capability transferred ($K)',0,1000,5]]},
+  plan:{t:'Transformation scheduling (months)',items:[['retStart','Retirements – first start month',0,60,1],['retStagger','Retirements – stagger',0,24,1],['conStart','Consolidations – first start month',0,60,1],['conStagger','Consolidations – stagger',0,24,1],['migStart','Migrations – first start month',0,60,1],  ['migStagger','Migrations – stagger',0,24,1]]},
+    ai:{t:'AI agent acceleration (applies when “AI Agents Readiness” is ON)',items:[['accInvest','Effort & duration reduction – Invest (%)',0,90,1],['accRetain','Effort reduction – Retain (%)',0,90,1],['accMigrate','Effort & duration reduction – Migrate (%)',0,90,1],['accConsolidate','Effort & duration reduction – Consolidate (%)',0,90,1],['accRetire','Effort & duration reduction – Retire (%)',0,90,1],['stagger','Wave stagger compression (%)',0,90,1],['floor','Minimum initiative duration – fixed elements (months)',0,24,1],['train','Training cost reduction – AI tutors / copilots (%)',0,90,1],['data','Data-migration cost reduction – mapping & reconciliation agents (%)',0,90,1],['platSetup','Agent platform & enablement – one-off ($K)',0,20000,50],['platRun','Agent platform – annual run cost ($K)',0,10000,25],['opsSave','Run-cost reduction on Retain/Invest from AIOps agents (% of FTE + change)',0,50,1],['opsStart','AIOps savings start month',0,36,1]]}
+  };
+const SIZE_DUR={S:4,M:9,L:15,XL:21};
+/* Engagement plan (consulting) */
+const ENG=[
+  {ph:'Mobilise',c:'#64748b',acts:[['Kick-off, governance & ways of working',1,1],['Stakeholder & process-owner mapping',1,2],['Data request: inventory, contracts, TCO, architecture docs',1,2],['Workbench configured with bank baseline',2,2]],ms:[[1,'Kick-off']],del:['Engagement charter & governance (SteerCo, design authority)','Stakeholder map & RACI per domain','Data request pack & application questionnaire'],tab:'settings'},
+  {ph:'Discover',c:'#0e7490',acts:[['Capability workshops – Compliance',2,3],['Capability workshops – Risk',3,4],['Capability workshops – Finance',3,4],['Application questionnaires & SME interviews',2,5],['App × capability mapping validation',4,5],['TCO data collection (Finance, Procurement, IT)',3,6]],ms:[[5,'SteerCo 1 – Baseline']],del:['Validated L1/L2 capability model with process owners','Application inventory & fact sheets','Current-state App × Capability matrix','TCO baseline per application'],tab:'caps'},
+  {ph:'Assess',c:'#4338ca',acts:[['Technical health deep-dives (vendor, cloud, security, integration)',5,7],['Business value scoring with process owners',6,7],['Vendor contract & product roadmap analysis',5,7],['Score calibration & overlap analysis',7,8],['AI agent-readiness assessment per application (code, docs, data, tests, APIs)',4,8,'ai']],ms:[[8,'SteerCo 2 – Assessment']],del:['Scored portfolio (BV, TH, cost efficiency)','Overlap & redundancy heatmap','Draft dispositions with rationale',['AI agent-readiness scores per application','ai']],tab:'scoring'},
+  {ph:'Design',c:'#be185d',acts:[['Option analysis per overlap cluster',8,9],['Target-state (north star) architecture',8,10],['People, team & operating-model impact',9,10]],ms:[],del:['Agreed dispositions per application','North-star architecture by domain','Team & process-owner impact assessment'],tab:'target'},
+  {ph:'Plan',c:'#16a34a',acts:[['Business case & benefits quantification',10,11],['3–5 year roadmap & wave planning',10,12],['Governance, KPIs & Wave-1 mobilisation',11,12],['AI-accelerated delivery plan, agent platform & Responsible-AI controls',9,12,'ai']],ms:[[12,'SteerCo 3 – Plan approval']],del:['Business case (TCO, investment, payback, NPV)','3–5 year rationalisation roadmap','Benefits-tracking KPIs & governance model','Wave-1 mobilisation pack',['AI-assisted vs baseline roadmap & agent platform business case','ai']],tab:'benefits'}
+];
+/* Team: everyone 100% over a focused window, except the Engagement Partner. Set name/photo (relative path or https URL) to personalise. */
+const WS=[
+  {k:'arch',n:'Architecture & Technology',c:'#4338ca'},
+  {k:'dom',n:'Domain Expertise',c:'#be185d'},
+  {k:'val',n:'Value & Commercial',c:'#16a34a'},
+  {k:'del',n:'Delivery & Change',c:'#64748b'},
+  {k:'ai',n:'AI Acceleration',c:'#0891b2'}
+];
+const TEAM=[
+  {role:'Engagement Partner',ws:'lead',c:'#0b2545',pct:20,s:1,e:12,resp:'Executive sponsorship, SteerCo chair, quality assurance',prof:'FS risk & finance transformation, C-suite advisory',name:'',photo:''},
+  {role:'Engagement Manager',ws:'lead',c:'#0b2545',pct:100,s:1,e:12,resp:'Day-to-day delivery, plan, RAID, stakeholder management',prof:'Large rationalisation programmes in GCC banks',name:'',photo:''},
+  {role:'Lead Enterprise Architect',ws:'arch',c:'#4338ca',pct:100,s:1,e:12,resp:'Capability model, matrix, dispositions, north-star architecture',prof:'TOGAF, APM, BIAN reference architecture',name:'',photo:''},
+  {role:'Data & Integration Architect',ws:'arch',c:'#4338ca',pct:100,s:4,e:9,resp:'Interfaces, lineage, BCBS 239, target data platform',prof:'Integration patterns, risk data aggregation, cloud data',name:'',photo:''},
+  {role:'Cloud & Security Assessment Lead',ws:'arch',c:'#4338ca',pct:100,s:5,e:8,resp:'Technical health: cloud readiness, security, vendor support',prof:'AWS/Azure, CBUAE outsourcing & cloud rules, security reviews',name:'',photo:''},
+  {role:'Financial Crime Compliance SME',ws:'dom',c:'#be185d',pct:100,s:2,e:7,resp:'Sanctions, AML, TBML, FATCA/CRS capability & platform assessment',prof:'Firco, SAS AML, Silent Eight, CBUAE AML/CFT',name:'',photo:''},
+  {role:'Risk Management SME',ws:'dom',c:'#be185d',pct:100,s:3,e:8,resp:'Credit, fraud, op-risk, model risk, ALM & capital',prof:'IFRS 9, Basel III, ALM, Moody\u2019s, FIS, Archer',name:'',photo:''},
+  {role:'Finance Transformation SME',ws:'dom',c:'#be185d',pct:100,s:3,e:8,resp:'Finance, regulatory reporting, planning & tax',prof:'OneSumX, Regnology, Jedox, CBUAE prudential returns',name:'',photo:''},
+  {role:'TCO & Business Case Lead',ws:'val',c:'#16a34a',pct:100,s:4,e:11,resp:'TCO baseline, savings model, investment & business case',prof:'FinOps, Technology Business Management (TBM)',name:'',photo:''},
+  {role:'Vendor & Contract Strategist',ws:'val',c:'#16a34a',pct:100,s:5,e:6,resp:'Contract terms, renewal leverage, exit costs',prof:'Software licensing & vendor negotiation',name:'',photo:''},
+  {role:'Business Analyst 1',ws:'del',c:'#64748b',pct:100,s:1,e:12,resp:'Questionnaires, workshops, data capture in this workbench',prof:'Workshop facilitation, data analysis',name:'',photo:''},
+  {role:'Business Analyst 2',ws:'del',c:'#64748b',pct:100,s:1,e:12,resp:'App fact sheets, matrix & TCO data validation',prof:'Application portfolio analysis, data quality',name:'',photo:''},
+  {role:'Change & Stakeholder Lead',ws:'del',c:'#64748b',pct:100,s:9,e:10,  resp:'Team impact, communications, adoption planning',prof:'Organisational change in banking',name:'',photo:''},
+    // AI Acceleration roles – always listed, only active (and counted) when the AI Agents Readiness toggle is ON
+    {role:'AI Agent Readiness Lead',ws:'ai',ai:true,c:'#0891b2',pct:100,s:2,e:10,resp:'Agent-readiness scoring per app (code, docs, data, tests, APIs), AI-accelerated roadmap & business case',prof:'GenAI delivery in banks, SDLC automation, portfolio assessment',name:'',photo:''},
+    {role:'Agentic Solution Architect',ws:'ai',ai:true,c:'#0891b2',pct:100,s:4,e:11,resp:'Agent factory design: code-conversion, data-mapping, test-generation & decommissioning agents; platform sizing',prof:'LLM platforms (Azure OpenAI / Bedrock), multi-agent orchestration, MLOps',name:'',photo:''},
+    {role:'Code & Knowledge Discovery Engineer',ws:'ai',ai:true,c:'#0891b2',pct:100,s:3,e:8,resp:'Runs discovery agents on code, configs, interfaces & documents to validate readiness scores and capability mapping',prof:'Code analysis, reverse engineering, RAG / knowledge graphs',name:'',photo:''},
+    {role:'Responsible-AI & Model Risk Lead',ws:'ai',ai:true,c:'#0891b2',pct:100,s:6,e:11,resp:'AI governance, human-in-the-loop controls, CBUAE / model-risk & data-privacy guardrails for agent use',prof:'Model risk management, AI governance frameworks, information security',name:'',photo:''}
+  ];
+
+/* ====================== DEMO DATA ====================== */
+function demoData(){
+  const pad=n=>String(n).padStart(2,'0');
+  const domains=[{id:'D1',name:'Compliance',color:'#4338ca'},{id:'D2',name:'Risk',color:'#be185d'},{id:'D3',name:'Finance',color:'#0e7490'}];
+  const RL=[['Chief Compliance Officer','D1'],['Head of Sanctions Compliance','D1'],['MLRO / Head of FIU','D1'],['Head of Financial Crime Operations','D1'],['Head of Regulatory Compliance','D1'],['Head of KYC & Client Due Diligence','D1'],
+    ['Chief Risk Officer','D2'],['Head of Fraud Risk','D2'],['Head of Operational Risk','D2'],['Head of Credit Risk','D2'],['Head of Risk Analytics & Modelling','D2'],['Head of Model Risk Management','D2'],['Head of Market & Liquidity Risk','D2'],['Head of Enterprise Risk & ESG','D2'],['Head of Collections & Recovery','D2'],
+    ['Chief Financial Officer','D3'],['Financial Controller','D3'],['Head of Regulatory Reporting','D3'],['Head of FP&A','D3'],['Head of Tax','D3'],['Head of MI & Performance','D3'],['Treasurer / Head of ALM','D3'],['Head of Capital Management','D2'],['Chief Information Security Officer','D2']];
+  const roles=RL.map((r,i)=>({id:'R'+pad(i+1),name:r[0],domainId:r[1]}));
+  // [domain, L1 area, L2 capability, owner#, criticality, regulatory, description]
+  const CL=[
+    ['D1','Sanctions','Customer & name screening',2,'H',1,'Screening of customers, related parties and counterparties against sanctions, PEP and adverse-media lists at onboarding and periodically.'],
+    ['D1','Sanctions','Payment / transaction screening',2,'H',1,'Real-time screening of SWIFT, UAEFTS and cross-border payment messages.'],
+    ['D1','Sanctions','Sanctions list & watch-list management',2,'M',1,'Ingestion, enrichment and versioning of UN, OFAC, EU, UAE local lists and internal lists.'],
+    ['D1','Sanctions','Screening alert adjudication & AI triage',4,'H',0,'Disposition of screening hits and AI-driven false-positive reduction.'],
+    ['D1','Sanctions','Trade finance sanctions & vessel screening',2,'H',1,'Screening of trade documents, dual-use goods, vessels and ports.'],
+    ['D1','Transaction Monitoring','AML transaction monitoring',3,'H',1,'Rule- and model-based detection of suspicious activity across channels.'],
+    ['D1','Transaction Monitoring','Trade-based money-laundering detection',3,'H',1,'Detection of over/under invoicing, phantom shipments and TBML typologies.'],
+    ['D1','Transaction Monitoring','Customer risk rating (CRR)',6,'H',1,'Dynamic AML risk scoring of customers driving due-diligence intensity.'],
+    ['D1','Transaction Monitoring','KYC / CDD / EDD lifecycle',6,'H',1,'Customer due diligence, periodic reviews and enhanced due diligence.'],
+    ['D1','Transaction Monitoring','Financial-crime case management & investigation',4,'H',1,'Alert-to-case workflow, investigation, evidence and audit trail.'],
+    ['D1','Transaction Monitoring','Suspicious activity reporting (STR/SAR – goAML)',3,'H',1,'Preparation and submission of STRs/SARs to the UAE FIU via goAML.'],
+    ['D1','Transaction Monitoring','Financial-crime analytics & network analysis',3,'M',0,'Entity resolution, network analytics and typology discovery.'],
+    ['D1','Regulatory Compliance','FATCA / CRS classification & reporting',5,'H',1,'Tax-residency classification and annual FATCA/CRS reporting.'],
+    ['D1','Regulatory Compliance','Conflicts of interest & insider lists (control room)',5,'M',1,'Wall-crossing, insider lists, watch & restricted lists.'],
+    ['D1','Regulatory Compliance','Trade & market-abuse surveillance',5,'H',1,'Surveillance of trading activity for market abuse and manipulation.'],
+    ['D1','Regulatory Compliance','Compliance monitoring & testing',1,'M',1,'Risk-based compliance monitoring plan, testing and findings.'],
+    ['D1','Regulatory Compliance','Regulatory change & obligations management',1,'M',1,'Horizon scanning, obligations register and impact assessment.'],
+    ['D1','Regulatory Compliance','Policy & attestation management',1,'L',0,'Policy lifecycle, publication and staff attestations.'],
+    ['D1','Regulatory Compliance','Personal account dealing & gifts register',5,'L',1,'Pre-clearance of staff trading, gifts & entertainment register.'],
+    ['D2','Fraud & Operational Risk','Real-time transaction fraud detection',8,'H',0,'Real-time scoring and blocking of card, payment and digital-channel fraud.'],
+    ['D2','Fraud & Operational Risk','Application & identity fraud detection',8,'H',0,'Detection of synthetic identities and application fraud at onboarding.'],
+    ['D2','Fraud & Operational Risk','Strong customer authentication & risk-based auth',24,'H',1,'Adaptive / risk-based authentication for digital channels.'],
+    ['D2','Fraud & Operational Risk','Fraud case management',8,'M',0,'Fraud alert handling, recovery and chargeback workflow.'],
+    ['D2','Fraud & Operational Risk','Collections & recovery management',15,'M',0,'Early and late collections, digital nudges, recovery strategies.'],
+    ['D2','Fraud & Operational Risk','Operational risk management (RCSA, KRI, loss events)',9,'H',1,'Risk & control self-assessment, KRIs, loss-event capture.'],
+    ['D2','Fraud & Operational Risk','Issue, action & audit management',9,'M',0,'Issues, action plans and audit findings tracking.'],
+    ['D2','Fraud & Operational Risk','Third-party & outsourcing risk',9,'M',1,'Vendor risk assessment and CBUAE outsourcing compliance.'],
+    ['D2','Fraud & Operational Risk','Business continuity & operational resilience',9,'M',1,'BCP, impact tolerances and resilience testing.'],
+    ['D2','Credit Risk','Credit origination & financial spreading',10,'H',0,'Credit proposal, spreading of financial statements, approval workflow.'],
+    ['D2','Credit Risk','Credit rating & scorecards',11,'H',1,'Obligor & facility rating models and retail scorecards.'],
+    ['D2','Credit Risk','Limits & exposure management',10,'H',1,'Limit setting, utilisation monitoring and large-exposure control.'],
+    ['D2','Credit Risk','Collateral management',10,'M',0,'Collateral registration, valuation and allocation.'],
+    ['D2','Credit Risk','IFRS 9 ECL / impairment calculation',10,'H',1,'Staging, PD/LGD/EAD and expected-credit-loss calculation.'],
+    ['D2','Credit Risk','Risk data mart & aggregation (BCBS 239)',7,'H',1,'Golden-source risk data, aggregation and lineage.'],
+    ['D2','Credit Risk','Credit portfolio analytics & concentration',11,'M',0,'Portfolio monitoring, concentration and sector analysis.'],
+    ['D2','Enterprise Risk','Model development & ML operations',11,'M',0,'Model development, deployment and monitoring (MLOps).'],
+    ['D2','Enterprise Risk','Model risk management & validation',12,'H',1,'Model inventory, tiering, validation and governance.'],
+    ['D2','Enterprise Risk','ESG & climate risk reporting',14,'H',1,'Climate-risk metrics, financed emissions and ESG disclosures.'],
+    ['D2','Enterprise Risk','Enterprise stress testing',14,'H',1,'Macro scenarios and integrated stress testing.'],
+    ['D2','Enterprise Risk','Risk appetite & enterprise risk reporting',7,'H',1,'Risk appetite framework, limits cascade and board reporting.'],
+    ['D2','Enterprise Risk','Market risk (VaR, sensitivities)',13,'H',1,'Trading-book VaR, sensitivities and limits.'],
+    ['D2','ALM & Capital Management','Interest-rate risk in the banking book (IRRBB)',22,'H',1,'EVE / NII sensitivity and repricing gap.'],
+    ['D2','ALM & Capital Management','Liquidity risk (LCR, NSFR, gaps)',22,'H',1,'Regulatory liquidity ratios and contractual / behavioural gaps.'],
+    ['D2','ALM & Capital Management','Regulatory capital (Basel III RWA)',23,'H',1,'Credit, market and operational-risk RWA and capital ratios.'],
+    ['D2','ALM & Capital Management','ICAAP / ILAAP',23,'H',1,'Internal capital and liquidity adequacy assessment.'],
+    ['D2','ALM & Capital Management','Balance-sheet simulation & planning',22,'M',0,'Dynamic balance-sheet projections and scenario simulation.'],
+    ['D3','Core Financial & Reporting','General ledger & accounting hub',17,'H',1,'Sub-ledger to GL posting, accounting rules engine.'],
+    ['D3','Core Financial & Reporting','Financial consolidation',17,'H',1,'Group consolidation, eliminations and FX translation.'],
+    ['D3','Core Financial & Reporting','Balance-sheet substantiation & reconciliation',17,'H',1,'Account certification and reconciliation workflow.'],
+    ['D3','Core Financial & Reporting','IFRS financial statements & disclosures',17,'H',1,'Primary statements, notes and Pillar 3 disclosures.'],
+    ['D3','Core Financial & Reporting','Prudential regulatory reporting (CBUAE)',18,'H',1,'CBUAE prudential returns (BRF), Basel templates.'],
+    ['D3','Core Financial & Reporting','Funds transfer pricing (FTP)',22,'M',0,'Matched-maturity FTP and liquidity premium allocation.'],
+    ['D3','Core Financial & Reporting','Profitability & management information',21,'M',0,'Customer, product and segment profitability, MI packs.'],
+    ['D3','Core Financial & Reporting','Finance data hub & reconciliation controls',17,'M',0,'Finance data lake/hub, data controls and recs.'],
+    ['D3','Core Financial & Reporting','Statistical & central-bank returns',18,'M',1,'Statistical and ad-hoc central-bank returns.'],
+    ['D3','Budgeting, Forecasting & Planning','Budgeting & strategic planning',19,'H',0,'Annual budget and 3–5 year strategic plan.'],
+    ['D3','Budgeting, Forecasting & Planning','Rolling forecasting & scenario modelling',19,'M',0,'Driver-based rolling forecast and what-if scenarios.'],
+    ['D3','Budgeting, Forecasting & Planning','Cost allocation & cost management',19,'M',0,'Activity-based cost allocation and cost-reduction tracking.'],
+    ['D3','Budgeting, Forecasting & Planning','Indirect tax (VAT / GST) compliance',20,'H',1,'VAT/GST determination, returns and e-invoicing.'],
+    ['D3','Budgeting, Forecasting & Planning','Corporate tax provisioning',20,'M',1,'UAE corporate-tax computation and provisioning.'],
+    ['D3','Budgeting, Forecasting & Planning','Performance & KPI dashboards',21,'M',0,'Executive KPI dashboards and balanced scorecard.']
+  ];
+  const caps=CL.map((c,i)=>({id:'C'+pad(i+1),domainId:c[0],group:c[1],name:c[2],owner:'R'+pad(c[3]),crit:c[4],reg:!!c[5],desc:c[6]}));
+  // name, vendor, domains, type, deploy, bizTeam, itTeam, interfaces, users, contractEnd, leadTime(days), BV[fit,strat,reg,user,usage], TH[vendor,tech,cloud,sec,integ,data], COST[lic,infra,support,people,change] $K, map
+  const AL=[
+    ['Firco Continuity','LSEG Risk Intelligence (FircoSoft)','D1','COTS','On-premise','Sanctions Operations','FinCrime IT',14,180,'2027-12',45,[5,4,5,4,5],[4,3,3,4,3,3],[620,190,140,310,110],{2:3,3:3,4:2,5:2}],
+    ['Firco Trust','LSEG Risk Intelligence (FircoSoft)','D1','COTS','On-premise','Sanctions Operations','FinCrime IT',9,150,'2027-12',50,[4,4,5,3,4],[3,3,3,4,3,3],[410,150,95,260,80],{1:3,3:2,4:2,9:1}],
+    ['Silent Eight','Silent Eight','D1','SaaS','SaaS','Sanctions Operations','FinCrime IT',5,120,'2028-06',14,[4,5,4,4,4],[5,5,5,4,4,4],[380,20,40,90,60],{4:3,1:1,2:1,10:1}],
+    ['SAS Anti Money Laundering','SAS Institute','D1','COTS','On-premise','FIU / AML Operations','FinCrime IT',22,260,'2026-12',90,[4,4,5,3,5],[2,2,2,3,2,3],[980,420,260,620,240],{6:3,8:3,10:3,11:3,12:2,9:2}],
+    ['SAS Financial Crime Analytics','SAS Institute','D1,D2','COTS','On-premise','FIU / AML Operations','Data & Analytics IT',11,90,'2026-12',75,[3,3,3,3,3],[3,3,2,3,2,3],[520,240,130,280,120],{12:3,10:2,6:2,23:1}],
+    ['Pelican (TBML)','Pelican AI','D1','COTS','Private cloud','FIU / AML Operations','FinCrime IT',6,60,'2027-06',30,[4,4,4,3,3],[4,4,4,4,3,3],[260,60,55,120,50],{7:3,5:3,2:1}],
+    ['Newgen for FATCA/CRS','Newgen Software','D1,D3','COTS','On-premise','Compliance Advisory','Enterprise Apps IT',7,40,'2026-09',60,[3,3,4,2,3],[2,2,2,3,2,2],[180,90,60,140,45],{13:3,9:1}],
+    ['Control Room (In-house)','In-house','D1','In-house','On-premise','Compliance Advisory','Enterprise Apps IT',4,35,'',120,[2,2,3,2,2],[1,2,1,2,3,2],[0,45,0,180,40],{14:3,19:3}],
+    ['Trading Hub','In-house','D1,D2','In-house','On-premise','Markets Compliance','Enterprise Apps IT',12,70,'',60,[3,3,4,3,3],[2,3,2,3,2,3],[0,110,0,240,90],{15:3,19:2,41:1}],
+    ['GBG Instinct','GBG','D2','COTS','On-premise','Fraud Risk Operations','Risk IT',8,85,'2027-03',45,[3,3,2,3,3],[3,3,2,3,3,3],[290,80,70,150,50],{21:3,23:2}],
+    ['SAS SFM (Fraud Mgmt.)','SAS Institute','D2','COTS','On-premise','Fraud Risk Operations','Risk IT',18,140,'2026-12',75,[5,4,4,4,5],[3,2,2,3,2,3],[760,330,190,410,160],{20:3,23:3,21:2}],
+    ['Broadcom Advanced Authentication','Broadcom','D2','COTS','On-premise','Information Security','Cyber Security IT',16,25,'2027-09',40,[4,3,4,3,4],[3,3,3,4,3,3],[340,95,85,130,45],{22:3,20:1}],
+    ['SPOCTO','SPOCTO','D2','SaaS','SaaS','Collections & Recovery','Risk IT',5,110,'2026-06',30,[2,2,1,2,2],[2,2,4,2,3,2],[160,10,25,70,20],{24:3}],
+    ['Archer','Archer (IRM)','D2,D1','COTS','Private cloud','Operational Risk','Enterprise Apps IT',10,650,'2028-03',30,[4,5,4,3,4],[4,4,4,4,3,4],[450,110,100,260,120],{25:3,26:3,27:3,28:3,16:3,17:2,18:3,14:2,37:2,40:2}],
+    ['Credit Lens (Moody\u2019s)','Moody\u2019s Analytics','D2','COTS','Private cloud','Credit Risk','Risk IT',13,420,'2028-12',30,[5,5,4,4,5],[4,4,4,4,3,4],[720,150,160,280,140],{29:3,30:3,31:2,32:2,35:1}],
+    ['Risk Operational Data Source','In-house','D2,D3','Data platform','On-premise','Risk Analytics','Data & Analytics IT',34,60,'',90,[4,4,4,3,5],[2,2,2,3,2,2],[0,380,0,540,200],{34:3,35:2,31:1,54:2,40:1}],
+    ['IFRS 9 Engine','In-house (SAS-based)','D2,D3','In-house','On-premise','Credit Risk','Risk IT',15,30,'',80,[4,3,5,3,4],[2,2,2,3,2,3],[0,140,0,360,130],{33:3,39:2,35:1}],
+    ['AWS SageMaker','Amazon Web Services','D2','Platform','Public cloud','Risk Analytics','Data & Analytics IT',9,45,'2029-01',10,[4,5,3,4,4],[5,5,5,4,4,4],[210,0,30,180,60],{36:3,30:2,21:1,20:1}],
+    ['SAS MRM (Model Risk Mgmt.)','SAS Institute','D2','COTS','On-premise','Model Risk','Risk IT',6,40,'2026-12',60,[3,3,4,3,3],[3,3,2,3,3,3],[310,90,75,140,40],{37:3,36:1}],
+    ['ESG Reporting Automation','In-house','D2,D3','In-house','Public cloud','Enterprise Risk & ESG','Data & Analytics IT',8,35,'',25,[3,4,4,3,3],[4,4,4,3,3,3],[0,40,0,160,70],{38:3,40:1}],
+    ['FIS Balance Sheet Manager (ALM)','FIS','D2,D3','COTS','On-premise','ALM / Treasury','Risk IT',17,35,'2027-03',70,[4,4,5,3,4],[2,2,2,3,2,3],[540,160,130,240,90],{42:3,43:3,46:3,52:2,39:2}],
+    ['FIS Capital Manager (ACM)','FIS','D2,D3','COTS','On-premise','Capital Management','Risk IT',12,25,'2027-03',70,[4,4,5,3,4],[2,2,2,3,2,3],[430,120,100,200,70],{44:3,45:3,39:1}],
+    ['OneSumX','Wolters Kluwer','D3,D2','COTS','Private cloud','Regulatory Reporting','Finance IT',28,160,'2029-06',45,[5,5,5,3,5],[4,4,4,4,3,4],[1150,280,250,520,260],{51:3,55:3,47:2,48:2,50:2,33:2,44:2,34:1,43:1,54:2}],
+    ['OneFC (B/S Substantiation)','In-house','D3','In-house','On-premise','Financial Control','Finance IT',9,220,'',45,[3,3,4,3,4],[3,3,3,3,3,3],[0,70,0,190,60],{49:3,54:2}],
+    ['OFSAA – Funds Transfer Pricing','Oracle','D3','COTS','On-premise','ALM / Treasury','Finance IT',10,20,'2026-11',75,[3,3,2,3,3],[2,2,2,3,2,3],[380,140,95,170,50],{52:3,53:2}],
+    ['OneMI (built by Wipro)','Wipro (custom build)','D3','In-house','On-premise','MI & Performance','Data & Analytics IT',26,480,'2027-06',40,[4,4,2,4,5],[3,3,3,3,2,3],[0,210,240,180,150],{53:3,61:3,58:2,40:1}],
+    ['Risko (WKFS)','Wolters Kluwer','D3','COTS','On-premise','Regulatory Reporting','Finance IT',6,15,'2025-12',120,[2,2,3,2,2],[1,1,1,2,2,2],[210,80,90,110,20],{55:3,51:2}],
+    ['Risk Pro (Target Tech)','Target Tech','D3,D2','COTS','On-premise','FP&A','Finance IT',7,30,'2027-01',60,[3,3,3,3,2],[2,3,2,3,3,2],[240,70,60,110,30],{57:3,39:2,46:2}],
+    ['VAT Engine & Xelerate GST','Xelerate','D3','COTS','Private cloud','Tax','Finance IT',11,30,'2028-01',40,[4,3,5,3,4],[3,3,3,3,3,3],[190,50,45,100,40],{59:3,60:1}],
+    ['Regnology','Regnology','D3,D1','COTS','Private cloud','Regulatory Reporting','Finance IT',14,55,'2028-09',35,[4,3,5,3,3],[4,4,4,4,3,4],[520,90,110,170,90],{51:3,13:2,55:2}],
+    ['Jedox','Jedox','D3','SaaS','SaaS','FP&A','Finance IT',6,140,'2028-06',20,[5,5,2,4,4],[5,4,5,4,4,4],[260,20,40,120,80],{56:3,57:2,58:3,61:2}],
+    ['Financial Reporting','In-house','D3','In-house','On-premise','Financial Control','Finance IT',13,90,'',75,[3,3,4,3,3],[2,2,2,3,2,2],[0,90,0,260,70],{50:3,48:3}]
+  ];
+  const map={};
+  const apps=AL.map((a,i)=>{
+    const id='A'+pad(i+1);
+    Object.entries(a[14]).forEach(([c,v])=>{map[id+'|C'+pad(+c)]=v;});
+    const o=(keys,vals)=>Object.fromEntries(keys.map((k,j)=>[k.k,vals[j]]));
+    const app={id,name:a[0],vendor:a[1],domainIds:a[2].split(','),type:a[3],deploy:a[4],bizTeam:a[5],itTeam:a[6],interfaces:a[7],users:a[8],contractEnd:a[9],leadTime:a[10],bv:o(BVC,a[11]),th:o(THC,a[12]),cost:o(COST,a[13]),override:'',overrideTarget:'',notes:''};
+    app.air=aiDefault(app); // prefilled AI agent-readiness (editable in Scoring when the AI toggle is ON)
+    return app;
+  });
+  return {version:1,domains,roles,caps,apps,map,settings:JSON.parse(JSON.stringify(DEFAULT_SETTINGS))};
+}
+
+/* ====================== STATE ====================== */
+function load(){
+  try{
+    const s=JSON.parse(localStorage.getItem(STORE_KEY)||'null');
+    return s?normalise(s):null;
+  }catch(e){return null;}
+}
+function normalise(s){
+  if(!s||!Array.isArray(s.domains)||!Array.isArray(s.caps)||!Array.isArray(s.apps)) throw new Error('Invalid workbench file');
+  s.roles=Array.isArray(s.roles)?s.roles:[];
+  s.map=(s.map&&typeof s.map==='object')?s.map:{};
+  const st=s.settings||{};
+  s.settings={};
+  Object.keys(DEFAULT_SETTINGS).forEach(g=>{s.settings[g]=Object.assign({},DEFAULT_SETTINGS[g],st[g]||{});});
+  s.apps.forEach(a=>{
+    a.domainIds=Array.isArray(a.domainIds)?a.domainIds:[];
+    a.bv=Object.assign(Object.fromEntries(BVC.map(c=>[c.k,3])),a.bv||{});
+    a.th=Object.assign(Object.fromEntries(THC.map(c=>[c.k,3])),a.th||{});
+    a.cost=Object.assign(Object.fromEntries(COST.map(c=>[c.k,0])),a.cost||{});
+    a.air=Object.assign(aiDefault(a),a.air||{});
+    ['override','overrideTarget','notes','vendor','name','type','deploy','bizTeam','itTeam','contractEnd'].forEach(k=>{if(a[k]==null)a[k]='';});
+  });
+  return s;
+}
+let state=load()||demoData();
+function save(){try{localStorage.setItem(STORE_KEY,JSON.stringify(state));}catch(e){}}
+let M=null;
+const ui={tab:'summary',mx:{dom:'all',q:'',ov:false,after:false,color:'disp'},caps:{dom:'all',q:'',focus:null},dispo:{dom:'all',d:'all'},target:{view:'target'},howApp:null,draft:null};
+
+/* ====================== HELPERS ====================== */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=p=>p+Date.now().toString(36).slice(-4)+Math.random().toString(36).slice(2,6);
+const col=c=>/^#[0-9a-f]{3,8}$/i.test(c||'')?c:'#64748b';
+const sum=(a,f)=>a.reduce((s,x)=>s+(f?f(x):x),0);
+const avg=(a,f)=>a.length?sum(a,f)/a.length:0;
+const f1=v=>(Math.round((+v||0)*10)/10).toFixed(1);
+const f2=v=>(Math.round((+v||0)*100)/100).toFixed(2);
+const money=v=>{v=+v||0;const s=v<0?'-':'';v=Math.abs(v);return s+(v>=1000?'$'+(v/1000).toFixed(1)+'M':'$'+Math.round(v)+'K');};
+const pctOf=(a,b)=>b?Math.round(a/b*100):0;
+const dom=id=>state.domains.find(d=>d.id===id)||{id,name:'(unassigned)',color:'#94a3b8'};
+const role=id=>state.roles.find(r=>r.id===id);
+const appById=id=>state.apps.find(a=>a.id===id);
+const appName=id=>{const a=appById(id);return a?a.name:'—';};
+const pdom=a=>a.domainIds[0]||'';
+const dchip=id=>{const d=dom(id);return `<span class="dchip" style="--c:${col(d.color)}">${esc(d.name)}</span>`;};
+const dpill=d=>d?`<span class="pill" style="background:${DISP[d].c}">${d}</span>`:'';
+const achip=(id,extra='')=>{const r=M.R[id];if(!r)return '';return `<span class="achip ${REMOVED(r.disp)&&extra==='gone'?'gone':''}" style="background:${DISP[r.disp].c}" data-act="openApp" data-id="${esc(id)}" data-tip="${esc(r.app.name+' – '+r.disp+(r.absorber?' → '+appName(r.absorber):''))}">${esc(r.app.name)}</span>`;};
+const sorted=apps=>apps.slice().sort((a,b)=>{const ia=state.domains.findIndex(d=>d.id===pdom(a)),ib=state.domains.findIndex(d=>d.id===pdom(b));return (ia-ib)||a.name.localeCompare(b.name);});
+const sclass=v=>'s'+Math.max(1,Math.min(5,Math.round(+v||0)));
+const delta=(b,a,lowerBetter=true,fmt=v=>v)=>{const d=a-b;if(Math.abs(d)<1e-9)return '<span class="muted">no change</span>';const good=lowerBetter?d<0:d>0;return `<span style="color:${good?'#15803d':'#b91c1c'};font-weight:600">${d>0?'+':''}${fmt(d)}${b?` (${d>0?'+':''}${Math.round(d/b*100)}%)`:''}</span>`;};
+
+/* ====================== ENGINE ====================== */
+const AI_ACC={Invest:'accInvest',Retain:'accRetain',Migrate:'accMigrate',Consolidate:'accConsolidate',Retire:'accRetire'};
+function compute(useAI){
+  const st=state.settings,apps=state.apps,caps=state.caps,map=state.map;
+  if(useAI===undefined)useAI=aiOn();
+  const AI=st.ai,pc=v=>Math.max(0,Math.min(90,+v||0))/100;
+  const m=(a,c)=>+map[a+'|'+c]||0;
+  const sw=o=>sum(Object.values(o),v=>+v||0)||1;
+  const wavg=(vals,w)=>sum(Object.keys(w),k=>(+vals[k]||0)*(+w[k]||0))/sw(w);
+  const R={};
+  apps.forEach(a=>{R[a.id]={id:a.id,app:a,tco:sum(COST,c=>+a.cost[c.k]||0),bv:wavg(a.bv,st.wBV),th:wavg(a.th,st.wTH)};});
+  const lns=apps.map(a=>Math.log(Math.max(R[a.id].tco,1)));
+  const lnMin=Math.min(...lns),lnMax=Math.max(...lns);
+  apps.forEach(a=>{
+    const r=R[a.id];
+    r.cs=(lnMax-lnMin)<1e-9?3:1+4*(lnMax-Math.log(Math.max(r.tco,1)))/(lnMax-lnMin);
+    r.caps=caps.filter(c=>m(a.id,c.id)>0).map(c=>c.id);
+    r.primary=r.caps.filter(c=>m(a.id,c)===3);
+    // redundancy: share of the app's Primary/Secondary capabilities also served (P/S) by another app
+    r.ps=r.caps.filter(c=>m(a.id,c)>=2);
+    r.redCaps=r.ps.filter(cid=>apps.some(b=>b.id!==a.id&&m(b.id,cid)>=2));
+    r.redund=r.ps.length?r.redCaps.length/r.ps.length:0;
+    r.redSpend=r.tco*r.redund;
+    r.compBase=(r.bv*st.wComp.bv+r.th*st.wComp.th+r.cs*st.wComp.cost)/sw(st.wComp);
+    r.ovPen=(+st.ovl.ovPen||0)*r.redund;
+    r.comp=Math.max(1,r.compBase-r.ovPen);
+  });
+  // dominance: is each primary capability covered (≥ secondary) by a higher-scoring app?
+  apps.forEach(a=>{
+    const r=R[a.id];
+    const base=r.primary.length?r.primary:r.caps.filter(c=>m(a.id,c)>=2);
+    const cnt={};r.domCaps=[];r.domBase=base.length;
+    base.forEach(cid=>{
+      let best=null;
+      apps.forEach(b=>{if(b.id!==a.id&&m(b.id,cid)>=2&&R[b.id].comp>r.comp&&(!best||R[b.id].comp>R[best].comp))best=b.id;});
+      if(best){cnt[best]=(cnt[best]||0)+1;r.domCaps.push({cap:cid,by:best});}
+    });
+    r.domRatio=base.length?r.domCaps.length/base.length:0;
+    r.dominator=Object.keys(cnt).sort((x,y)=>cnt[y]-cnt[x]||R[y].comp-R[x].comp)[0]||null;
+  });
+  const t=st.thr;
+  apps.forEach(a=>{
+    const r=R[a.id],hiB=r.bv>=t.bv,hiT=r.th>=t.th,why=[];let d,ab=null;
+    const isInv=r.bv>=t.investBV&&r.th>=t.investTH,domHit=!!(r.dominator&&r.domRatio>=t.dom),protect=!!(+st.ovl.protectInvest);
+    why.push(`Business value ${f2(r.bv)} ${hiB?'≥':'<'} ${t.bv} → ${hiB?'HIGH':'LOW'} value`);
+    why.push(`Technical health ${f2(r.th)} ${hiT?'≥':'<'} ${t.th} → ${hiT?'HEALTHY':'UNHEALTHY'}`);
+    if(r.redCaps.length)why.push(`Redundancy: ${r.redCaps.length} of ${r.ps.length} Primary/Secondary capabilities also served by another app (${Math.round(r.redund*100)}%, ${money(r.redSpend)}/yr redundant spend) → composite −${f2(r.ovPen)}`);
+    if(a.override&&DISP[a.override]){
+      d=a.override;why.push('Manual override set by workbench user');
+      if(REMOVED(d))ab=(a.overrideTarget&&R[a.overrideTarget]&&a.overrideTarget!==a.id)?a.overrideTarget:r.dominator;
+    }else if(isInv&&(!domHit||protect)){
+      d='Invest';why.push(`Rule 2: BV ≥ ${t.investBV} and TH ≥ ${t.investTH} → strategic platform, INVEST`+(domHit?' (protected from consolidation by setting)':r.redCaps.length?' – the best-scoring app on its overlapping capabilities':''));
+    }else if(domHit){
+      ab=r.dominator;d=(!hiB&&!hiT)?'Retire':'Consolidate';
+      why.push(`Rule 1: ${Math.round(r.domRatio*100)}% of its primary capabilities are covered by higher-scoring apps (trigger ≥ ${Math.round(t.dom*100)}%)`);
+      if(isInv)why.push('Meets the Invest bar, but duplicates a better-scoring platform → Invest not granted (paying for both would be redundant)');
+      why.push(d==='Retire'?`Low value & unhealthy → RETIRE; functions absorbed by ${appName(ab)}`:`Overlap with a better platform → CONSOLIDATE into ${appName(ab)}`);
+    }else if(hiB&&hiT){d='Retain';why.push('Rule 3: high value & healthy but below Invest bar → RETAIN (sustain)');}
+    else if(hiB){d='Migrate';why.push('Rule 3: high value but unhealthy, no better alternative → MIGRATE (re-platform / upgrade)');}
+    else if(hiT){d='Retain';why.push('Rule 3: low value but healthy, no better alternative → RETAIN (tolerate, review next cycle)');}
+    else{d='Retire';why.push('Rule 3: low value & unhealthy, no alternative → RETIRE (capability decision required)');}
+    r.disp=d;r.ab0=ab;r.why=why;
+  });
+  // resolve absorber chains (A → B → C when B is itself removed)
+  apps.forEach(a=>{
+    const r=R[a.id];let x=r.ab0;const seen=new Set([a.id]);
+    while(x&&R[x]&&REMOVED(R[x].disp)&&R[x].ab0&&!seen.has(x)){seen.add(x);x=R[x].ab0;}
+    r.absorber=(x&&R[x]&&!REMOVED(R[x].disp)&&x!==a.id)?x:null;
+    if(r.ab0&&r.absorber&&r.absorber!==r.ab0)r.why.push(`${appName(r.ab0)} is itself being removed → final target platform: ${appName(r.absorber)}`);
+    if(REMOVED(r.disp)&&!r.absorber)r.why.push('No surviving platform covers its capabilities → capability gap to be resolved');
+  });
+  // effort
+  apps.forEach(a=>{
+    const r=R[a.id];
+    r.cf=1+0.02*(+a.interfaces||0)+0.04*r.caps.length+0.1*(5-(+a.th.integ||3))+((+a.users||0)>300?0.2:0);
+    // AI agent readiness: 1–5 average → multiplier 0.3–1.0 on the outcome-specific acceleration
+    r.ars=aiScore(a);r.aiMult=aiMult(r.ars);
+    r.aiAcc=useAI?pc(AI[AI_ACC[r.disp]])*r.aiMult:0;
+    r.pointsBase=(+st.effort[r.disp]||0)*r.cf;
+    r.points=r.pointsBase*(1-r.aiAcc);
+    r.size=r.pointsBase<4?'S':r.pointsBase<9?'M':r.pointsBase<13?'L':'XL';
+    r.durBase=r.disp==='Retain'?0:SIZE_DUR[r.size];
+    // fixed elements (contract notice, parallel run, regulatory sign-off) do not compress below the floor
+    r.dur=r.durBase&&r.aiAcc?Math.max(Math.min(r.durBase,+AI.floor||0),Math.round(r.durBase*(1-r.aiAcc))):r.durBase;
+    r.oneOffNoAI=r.pointsBase*st.fin.costPerPoint;
+    r.oneOffBase=r.points*st.fin.costPerPoint;
+    r.onboard=0;r.onboardItems=[];
+    r.oneOff=r.oneOffBase;
+  });
+  // scheduling
+  const P=st.plan,byD=d=>apps.filter(a=>R[a.id].disp===d).map(a=>R[a.id]);
+  const sf=useAI?1-pc(AI.stagger):1; // AI: more initiatives can run in parallel → compressed stagger
+  byD('Invest').forEach((r,i)=>{r.start=Math.round((i%3)*2*sf);});
+  byD('Retain').forEach(r=>{r.start=0;});
+  byD('Migrate').sort((x,y)=>((+x.app.th.vendor)-(+y.app.th.vendor))||(y.bv-x.bv)).forEach((r,i)=>{r.start=Math.round((+P.migStart)+i*(+P.migStagger)*sf);});
+  const after=(r,base)=>{const ab=r.absorber&&R[r.absorber];if(ab&&ab.disp==='Migrate')return Math.max(base,ab.start+ab.dur);if(ab&&ab.disp==='Invest')return Math.max(base,ab.start+Math.round(ab.dur/2));return base;};
+  byD('Retire').forEach((r,i)=>{r.start=after(r,Math.round((+P.retStart)+i*(+P.retStagger)*sf));});
+  byD('Consolidate').forEach((r,i)=>{r.start=after(r,Math.round((+P.conStart)+i*(+P.conStagger)*sf));});
+  apps.forEach(a=>{const r=R[a.id];r.end=r.start+r.dur;r.wave=r.disp==='Retain'?'BAU':r.start<12?'Wave 1':r.start<24?'Wave 2':'Wave 3';});
+  // target state
+  const f=st.fin;
+  const survivors=apps.filter(a=>!REMOVED(R[a.id].disp));
+  const mapAfter={};
+  survivors.forEach(a=>caps.forEach(c=>{const v=m(a.id,c.id);if(v)mapAfter[a.id+'|'+c.id]=v;}));
+  const absorbs={};
+  apps.forEach(a=>{const r=R[a.id];if(REMOVED(r.disp)&&r.absorber){(absorbs[r.absorber]=absorbs[r.absorber]||[]).push(a.id);caps.forEach(c=>{const v=m(a.id,c.id);if(v){const k=r.absorber+'|'+c.id;mapAfter[k]=Math.max(mapAfter[k]||0,v);}});}});
+  apps.forEach(a=>{
+    const r=R[a.id],d=r.disp;
+    r.thAfter=d==='Migrate'?Math.max(r.th,f.migTH):d==='Invest'?Math.min(5,r.th+0.3):r.th;
+    r.secAfter=d==='Migrate'?Math.max(+a.th.sec,4):+a.th.sec;
+    r.vendorAfter=d==='Migrate'?Math.max(+a.th.vendor,4):+a.th.vendor;
+    r.leadAfter=(+a.leadTime||0)*(d==='Migrate'?1-f.leadMig/100:d==='Invest'?1-f.leadInv/100:1);
+    r.tcoAfter=REMOVED(d)?0:d==='Migrate'?r.tco*(1-f.migSave/100):d==='Invest'?r.tco*(1+f.investUp/100):r.tco;
+    r.absorbCost=REMOVED(d)&&r.absorber?r.tco*f.absorb/100:0;
+    // AIOps agents (monitoring, ticket triage, test & change automation) on surviving platforms
+    r.aiOps=useAI&&!REMOVED(d)?((+a.cost.people||0)+(+a.cost.change||0))*(d==='Migrate'?1-f.migSave/100:1)*pc(AI.opsSave)*r.aiMult:0;
+    r.tcoAfter-=r.aiOps;
+    r.saving=r.tco-r.tcoAfter-r.absorbCost;
+  });
+  // absorption onboarding (training + data migration) – one-off charged to the receiving platform
+  apps.forEach(a=>{
+    const x=R[a.id];if(!REMOVED(x.disp)||!x.absorber)return;
+    const s=R[x.absorber],users=+a.users||0;
+    const it={from:a.id,users,ncaps:x.caps.length,trainBase:users*(+f.trainPerUser||0),dataBase:(+f.dataMigBase||0)+x.caps.length*(+f.dataMigPerCap||0),start:x.start,dur:x.dur};
+    // AI: tutors / copilots shorten training; mapping & reconciliation agents cut data-migration effort (scaled by the source app's readiness)
+    it.train=it.trainBase*(1-(useAI?pc(AI.train):0));
+    it.data=it.dataBase*(1-(useAI?pc(AI.data)*x.aiMult:0));
+    it.total=it.train+it.data;it.totalBase=it.trainBase+it.dataBase;
+    s.onboardItems.push(it);s.onboard+=it.total;s.oneOff+=it.total;
+  });
+  // redundancy remaining in the target state
+  apps.forEach(a=>{
+    const r=R[a.id];
+    if(REMOVED(r.disp)){r.redAfterCaps=[];r.redundAfter=0;r.redSpendAfter=0;return;}
+    const ps=caps.filter(c=>(+mapAfter[a.id+'|'+c.id]||0)>=2).map(c=>c.id);
+    r.redAfterCaps=ps.filter(cid=>survivors.some(b=>b.id!==a.id&&(+mapAfter[b.id+'|'+cid]||0)>=2));
+    r.redundAfter=ps.length?r.redAfterCaps.length/ps.length:0;
+    r.redSpendAfter=r.tcoAfter*r.redundAfter;
+    if(r.redAfterCaps.length){
+      const peers=[...new Set(r.redAfterCaps.flatMap(cid=>survivors.filter(b=>b.id!==a.id&&(+mapAfter[b.id+'|'+cid]||0)>=2).map(b=>b.name)))];
+      r.why.push(`Target state: still overlaps on ${r.redAfterCaps.length} capabilit${r.redAfterCaps.length>1?'ies':'y'} with ${peers.join(', ')} (${money(r.redSpendAfter)}/yr redundant spend) → review, or lower the consolidation trigger / record an override`);
+    }
+  });
+  // cash-flow (60 months)
+  const H=60,cash=new Array(H).fill(0);
+  apps.forEach(a=>{
+    const r=R[a.id];
+    if(r.dur>0){for(let k=r.start;k<r.end&&k<H;k++)cash[k]-=r.oneOffBase/r.dur;}else if(r.oneOffBase&&r.start<H)cash[r.start]-=r.oneOffBase;
+    r.onboardItems.forEach(it=>{if(it.dur>0){for(let k=it.start;k<it.start+it.dur&&k<H;k++)cash[k]-=it.total/it.dur;}else if(it.start<H)cash[it.start]-=it.total;});
+    const sv=(r.saving-r.aiOps)/12;
+    if(r.disp==='Invest'){for(let k=r.start;k<H;k++)cash[k]+=sv;}
+    else if(r.disp!=='Retain'){for(let k=Math.max(0,r.end);k<H;k++)cash[k]+=sv;}
+    if(r.aiOps){for(let k=Math.max(0,+AI.opsStart||0);k<H;k++)cash[k]+=r.aiOps/12;}
+  });
+  // agent platform: one-off enablement over months 0–5, then annual run cost
+  const aiSetup=useAI?Math.max(0,+AI.platSetup||0):0,aiRun=useAI?Math.max(0,+AI.platRun||0):0;
+  if(useAI){for(let k=0;k<6;k++)cash[k]-=aiSetup/6;for(let k=0;k<H;k++)cash[k]-=aiRun/12;}
+  const cum=[];cash.reduce((s,v,i)=>(cum[i]=s+v),0);
+  let payback=null;for(let i=1;i<H;i++){if(cum[i]>=0&&cum[i-1]<0){payback=i;}}
+  if(payback!=null&&cum.slice(payback).some(v=>v<0))payback=null;
+  const npv=sum(cash.map((v,i)=>v/Math.pow(1+f.discount/1200,i)));
+  // capability statistics
+  const capStats=(mp,list,thKey)=>{
+    let ov=0,gaps=0,tot=0,n=0,regH=0,regN=0,critRisk=0;const per={};
+    caps.forEach(c=>{
+      const ap=list.filter(a=>(+mp[a.id+'|'+c.id]||0)>=2),any=list.filter(a=>(+mp[a.id+'|'+c.id]||0)>=1);
+      per[c.id]=ap.map(a=>a.id);
+      if(ap.length>=2)ov++;if(!ap.length)gaps++;if(any.length){tot+=any.length;n++;}
+      const healthy=ap.some(a=>R[a.id][thKey]>=t.th);
+      if(c.reg){regN++;if(healthy)regH++;}
+      if(c.crit==='H'&&!healthy)critRisk++;
+    });
+    return {ov,gaps,avg:n?tot/n:0,per,reg:regN?regH/regN:0,critRisk};
+  };
+  const capB=capStats(map,apps,'th'),capA=capStats(mapAfter,survivors,'thAfter');
+  const vnorm=v=>{v=String(v||'').trim().toLowerCase();return v.startsWith('in-house')?'in-house':v;};
+  const K={
+    appsB:apps.length,appsA:survivors.length,
+    vendB:new Set(apps.map(a=>vnorm(a.vendor))).size,vendA:new Set(survivors.map(a=>vnorm(a.vendor))).size,
+    tcoB:sum(apps,a=>R[a.id].tco),tcoA:sum(apps,a=>R[a.id].tcoAfter+R[a.id].absorbCost),
+    invest:sum(apps,a=>R[a.id].oneOff),onboard:sum(apps,a=>R[a.id].onboard),
+    onboardInvest:sum(apps.filter(a=>R[a.id].disp==='Invest'),a=>R[a.id].onboard),
+    redB:sum(apps,a=>R[a.id].redSpend),redA:sum(apps,a=>R[a.id].redSpendAfter),
+    intfB:sum(apps,a=>+a.interfaces||0),intfA:sum(survivors,a=>+a.interfaces||0)+sum(apps.filter(a=>REMOVED(R[a.id].disp)&&R[a.id].absorber),a=>0.25*(+a.interfaces||0)),
+    ovB:capB.ov,ovA:capA.ov,gapsB:capB.gaps,gapsA:capA.gaps,avgB:capB.avg,avgA:capA.avg,
+    thB:avg(apps,a=>R[a.id].th),thA:avg(survivors,a=>R[a.id].thAfter),
+    eolB:apps.filter(a=>+a.th.vendor<=2).length,eolA:survivors.filter(a=>R[a.id].vendorAfter<=2).length,
+    secB:avg(apps,a=>+a.th.sec),secA:avg(survivors,a=>R[a.id].secAfter),
+    leadB:avg(apps,a=>+a.leadTime||0),leadA:avg(survivors,a=>R[a.id].leadAfter),
+    regB:capB.reg,regA:capA.reg,critB:capB.critRisk,critA:capA.critRisk,
+    onpremB:apps.filter(a=>/on-prem/i.test(a.deploy)).length,onpremA:survivors.filter(a=>/on-prem/i.test(a.deploy)&&R[a.id].disp!=='Migrate').length,
+    peopleB:sum(apps,a=>+a.cost.people||0),peopleA:sum(survivors,a=>(+a.cost.people||0)*(R[a.id].disp==='Migrate'?1-f.migSave/100:1)),
+    payback,npv,net5:cum[H-1],peak:Math.min(0,...cum)
+  };
+  K.ai=useAI;K.aiSetup=aiSetup;K.aiRun=aiRun;K.aiOps=sum(apps,a=>R[a.id].aiOps);
+  K.investApps=K.invest;K.invest+=aiSetup;K.tcoA+=aiRun;
+  K.planEnd=Math.max(0,...apps.map(a=>R[a.id].disp==='Retain'?0:R[a.id].end));
+  K.onboardBase=sum(apps,a=>sum(R[a.id].onboardItems,it=>it.totalBase));
+  K.arsAvg=avg(apps,a=>R[a.id].ars);
+  K.save=K.tcoB-K.tcoA;
+  K.simp=avg([[K.appsB,K.appsA],[K.vendB,K.vendA],[K.intfB,K.intfA],[K.ovB||1,K.ovA]].map(([b,a])=>b?(b-a)/b:0))*100;
+  // domain stats (by primary domain)
+  const dstats=state.domains.map(d=>{
+    const list=apps.filter(a=>pdom(a)===d.id);
+    const cnt=Object.fromEntries(DORDER.map(k=>[k,list.filter(a=>R[a.id].disp===k).length]));
+    return {d,list,cnt,tcoB:sum(list,a=>R[a.id].tco),tcoA:sum(list,a=>R[a.id].tcoAfter+R[a.id].absorbCost),invest:sum(list,a=>R[a.id].oneOff),after:list.filter(a=>!REMOVED(R[a.id].disp)).length,caps:caps.filter(c=>c.domainId===d.id).length};
+  });
+  // teams impacted
+  const W={Invest:1,Migrate:2,Consolidate:3,Retire:3},teams={};
+  const addT=(name,type,app,w,how)=>{if(!name)return;const k=type+'|'+name;const x=teams[k]=teams[k]||{name,type,apps:[],score:0,users:0};x.apps.push({id:app.id,how});x.score+=w;x.users+=+app.users||0;};
+  apps.forEach(a=>{const r=R[a.id];if(W[r.disp]){addT(a.bizTeam,'Business',a,W[r.disp],r.disp);addT(a.itTeam,'IT',a,W[r.disp],r.disp);}});
+  Object.keys(absorbs).forEach(id=>{const a=appById(id);addT(a.bizTeam,'Business',a,absorbs[id].length,'Absorbs '+absorbs[id].length);addT(a.itTeam,'IT',a,absorbs[id].length,'Absorbs '+absorbs[id].length);});
+  const teamList=Object.values(teams).map(x=>Object.assign(x,{level:x.score>=6?'High':x.score>=3?'Medium':'Low'})).sort((a,b)=>b.score-a.score);
+  // process owners impacted
+  const owners={};
+  caps.forEach(c=>{const b=capB.per[c.id].slice().sort().join(),a2=capA.per[c.id].slice().sort().join();if(b!==a2){const k=c.owner||'—';(owners[k]=owners[k]||[]).push(c.id);}});
+  return {R,mapAfter,absorbs,K,cash,cum,H,survivors,dstats,teamList,owners,capB,capA};
+}
+
+/* ====================== SVG CHARTS ====================== */
+function donut(parts,size=170,thick=28,center='',sub=''){
+  const tot=sum(parts,p=>p.v)||1,r=(size-thick)/2,C=2*Math.PI*r;let off=0;
+  const segs=parts.filter(p=>p.v>0).map(p=>{const len=p.v/tot*C;const s=`<circle r="${r}" cx="${size/2}" cy="${size/2}" fill="none" stroke="${p.c}" stroke-width="${thick}" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-off}" transform="rotate(-90 ${size/2} ${size/2})" data-tip="${esc(p.l+': '+p.v)}"></circle>`;off+=len;return s;}).join('');
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">${segs}<text x="50%" y="48%" text-anchor="middle" font-size="24" font-weight="700" fill="#0b2545">${esc(center)}</text><text x="50%" y="62%" text-anchor="middle" font-size="11" fill="#6b7280">${esc(sub)}</text></svg>`;
+}
+function scatter(){
+  const W=720,H=470,p=48,t=state.settings.thr;
+  const x=v=>p+(v-1)/4*(W-2*p),y=v=>H-p-(v-1)/4*(H-2*p);
+  const maxT=Math.max(1,...state.apps.map(a=>M.R[a.id].tco));
+  let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="max-width:${W}px">`;
+  s+=`<rect x="${x(t.th)}" y="${p}" width="${x(5)-x(t.th)}" height="${y(t.bv)-p}" fill="#eff6ff"/><rect x="${p}" y="${p}" width="${x(t.th)-p}" height="${y(t.bv)-p}" fill="#fffbeb"/><rect x="${p}" y="${y(t.bv)}" width="${x(t.th)-p}" height="${H-p-y(t.bv)}" fill="#fef2f2"/><rect x="${x(t.th)}" y="${y(t.bv)}" width="${x(5)-x(t.th)}" height="${H-p-y(t.bv)}" fill="#f8fafc"/>`;
+  s+=`<rect x="${x(t.investTH)}" y="${p}" width="${x(5)-x(t.investTH)}" height="${y(t.investBV)-p}" fill="#dcfce7" stroke="#16a34a" stroke-dasharray="4 3"/>`;
+  for(let v=1;v<=5;v++){s+=`<line x1="${x(v)}" x2="${x(v)}" y1="${p}" y2="${H-p}" stroke="#e5e7eb"/><line y1="${y(v)}" y2="${y(v)}" x1="${p}" x2="${W-p}" stroke="#e5e7eb"/><text x="${x(v)}" y="${H-p+16}" font-size="11" text-anchor="middle" fill="#6b7280">${v}</text><text x="${p-10}" y="${y(v)+4}" font-size="11" text-anchor="end" fill="#6b7280">${v}</text>`;}
+  s+=`<text x="${W/2}" y="${H-8}" font-size="12" text-anchor="middle" fill="#0b2545" font-weight="600">Technical health →</text><text transform="translate(14 ${H/2}) rotate(-90)" font-size="12" text-anchor="middle" fill="#0b2545" font-weight="600">Business value →</text>`;
+  s+=`<text x="${W-p-6}" y="${p+16}" font-size="11" text-anchor="end" fill="#15803d" font-weight="700">INVEST zone</text><text x="${p+6}" y="${p+16}" font-size="11" fill="#b45309" font-weight="700">MIGRATE zone</text><text x="${p+6}" y="${H-p-8}" font-size="11" fill="#b91c1c" font-weight="700">RETIRE zone</text><text x="${W-p-6}" y="${H-p-8}" font-size="11" text-anchor="end" fill="#475569" font-weight="700">TOLERATE / RETAIN</text>`;
+  sorted(state.apps).sort((a,b)=>M.R[b.id].tco-M.R[a.id].tco).forEach(a=>{
+    const r=M.R[a.id],rad=5+17*Math.sqrt(r.tco/maxT);
+    s+=`<g data-act="openApp" data-id="${esc(a.id)}" style="cursor:pointer" data-tip="${esc(`${a.name}\nBV ${f2(r.bv)} · TH ${f2(r.th)} · TCO ${money(r.tco)}\nComposite ${f2(r.comp)} → ${r.disp}${r.absorber?' into '+appName(r.absorber):''}`)}"><circle cx="${x(r.th)}" cy="${y(r.bv)}" r="${rad}" fill="${DISP[r.disp].c}" fill-opacity=".7" stroke="#fff" stroke-width="1.5"/><text x="${x(r.th)+rad+2}" y="${y(r.bv)+3}" font-size="9.5" fill="#334155">${esc(a.name.length>24?a.name.slice(0,23)+'…':a.name)}</text></g>`;
+  });
+  return s+'</svg>';
+}
+function jcurve(){
+  const W=760,H=270,p=50,cum=M.cum,n=cum.length,bc=M.K.ai?M.base.cum:null;
+  const mn=Math.min(0,...cum,...(bc||[])),mx=Math.max(0,...cum,...(bc||[])),rg=(mx-mn)||1;
+  const x=i=>p+i/(n-1)*(W-2*p),y=v=>H-30-(v-mn)/rg*(H-60);
+  let s=`<svg viewBox="0 0 ${W} ${H}" width="100%">`;
+  for(let yr=0;yr<=5;yr++){const xx=x(Math.min(n-1,yr*12));s+=`<line x1="${xx}" x2="${xx}" y1="20" y2="${H-30}" stroke="#e5e7eb"/><text x="${xx}" y="${H-12}" font-size="11" text-anchor="middle" fill="#6b7280">${yr===0?'Start':'Year '+yr}</text>`;}
+  s+=`<line x1="${p}" x2="${W-p}" y1="${y(0)}" y2="${y(0)}" stroke="#94a3b8" stroke-dasharray="4 3"/>`;
+  [mn,mx].forEach(v=>{s+=`<text x="${p-6}" y="${y(v)+4}" font-size="10.5" text-anchor="end" fill="#6b7280">${money(v)}</text>`;});
+  const pts=cum.map((v,i)=>`${x(i)},${y(v)}`).join(' ');
+  s+=`<polygon points="${x(0)},${y(0)} ${pts} ${x(n-1)},${y(0)}" fill="${bc?'#cffafe':'#dbeafe'}" opacity=".6"/>`;
+  if(bc){
+    s+=`<polyline points="${bc.map((v,i)=>`${x(i)},${y(v)}`).join(' ')}" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6 4"/>`;
+    const bp=M.base.K.payback;if(bp!=null)s+=`<circle cx="${x(bp)}" cy="${y(bc[bp])}" r="4.5" fill="#94a3b8"/><text x="${x(bp)}" y="${y(bc[bp])+18}" font-size="10.5" text-anchor="middle" fill="#64748b">Baseline payback M${bp}</text>`;
+    s+=`<text x="${x(n-1)}" y="${y(bc[n-1])+16}" font-size="10.5" text-anchor="end" fill="#64748b">Baseline ${money(bc[n-1])}</text>`;
+    s+=`<g font-size="11"><line x1="${p+10}" x2="${p+34}" y1="14" y2="14" stroke="#0891b2" stroke-width="2.5"/><text x="${p+38}" y="18" fill="#0e7490" font-weight="700">AI-accelerated</text><line x1="${p+140}" x2="${p+164}" y1="14" y2="14" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6 4"/><text x="${p+168}" y="18" fill="#64748b">Baseline (no AI agents)</text></g>`;
+  }
+  s+=`<polyline points="${pts}" fill="none" stroke="${bc?'#0891b2':'#0b2545'}" stroke-width="2.5"/>`;
+  if(M.K.payback!=null){const i=M.K.payback;s+=`<circle cx="${x(i)}" cy="${y(cum[i])}" r="6" fill="#16a34a"/><text x="${x(i)}" y="${y(cum[i])-12}" font-size="11.5" text-anchor="middle" fill="#15803d" font-weight="700">Payback month ${i}</text>`;}
+  s+=`<text x="${x(n-1)}" y="${y(cum[n-1])-8}" font-size="11.5" text-anchor="end" fill="#0b2545" font-weight="700">${money(cum[n-1])}</text>`;
+  return s+'</svg>';
+}
+const hbar=(label,v,max,c,txt)=>`<div class="hbar"><span>${label}</span><div class="bar"><i style="width:${Math.max(0,Math.min(100,v/(max||1)*100))}%;background:${c}"></i></div><span class="num b">${txt}</span></div>`;
+
+/* ====================== AI ACCELERATION CARD ====================== */
+function aiCard(){
+  const K=M.K,B=M.base.K,R=M.R,apps=state.apps;
+  const hi=apps.filter(a=>R[a.id].ars>=3.5).length,lo=apps.filter(a=>R[a.id].ars<2.5).length;
+  if(!K.ai)return `<div class="card aibox" style="display:flex;gap:14px;align-items:center"><div style="font-size:26px">🤖</div><div class="small"><b>AI Agents Readiness is OFF</b> – figures show the baseline plan (plan end month ${K.planEnd}, ~${(K.planEnd/12).toFixed(1)} years). Average agent-readiness of the portfolio is <b>${f2(K.arsAvg)}/5</b> (${hi} apps ready ≥ 3.5, ${lo} apps < 2.5). Switch the toggle in the top bar ON to see how discovery, code-conversion, data-mapping, test-generation, training and AIOps agents could accelerate the plan.</div><button class="btn" data-act="toggleAI">Switch ON</button></div>`;
+  const kp=(l,v,d)=>`<div style="padding:8px 10px;border-right:1px solid #a5f3fc"><div class="small muted">${l}</div><div class="b" style="font-size:18px;color:#0e7490">${v}</div><div class="small">${d}</div></div>`;
+  const pbD=(B.payback!=null&&K.payback!=null)?B.payback-K.payback:null;
+  return `<div class="card aibox"><h3 style="color:#0e7490">🤖 AI agent acceleration – AI-assisted plan vs baseline</h3>
+  <div style="display:grid;grid-template-columns:repeat(6,1fr)">
+  ${kp('Plan duration',`${(B.planEnd/12).toFixed(1)} → ${(K.planEnd/12).toFixed(1)} yrs`,`month ${B.planEnd} → ${K.planEnd} (−${B.planEnd-K.planEnd} months)`)}
+  ${kp('Payback',`${B.payback!=null?'M'+B.payback:'>5y'} → ${K.payback!=null?'M'+K.payback:'>5y'}`,pbD!=null?`brought forward ${pbD} months`:'')}
+  ${kp('One-off investment',`${money(B.invest)} → ${money(K.invest)}`,`incl. ${money(K.aiSetup)} agent platform & enablement`)}
+  ${kp('Training + data migration',`${money(B.onboard)} → ${money(K.onboard)}`,`−${money(B.onboard-K.onboard)} via AI tutors & mapping agents`)}
+  ${kp('Annual run cost (target)',`${money(B.tcoA)} → ${money(K.tcoA)}`,`AIOps −${money(K.aiOps)} · platform +${money(K.aiRun)}/yr`)}
+  ${kp('5-year net benefit',`${money(B.net5)} → ${money(K.net5)}`,`NPV ${money(B.npv)} → ${money(K.npv)}`)}
+  </div><div class="small" style="margin-top:8px">Portfolio agent-readiness <b>${f2(K.arsAvg)}/5</b> · <b>${hi}</b> apps ready (≥ 3.5) · <b>${lo}</b> apps with low readiness (< 2.5 – mostly SaaS / vendor black boxes: limited acceleration). Acceleration per app = outcome % × readiness multiplier (0.3–1.0); minimum duration ${state.settings.ai.floor} months for fixed elements. Dispositions are unchanged – AI changes <i>how fast and at what cost</i>, not <i>what</i> to do. Assumptions in <a href="#" data-act="tab" data-tab="settings">Settings</a>; readiness per app in <a href="#" data-act="tab" data-tab="scoring">Scoring</a>.</div></div>`;
+}
+/* ====================== RENDER: SUMMARY ====================== */
+function rSummary(){
+  const K=M.K,R=M.R,apps=state.apps;
+  const cnt=Object.fromEntries(DORDER.map(d=>[d,apps.filter(a=>R[a.id].disp===d).length]));
+  const kp=(l,v,d,neg)=>`<div class="card kpi"><div class="l">${l}</div><div class="v">${v}</div><div class="d ${neg?'neg':''}">${d}</div></div>`;
+  let h=`<div class="card" style="background:linear-gradient(120deg,#0b2545,#1d4e89);color:#fff;border:0">
+    <h1 style="color:#fff">Risk, Finance &amp; Compliance – Application Rationalisation</h1>
+    <div style="color:#c7d2fe;max-width:1100px">Executive summary of the rationalisation assessment for ${state.domains.length} domains, ${state.caps.length} business capabilities and ${apps.length} applications. Every figure on this page is calculated live from the capability model, the application × capability matrix and the scoring framework (see <a href="#" data-act="tab" data-tab="howto" style="color:#fde68a">How-to</a>). Data shown is realistic <b>synthetic data</b> for demonstration.</div></div>`;
+  h+=`<div class="grid g6">
+    ${kp('Applications',`${K.appsB} → ${K.appsA}`,`−${K.appsB-K.appsA} apps (−${pctOf(K.appsB-K.appsA,K.appsB)}%)`)}
+    ${kp('Annual run cost (TCO)',`${money(K.tcoB)} → ${money(K.tcoA)}`,`−${money(K.save)} / year (−${pctOf(K.save,K.tcoB)}%)`)}
+    ${kp('One-off investment',money(K.invest),K.payback!=null?`Payback in ${(K.payback/12).toFixed(1)} years`:'Payback beyond 5 years',K.payback==null)}
+    ${kp('5-year net benefit',money(K.net5),`NPV ${money(K.npv)} @ ${state.settings.fin.discount}%`,K.net5<0)}
+    ${kp('Overlapping capabilities',`${K.ovB} → ${K.ovA}`,`Redundant spend ${money(K.redB)} → ${money(K.redA)} / year`)}
+    ${kp('Reg. capabilities on healthy platforms',`${Math.round(K.regB*100)}% → ${Math.round(K.regA*100)}%`,`Apps at vendor-support risk ${K.eolB} → ${K.eolA}`)}
+  </div>`;
+  h+=aiCard();
+  // disposition + domain
+  h+=`<div class="grid g12"><div class="card"><h3>Portfolio disposition</h3><div style="display:flex;gap:18px;align-items:center">
+    ${donut(DORDER.map(d=>({v:cnt[d],c:DISP[d].c,l:d})),180,30,String(apps.length),'applications')}
+    <div style="flex:1">${DORDER.map(d=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #f1f3f6;cursor:pointer" data-act="gotoDispo" data-d="${d}"><span>${dpill(d)} <span class="small muted">${DISP[d].d}</span></span><b>${cnt[d]}</b></div>`).join('')}</div></div></div>
+    <div class="card"><h3>Impact by domain <span class="small muted">(click a row to drill down)</span></h3><table class="t"><thead><tr><th>Domain</th><th class="num">Caps</th><th class="num">Apps</th>${DORDER.map(d=>`<th class="num" title="${d}"><span class="dot" style="background:${DISP[d].c}"></span>${d.slice(0,4)}</th>`).join('')}<th class="num">TCO now → target</th><th class="num">Investment</th></tr></thead><tbody>
+    ${M.dstats.map(s=>`<tr class="click" data-act="gotoDomain" data-dom="${esc(s.d.id)}"><td>${dchip(s.d.id)}</td><td class="num">${s.caps}</td><td class="num"><b>${s.list.length} → ${s.after}</b></td>${DORDER.map(d=>`<td class="num">${s.cnt[d]||''}</td>`).join('')}<td class="num">${money(s.tcoB)} → <b>${money(s.tcoA)}</b></td><td class="num">${money(s.invest)}</td></tr>`).join('')}
+    </tbody></table><div class="small muted" style="margin-top:6px">Apps are counted in their primary domain (first domain assigned in Settings).</div></div></div>`;
+  // key messages
+  const ab=Object.entries(M.absorbs).sort((a,b)=>b[1].length-a[1].length);
+  const migs=apps.filter(a=>R[a.id].disp==='Migrate').sort((a,b)=>R[b.id].tco-R[a.id].tco);
+  const migInv=sum(migs,a=>R[a.id].oneOff);
+  const gaps=state.caps.filter(c=>!M.capA.per[c.id].length&&M.capB.per[c.id].length);
+  const soon=apps.filter(a=>a.contractEnd&&new Date(a.contractEnd+'-01')<new Date(Date.now()+365*864e5)&&R[a.id].disp!=='Invest');
+  const msgs=[
+    `<b>${K.appsB-K.appsA} of ${K.appsB} applications (${pctOf(K.appsB-K.appsA,K.appsB)}%) can be decommissioned</b> through ${cnt.Consolidate} consolidations and ${cnt.Retire} retirements, reducing overlapping capabilities from ${K.ovB} to ${K.ovA} and vendors from ${K.vendB} to ${K.vendA}.`,
+    `<b>Redundant spend falls from ${money(K.redB)} to ${money(K.redA)} per year</b> – the run cost attributable to capabilities served by more than one application at Primary/Secondary level.${K.redA>0?` Remaining overlaps in the target state are flagged in each app’s decision path.`:''}`,
+    ab.length?`<b>Consolidation hubs:</b> ${ab.slice(0,3).map(([id,l])=>`${esc(appName(id))} absorbs ${l.map(x=>esc(appName(x))).join(', ')}`).join('; ')}. Receiving platforms carry ${money(K.onboard)} of training and data-migration cost (${money(K.onboardInvest)} on Invest platforms), included in the investment.`:'',
+    `<b>Run cost falls by ${money(K.save)} per year (−${pctOf(K.save,K.tcoB)}%)</b> at steady state for a one-off investment of ${money(K.invest)}; ${K.payback!=null?`payback in month ${K.payback}`:'payback beyond the 5-year horizon'} and a 5-year net benefit of ${money(K.net5)}.`,
+    migs.length?`<b>${migs.length} high-value but technically weak platforms must be modernised</b> (${migs.slice(0,4).map(a=>esc(a.name)).join(', ')}${migs.length>4?'…':''}) – ${pctOf(migInv,K.invest)}% of the investment.`:'',
+    `<b>Risk reduction:</b> apps with vendor-support risk drop from ${K.eolB} to ${K.eolA}; high-criticality capabilities without a healthy platform from ${K.critB} to ${K.critA}; regulatory capabilities on healthy platforms rise from ${Math.round(K.regB*100)}% to ${Math.round(K.regA*100)}%.`,
+    gaps.length?`<b>Decisions needed:</b> ${gaps.map(c=>esc(c.name)).join(', ')} would lose platform coverage – confirm replacement or alternative before retirement.`:'',
+    soon.length?`<b>Contract leverage:</b> ${soon.length} contracts expire within 12 months (${soon.slice(0,5).map(a=>esc(a.name)).join(', ')}) – align renewals with the dispositions to avoid lock-in.`:''
+  ].filter(Boolean);
+  h+=`<div class="grid g12"><div class="card"><h3>Key messages</h3><ul style="margin:0;padding-left:18px">${msgs.map(m=>`<li style="margin:6px 0">${m}</li>`).join('')}</ul></div>
+    <div class="card"><h3>Measurable outcomes (baseline → target)</h3>
+    ${[['Run cost (TCO)',K.tcoB,K.tcoA,money],['Applications',K.appsB,K.appsA,v=>Math.round(v)],['Interfaces',K.intfB,K.intfA,v=>Math.round(v)],['Overlapping capabilities',K.ovB,K.ovA,v=>v],['Redundant spend (annual)',K.redB,K.redA,money],['Avg change lead time (days)',K.leadB,K.leadA,v=>Math.round(v)],['Apps at vendor-support risk',K.eolB,K.eolA,v=>v]].map(([l,b,a,fm])=>`<div style="margin:7px 0"><div style="display:flex;justify-content:space-between"><span>${l}</span><span class="b">${fm(b)} → ${fm(a)} <span style="color:#15803d">(${b?Math.round((a-b)/b*100):0}%)</span></span></div><div class="bar" style="height:6px;margin-top:3px"><i style="width:100%;background:#cbd5e1"></i></div><div class="bar" style="height:6px;margin-top:2px"><i style="width:${b?a/b*100:0}%;background:#16a34a"></i></div></div>`).join('')}
+    <div class="small muted">Grey = baseline, green = target. Details in <a href="#" data-act="tab" data-tab="benefits">Benefits</a>.</div></div></div>`;
+  // approach
+  const steps=[['caps','Capability model','Exhaustive L1/L2 capabilities per domain with accountable process owner'],['matrix','App × capability matrix','Map every application to the capabilities it serves (primary / secondary / partial)'],['scoring','Scoring framework','Business value, technical health and total cost of ownership per app'],['dispo','Disposition','Rule-based Invest / Retain / Migrate / Consolidate / Retire with effort'],['target','Target state','North-star architecture, 3–5 year waves and impacted teams'],['benefits','Benefits & business case','Cost, risk, simplification, agility and regulatory outcomes']];
+  h+=`<div class="card"><h3>Approach – how the assessment is built</h3><div class="steps">${steps.map((s,i)=>`<div class="step" data-act="tab" data-tab="${s[0]}"><span class="n">${i+1}</span><b>${s[1]}</b><span>${s[2]}</span></div>`).join('')}</div></div>`;
+  // transformation snapshot
+  const waves=['Wave 1','Wave 2','Wave 3'].map(w=>{const l=apps.filter(a=>R[a.id].wave===w);return {w,l,inv:sum(l,a=>R[a.id].oneOff)};});
+  const wl={'Wave 1':'Year 1 – quick wins & foundations','Wave 2':'Year 2 – consolidation','Wave 3':'Years 3–5 – modernisation & decommissioning'};
+  h+=`<div class="card"><h3>3–5 year transformation at a glance <span class="small muted">(full plan in <a href="#" data-act="tab" data-tab="target">Target State</a>)</span></h3><div class="grid g3">${waves.map(w=>`<div style="border:1px solid var(--line);border-radius:8px;padding:10px"><div class="b" style="color:var(--navy)">${w.w} · ${wl[w.w]}</div><div class="small muted">${w.l.length} initiatives · ${money(w.inv)}</div><div style="margin-top:6px">${w.l.sort((a,b)=>R[a.id].start-R[b.id].start).map(a=>achip(a.id)).join('')}</div></div>`).join('')}</div></div>`;
+  // engagement plan
+  h+=`<div class="card"><h2>Engagement roadmap – 12 weeks to a board-ready 3–5 year plan</h2>
+    <div class="note"><b>Recommended duration: 12 weeks.</b> With ${state.caps.length} capabilities, ${apps.length} applications and ${state.roles.length} process owners across ${state.domains.length} domains, each domain needs ~2 workshop rounds (model validation, then scoring), plus 3–4 weeks of TCO and contract data collection that typically runs in parallel with Finance and Procurement. <b>10 weeks</b> is achievable only if inventory, TCO and contract data are returned within 2 weeks; plan <b>14 weeks</b> if architecture documentation is fragmented, if Ramadan / year-end closing overlaps, or if more domains (e.g. Treasury, Operations) are added.</div>
+    ${engGantt()}
+    <table class="t" style="margin-top:12px"><thead><tr><th>Phase</th><th>Weeks</th><th>Key deliverables</th><th>Workbench section</th></tr></thead><tbody>
+    ${engPhases().map(e=>{const ws=Math.min(...e.acts.map(a=>a[1])),we=Math.max(...e.acts.map(a=>a[2]));return `<tr><td><span class="dot" style="background:${e.c}"></span><b>${e.ph}</b></td><td>W${ws}–W${we}</td><td>${e.del.map(d=>Array.isArray(d)?`<span class="onb">AI</span> ${esc(d[0])}`:esc(d)).join(' · ')}</td><td><a href="#" data-act="tab" data-tab="${e.tab}">${TABS.find(t=>t[0]===e.tab)[1]}</a></td></tr>`;}).join('')}
+    </tbody></table></div>`;
+  h+=teamHtml();
+  return h;
+}
+// AI-flagged activities / deliverables only appear when the AI toggle is ON
+function engPhases(){const on=aiOn();return ENG.map(e=>Object.assign({},e,{acts:e.acts.filter(a=>on||a[3]!=='ai'),del:e.del.filter(d=>on||!Array.isArray(d))}));}
+function engGantt(){
+  let h='<div class="gantt"><div class="gh" style="text-align:left;padding-left:10px">Phase / activity</div>';
+  for(let w=1;w<=12;w++)h+=`<div class="gh">W${w}</div>`;
+  let row=2;
+  const cells=r=>{let s='';for(let w=1;w<=12;w++)s+=`<div class="gc" style="grid-row:${r};grid-column:${w+1}"></div>`;return s;};
+  engPhases().forEach(e=>{
+    const ws=Math.min(...e.acts.map(a=>a[1])),we=Math.max(...e.acts.map(a=>a[2]));
+    h+=`<div class="gl ph" style="grid-row:${row};grid-column:1;background:${e.c}">${e.ph}</div>${cells(row)}<div class="gb" style="grid-row:${row};grid-column:${ws+1}/${we+2};background:${e.c};height:20px;margin-top:3px"></div>`;row++;
+    e.acts.forEach(a=>{const ai=a[3]==='ai';h+=`<div class="gl" style="grid-row:${row};grid-column:1;${ai?'color:#0e7490;font-weight:600':''}" title="${esc(a[0])}">${ai?'🤖 ':''}${esc(a[0])}</div>${cells(row)}<div class="gb" style="grid-row:${row};grid-column:${a[1]+1}/${a[2]+2};background:${ai?'#0891b2':e.c};opacity:${ai?.85:.55}"></div>`;row++;});
+    e.ms.forEach(m=>{h+=`<div class="gl" style="grid-row:${row};grid-column:1;color:#b91c1c;font-weight:600">Milestone</div>${cells(row)}<div class="gm" style="grid-row:${row};grid-column:${Math.max(2,m[0]-2)}/${m[0]+2};justify-content:${m[0]<=3?'flex-start':'flex-end'}">${m[0]<=3?'<b></b>'+esc(m[1]):esc(m[1])+'<b style="margin:0 6px 0 8px"></b>'}</div>`;row++;});
+  });
+  return h+'</div>';
+}
+const AVATAR='<svg viewBox="0 0 48 48" width="100%" height="100%"><circle cx="24" cy="18" r="9" fill="#94a3b8"/><path d="M6 48c0-11 8-17 18-17s18 6 18 17z" fill="#94a3b8"/></svg>';
+const safeImg=u=>/^(https:\/\/|data:image\/(png|jpe?g|gif|webp);base64,|[\w\-./ ]+\.(png|jpe?g|gif|webp)$)/i.test(u||'')?u:'';
+function personCard(t,top){
+  const wks=t.pct/100*(t.e-t.s+1),img=safeImg(t.photo),off=t.ai&&!aiOn();
+  return `<div class="pc${top?' top':''}${off?' off':''}" style="--c:${col(t.c)}" data-tip="${esc(t.role+(off?'\n[Disabled – switch the “AI Agents Readiness” toggle ON to include this role]':'')+'\nRole: '+t.resp+'\nProfile: '+t.prof)}">
+    <div class="av">${img?`<img src="${esc(img)}" alt="${esc(t.name||t.role)}">`:AVATAR}</div>
+    <div class="pi">${t.ai?(off?'<span class="offb">Disabled – AI toggle OFF</span>':'<span class="onb">🤖 AI readiness – active</span>'):''}<div class="r">${esc(t.role)}</div><div class="nm">${esc(t.name||'Name to be confirmed')}</div>
+    <div class="a"><span class="alloc${t.pct<100?' pt':''}">${t.pct}%${t.pct<100?' part-time':''}</span> W${t.s}–W${t.e} · ${wks.toFixed(1)} wks</div>
+    <div class="small muted">${esc(t.resp)}</div></div></div>`;
+}
+const OFF_TEX='repeating-linear-gradient(45deg,#e2e8f0 0 4px,#f8fafc 4px 8px)';
+function teamHtml(){
+  const on=aiOn(),act=t=>on||!t.ai;
+  const fw=TEAM.map(t=>act(t)?t.pct/100*(t.e-t.s+1):0);
+  const tot=sum(fw),nAI=TEAM.filter(t=>t.ai).length;
+  const leads=TEAM.filter(t=>t.ws==='lead');
+  let h=`<div class="card"><h2>The “dream team” – consultants to build the plan with the bank</h2>
+  <div class="note" style="${on?'border-color:#67e8f9;background:#ecfeff':''}">${on?`<b>🤖 AI Agents Readiness is ON:</b> the ${nAI} AI Acceleration roles are active and included in the people and consultant-week totals. They assess each application’s agent readiness (code, documentation, data, tests, APIs – see Scoring), design the agent factory and set up Responsible-AI / model-risk controls.`:`<b>AI Agents Readiness is OFF:</b> the ${nAI} AI Acceleration roles are shown greyed out and are excluded from the totals. Switch the toggle in the top bar ON to include them.`}</div>
+  <p class="sub">${TEAM.filter(act).length} people · ${tot.toFixed(0)} consultant-weeks (~${(tot/12).toFixed(1)} FTE on average) · everyone is full-time during their window – only the Engagement Partner is part-time · blends architecture, domain SMEs (FinCrime, Risk, Finance) and value / commercial expertise so that every disposition is defensible technically, functionally and financially.</p>
+  <div class="org">${leads.map((t,i)=>(i?'<div class="vl"></div>':'')+personCard(t,true)).join('')}<div class="vl"></div>
+  <div class="branches" style="grid-template-columns:repeat(${WS.length},1fr)">${WS.map(w=>`<div class="br"><div class="wsh" style="${w.k==='ai'&&!on?`background:${OFF_TEX};color:#64748b;border:1px dashed #cbd5e1`:`background:${col(w.c)}`}"${w.k==='ai'&&!on?' title="Disabled – AI toggle OFF"':''}>${esc(w.n)}</div><div class="kids">${TEAM.filter(t=>t.ws===w.k).map(t=>personCard(t)).join('')}</div></div>`).join('')}</div></div>`;
+  h+=`<h4 style="margin-top:14px">Staffing profile (allocation per week)</h4><div class="heat"><div class="l b">Role</div>${Array.from({length:12},(_,i)=>`<div class="b">W${i+1}</div>`).join('')}<div class="b">Weeks</div>`;
+  TEAM.forEach((t,i)=>{const off=!act(t);h+=`<div class="l" style="${off?'color:#94a3b8;text-decoration:line-through':t.ai?'color:#0e7490;font-weight:600':''}" title="${off?'Disabled – AI toggle OFF':''}">${t.ai?'🤖 ':''}${esc(t.role)}</div>`;for(let w=1;w<=12;w++){const inw=w>=t.s&&w<=t.e;const a=Math.min(1,t.pct/100);const bg=!inw?'transparent':off?OFF_TEX:t.ai?`rgba(8,145,178,${0.15+0.7*a})`:`rgba(11,37,69,${0.15+0.7*a})`;h+=`<div style="background:${bg};color:${inw&&!off&&a>0.5?'#fff':'#94a3b8'}">${inw?(off?'–':t.pct+'%'):''}</div>`;}h+=`<div class="b">${off?'<span class="muted">0 (off)</span>':fw[i].toFixed(1)}</div>`;});
+  h+=`</div><h4>Bank counterparts required</h4><div class="small">Executive sponsors (CFO, CRO, CCO) · Head of Enterprise Architecture · ${state.roles.length} process owners (see Settings) · Application owners & vendor managers · Procurement (contracts) · Finance business partner for IT costs · Information Security · Internal Audit (observer).</div></div>`;
+  return h;
+}
+
+/* ====================== DRAFT (UNSAVED) ROWS ====================== */
+// New records live in ui.draft – excluded from every calculation until saved.
+const DLABEL={dom:'domain',role:'process-owner role',cap:'capability',app:'application'};
+const dAttr=(f,extra='')=>{const e=ui.draft.err[f];return `class="in${e?' bad':''}" data-ch="draft" data-f="${f}"${e?` title="${esc(e)}"`:''} ${extra}`;};
+const dVal=f=>esc(ui.draft.rec[f]);
+function draftRows(cells,ncol){
+  const d=ui.draft,errs=Object.values(d.err);
+  return `<tr class="draft${d.flash?' flash':''}" id="draftRow">${cells}<td style="white-space:nowrap"><button class="btn sm" data-act="draftSave">Save</button> <button class="btn ghost sm" data-act="draftCancel">Cancel</button></td></tr>
+  <tr class="draft msg"><td colspan="${ncol}"><b>Unsaved new ${DLABEL[d.kind]}</b> – not valid and not included in any calculation until saved. Enter / Save to confirm · Esc / Cancel to discard.${errs.length?`<div class="derr">${errs.map(esc).join(' · ')}</div>`:''}</td></tr>`;
+}
+const draftOf=kind=>ui.draft&&ui.draft.kind===kind?ui.draft:null;
+
+/* ====================== RENDER: CAPABILITIES ====================== */
+function roleOptions(sel){
+  return `<option value="">— unassigned —</option>`+state.domains.map(d=>`<optgroup label="${esc(d.name)}">${state.roles.filter(r=>r.domainId===d.id).map(r=>`<option value="${esc(r.id)}" ${r.id===sel?'selected':''}>${esc(r.name)}</option>`).join('')}</optgroup>`).join('')+(state.roles.some(r=>!state.domains.find(d=>d.id===r.domainId))?`<optgroup label="Other">${state.roles.filter(r=>!state.domains.find(d=>d.id===r.domainId)).map(r=>`<option value="${esc(r.id)}" ${r.id===sel?'selected':''}>${esc(r.name)}</option>`).join('')}</optgroup>`:'');
+}
+function rCaps(){
+  const f=ui.caps,q=f.q.toLowerCase(),caps=state.caps;
+  const m=(a,c)=>+state.map[a+'|'+c]||0;
+  const noPrim=caps.filter(c=>!state.apps.some(a=>m(a.id,c.id)===3)).length;
+  let h=`<div class="card"><h2>1 · Business capability model</h2><p class="sub">Exhaustive L1 (capability area) / L2 (capability) model for the in-scope domains. Each capability has an accountable <b>process owner</b> role, a criticality and a regulatory flag. Edit any field inline – changes are saved automatically and flow through the matrix, scoring, disposition and target state.</p>
+  <div class="grid g5" style="margin-bottom:8px">${[['Capabilities',caps.length],['L1 capability areas',new Set(caps.map(c=>c.domainId+c.group)).size],['Regulatory capabilities',caps.filter(c=>c.reg).length],['High criticality',caps.filter(c=>c.crit==='H').length],['Without a primary app',noPrim]].map(([l,v])=>`<div class="kpi" style="border:1px solid var(--line);border-radius:8px"><div class="l">${l}</div><div class="v">${v}</div></div>`).join('')}</div>
+  <div class="toolbar"><label>Domain <select class="in" data-ch="capsDom"><option value="all">All domains</option>${state.domains.map(d=>`<option value="${esc(d.id)}" ${f.dom===d.id?'selected':''}>${esc(d.name)}</option>`).join('')}</select></label>
+  <label>Search <input class="in" style="width:240px" data-ch="capsQ" value="${esc(f.q)}" placeholder="capability, area, owner…"></label>
+  <span class="muted small">Add new L1 areas by typing a new name in the “Capability area” field.</span></div></div>`;
+  state.domains.filter(d=>f.dom==='all'||d.id===f.dom).forEach(d=>{
+    const list=caps.filter(c=>c.domainId===d.id&&(!q||(c.name+' '+c.group+' '+c.desc+' '+(role(c.owner)||{}).name).toLowerCase().includes(q)));
+    const groups=[...new Set(caps.filter(c=>c.domainId===d.id).map(c=>c.group))];
+    h+=`<div class="card" style="border-top:4px solid ${col(d.color)}"><div style="display:flex;justify-content:space-between;align-items:center"><h3 style="margin:0">${esc(d.name)} <span class="muted small">· ${caps.filter(c=>c.domainId===d.id).length} capabilities · ${groups.length} areas</span></h3><button class="btn sm" data-act="addCap" data-dom="${esc(d.id)}">+ Add capability</button></div>
+    <datalist id="grp_${esc(d.id)}">${groups.map(g=>`<option value="${esc(g)}">`).join('')}</datalist>
+    <table class="t" style="margin-top:8px"><thead><tr><th style="width:190px">Capability area (L1)</th><th style="width:270px">Capability (L2)</th><th>Description</th><th style="width:220px">Process owner</th><th style="width:80px">Criticality</th><th style="width:50px">Reg.</th><th style="width:90px" class="num">Apps (P/all)</th><th style="width:40px"></th></tr></thead><tbody>
+    ${list.map(c=>{const ap=state.apps.filter(a=>m(a.id,c.id)>0),pp=ap.filter(a=>m(a.id,c.id)===3);return `<tr id="cap_${esc(c.id)}">
+      <td><input class="in" list="grp_${esc(d.id)}" value="${esc(c.group)}" data-ch="cap" data-id="${esc(c.id)}" data-f="group"></td>
+      <td><input class="in b" value="${esc(c.name)}" data-ch="cap" data-id="${esc(c.id)}" data-f="name"></td>
+      <td><input class="in" value="${esc(c.desc)}" data-ch="cap" data-id="${esc(c.id)}" data-f="desc"></td>
+      <td><select class="in" data-ch="cap" data-id="${esc(c.id)}" data-f="owner">${roleOptions(c.owner)}</select></td>
+      <td><select class="in" data-ch="cap" data-id="${esc(c.id)}" data-f="crit">${[['H','High'],['M','Medium'],['L','Low']].map(([k,n])=>`<option value="${k}" ${c.crit===k?'selected':''}>${n}</option>`).join('')}</select></td>
+      <td style="text-align:center"><input type="checkbox" ${c.reg?'checked':''} data-ch="cap" data-id="${esc(c.id)}" data-f="reg"></td>
+      <td class="num" data-tip="${esc(ap.map(a=>a.name+' ('+LVL[m(a.id,c.id)]+')').join('\n')||'No application mapped')}"><b style="color:${!pp.length?'#dc2626':pp.length>1?'#9333ea':'inherit'}">${pp.length}</b> / ${ap.length}</td>
+      <td><button class="btn danger" data-act="delCap" data-id="${esc(c.id)}" title="Delete capability">✕</button></td></tr>`;}).join('')||(draftOf('cap')&&ui.draft.rec.domainId===d.id?'':'<tr><td colspan="8" class="muted">No capabilities match.</td></tr>')}
+    ${draftOf('cap')&&ui.draft.rec.domainId===d.id?draftRows(`<td><input list="grp_${esc(d.id)}" ${dAttr('group','placeholder="Capability area"')} value="${dVal('group')}"></td>
+      <td><input ${dAttr('name','placeholder="Capability name"')} value="${dVal('name')}"></td>
+      <td><input ${dAttr('desc','placeholder="Description"')} value="${dVal('desc')}"></td>
+      <td><select ${dAttr('owner')}>${roleOptions(ui.draft.rec.owner)}</select></td>
+      <td><select ${dAttr('crit')}>${[['H','High'],['M','Medium'],['L','Low']].map(([k,n])=>`<option value="${k}" ${ui.draft.rec.crit===k?'selected':''}>${n}</option>`).join('')}</select></td>
+      <td style="text-align:center"><input type="checkbox" ${ui.draft.rec.reg?'checked':''} data-ch="draft" data-f="reg"></td><td></td>`,8):''}
+    </tbody></table></div>`;
+  });
+  // owner summary
+  const byOwner=state.roles.map(r=>({r,n:caps.filter(c=>c.owner===r.id).length})).filter(x=>x.n);
+  h+=`<div class="card"><h3>Process-owner accountability</h3><div class="pgrid">${byOwner.map(x=>`<div class="hbar" style="grid-template-columns:240px 1fr 30px"><span>${esc(x.r.name)}</span><div class="bar"><i style="width:${x.n/Math.max(...byOwner.map(y=>y.n))*100}%;background:${col(dom(x.r.domainId).color)}"></i></div><b>${x.n}</b></div>`).join('')}</div>${caps.some(c=>!c.owner)?`<div class="warn">${caps.filter(c=>!c.owner).length} capabilities have no process owner.</div>`:''}</div>`;
+  return h;
+}
+
+/* ====================== RENDER: MATRIX ====================== */
+function rMatrix(){
+  const f=ui.mx,q=f.q.toLowerCase(),R=M.R;
+  const mp=f.after?M.mapAfter:state.map;
+  const m=(a,c)=>+mp[a+'|'+c]||0;
+  let apps=sorted(f.after?M.survivors:state.apps).filter(a=>f.dom==='all'||a.domainIds.includes(f.dom));
+  const per=f.after?M.capA.per:M.capB.per;
+  let caps=state.caps.filter(c=>(f.dom==='all'||c.domainId===f.dom)&&(!q||(c.name+' '+c.group).toLowerCase().includes(q))&&(!f.ov||per[c.id].length>=2));
+  const hc=a=>f.color==='disp'?DISP[R[a.id].disp].c:col(dom(pdom(a)).color);
+  let h=`<div class="card"><h2>2 · Application × capability matrix</h2><p class="sub">Rows = capabilities (grouped by domain and L1 area), columns = applications. Hover to highlight the row &amp; column; <b>click a cell</b> to cycle <b>Primary → Secondary → Partial → none</b>. The right-hand columns show coverage and overlaps (≥ 2 apps at Primary/Secondary level).</p>
+  <div class="toolbar"><label>Domain <select class="in" data-ch="mx" data-k="dom"><option value="all">All</option>${state.domains.map(d=>`<option value="${esc(d.id)}" ${f.dom===d.id?'selected':''}>${esc(d.name)}</option>`).join('')}</select></label>
+  <label>Search <input class="in" style="width:200px" data-ch="mx" data-k="q" value="${esc(f.q)}" placeholder="capability…"></label>
+  <label><input type="checkbox" data-ch="mx" data-k="ov" ${f.ov?'checked':''}> Overlaps only</label>
+  <label>Column colour <select class="in" data-ch="mx" data-k="color"><option value="disp" ${f.color==='disp'?'selected':''}>Disposition</option><option value="dom" ${f.color==='dom'?'selected':''}>Primary domain</option></select></label>
+  <label style="background:${f.after?'#dcfce7':'#f1f5f9'};padding:4px 8px;border-radius:6px"><input type="checkbox" data-ch="mx" data-k="after" ${f.after?'checked':''}> Show <b>target state</b> (after rationalisation)</label></div>
+  <div class="toolbar"><span class="lg"><i style="background:#0b2545">P</i>Primary – system of record</span><span class="lg"><i style="background:#5b7db1">S</i>Secondary – significant functional use</span><span class="lg"><i style="background:#cfdcf0;color:#334155">·</i>Partial / data feed</span><span class="lg">${DORDER.map(d=>`<span class="dot" style="background:${DISP[d].c}"></span>${d}`).join(' &nbsp;')}</span>${f.after?'<span class="badge" style="background:#dcfce7;color:#166534">Read-only target view: removed apps’ capabilities transferred to their survivor</span>':''}</div>
+  <div class="toolbar"><span class="pill" style="background:#9333ea">Overlapping capabilities: ${f.after?M.K.ovA:M.K.ovB}</span><span class="pill" style="background:#7e22ce" data-tip="Σ over apps of TCO × share of the app’s Primary/Secondary capabilities that another app also serves at Primary/Secondary level">Redundant spend: ${money(f.after?M.K.redA:M.K.redB)} / year</span><span class="small muted">Per-app redundancy % and redundant spend are shown in the footer rows.</span></div></div>`;
+  h+=`<div class="mx-wrap" id="mxwrap"><table class="mx" id="mx"><thead><tr><th class="corner rh"><div class="small muted">${caps.length} capabilities × ${apps.length} applications</div></th>`;
+  apps.forEach((a,i)=>{h+=`<th class="vh" data-c="${i}" data-act="openApp" data-id="${esc(a.id)}" data-tip="${esc(a.name+'\n'+a.vendor+'\n'+R[a.id].disp+(R[a.id].absorber?' → '+appName(R[a.id].absorber):'')+'\nClick for details')}"><i style="background:${hc(a)}"></i><div>${esc(a.name)}</div></th>`;});
+  h+=`<th class="vh" style="width:46px;min-width:46px"><div>Apps (P+S)</div></th><th class="vh" style="width:76px;min-width:76px"><div>Overlap</div></th></tr></thead><tbody>`;
+  const ncol=apps.length+2;
+  state.domains.forEach(d=>{
+    const dc=caps.filter(c=>c.domainId===d.id);if(!dc.length)return;
+    h+=`<tr class="dom" style="--c:${col(d.color)}"><td class="rh" style="background:${col(d.color)}">${esc(d.name)}</td><td colspan="${ncol}" style="background:${col(d.color)}"></td></tr>`;
+    [...new Set(dc.map(c=>c.group))].forEach(g=>{
+      h+=`<tr class="grp"><td class="rh">${esc(g)}</td><td colspan="${ncol}"></td></tr>`;
+      dc.filter(c=>c.group===g).forEach(c=>{
+        const n=per[c.id].length,ro=role(c.owner);
+        h+=`<tr><td class="rh" data-tip="${esc(c.name+'\nOwner: '+(ro?ro.name:'—')+'\nCriticality: '+c.crit+(c.reg?' · Regulatory':''))}">${c.reg?'<span class="badge" style="font-size:9px;padding:0 4px;margin-right:4px">REG</span>':''}${esc(c.name)} <span class="muted small">· ${esc(ro?ro.name:'no owner')}</span></td>`;
+        apps.forEach((a,i)=>{const v=m(a.id,c.id);h+=`<td class="c ${v?'lv'+v:''}" data-c="${i}" data-a="${esc(a.id)}" data-k="${esc(c.id)}" ${f.after?'':'data-act="mx"'}>${v?LSYM[v]:''}</td>`;});
+        h+=`<td class="cnt" style="color:${n===0?'#dc2626':n>1?'#9333ea':'#16a34a'}">${n}</td><td class="ov">${n>=2?'<span class="pill" style="background:#9333ea">Overlap</span>':n===0?'<span class="pill" style="background:#dc2626">Gap</span>':'<span class="small muted">single</span>'}</td></tr>`;
+      });
+    });
+  });
+  const rd=a=>f.after?R[a.id].redundAfter:R[a.id].redund,rs=a=>f.after?R[a.id].redSpendAfter:R[a.id].redSpend;
+  h+=`</tbody><tfoot><tr><td class="rh">Capabilities covered (all levels)</td>${apps.map((a,i)=>`<td data-c="${i}">${caps.filter(c=>m(a.id,c.id)>0).length}</td>`).join('')}<td></td><td></td></tr>
+  <tr><td class="rh" data-tip="Share of the app’s Primary/Secondary capabilities also served at Primary/Secondary by another app (all domains)">Redundancy %</td>${apps.map((a,i)=>{const v=rd(a);return `<td data-c="${i}" style="color:${v>=0.5?'#9333ea':v>0?'#7c3aed':'#94a3b8'};font-weight:${v>=0.5?700:400}">${Math.round(v*100)}</td>`;}).join('')}<td></td><td></td></tr>
+  <tr><td class="rh" data-tip="TCO × redundancy % (annual, $K)">Redundant spend $K</td>${apps.map((a,i)=>`<td data-c="${i}" class="small">${Math.round(rs(a))||''}</td>`).join('')}<td></td><td></td></tr></tfoot></table></div>`;
+  return h;
+}
+function mxBind(){
+  const tb=$('#mx');if(!tb)return;
+  const cols={};tb.querySelectorAll('[data-c]').forEach(el=>{(cols[el.dataset.c]=cols[el.dataset.c]||[]).push(el);});
+  let cc=null,cr=null,cell=null;
+  const clear=()=>{if(cc)cols[cc].forEach(e=>e.classList.remove('hlc'));if(cr)cr.classList.remove('hl');if(cell)cell.classList.remove('cur');cc=cr=cell=null;};
+  tb.addEventListener('mouseover',e=>{
+    const el=e.target.closest('td,th');if(!el)return;
+    const c=el.dataset.c,tr=el.closest('tbody tr');
+    if(c!==cc){if(cc)cols[cc].forEach(x=>x.classList.remove('hlc'));cc=c||null;if(cc)cols[cc].forEach(x=>x.classList.add('hlc'));}
+    if(tr!==cr){if(cr)cr.classList.remove('hl');cr=tr||null;if(cr)cr.classList.add('hl');}
+    if(cell)cell.classList.remove('cur');cell=el.classList.contains('c')?el:null;if(cell)cell.classList.add('cur');
+    if(cell){const a=appById(cell.dataset.a),cp=state.caps.find(x=>x.id===cell.dataset.k),mp=ui.mx.after?M.mapAfter:state.map,v=+mp[a.id+'|'+cp.id]||0,ro=role(cp.owner);
+      const others=(ui.mx.after?M.survivors:state.apps).filter(x=>x.id!==a.id&&(+mp[x.id+'|'+cp.id]||0)>0).map(x=>x.name+' ('+LSYM[+mp[x.id+'|'+cp.id]]+')');
+      showTip(e,`${a.name}  ×  ${cp.name}\nLevel: ${v?LVL[v]:'not mapped'}\nOwner: ${ro?ro.name:'—'}\nApp disposition: ${M.R[a.id].disp}\nOther apps: ${others.join(', ')||'none'}${ui.mx.after?'':'\n(click to change)'}`);}
+    else if(el.dataset.tip)showTip(e,el.dataset.tip);else hideTip();
+  });
+  tb.addEventListener('mouseleave',()=>{clear();hideTip();});
+}
+
+/* ====================== RENDER: SCORING ====================== */
+function paramsHtml(groups){
+  const unitOf=(g,n,u)=>u||(/^w/.test(g)?'%':/\(%\)|\(% /.test(n)?'%':/\(\$K\)/.test(n)?'$K':/\(months\)|month/.test(n)?'mo':'');
+  return `<div class="pgrid">${groups.map(g=>{
+    const st=state.settings[g], isW=/^w/.test(g), tot=isW?sum(Object.values(st),v=>+v||0):0;
+    return `<div><h4>${PARAMS[g].t}</h4>${PARAMS[g].items.map(([k,n,mn,mx,stp,u,hint])=>{
+      const v=st[k], at=`data-ch="param" data-g="${g}" data-k="${k}"`;
+      if(u==='bool')return `<label class="prm2 chk"><input type="checkbox" ${+v?'checked':''} ${at}><span><b>${esc(n)}</b>${hint?`<span class="small muted" style="display:block;font-weight:400">${esc(hint)}</span>`:''}</span></label>`;
+      const eff=isW?`<span class="small muted">${tot?Math.round((+v||0)/tot*100):0}% effective</span>`:'';
+      return `<div class="prm2"><div class="pl"><span>${esc(n)}</span>${eff}</div><div class="pc2"><input class="rng" type="range" tabindex="-1" min="${mn}" max="${mx}" step="${stp}" value="${v}" ${at} aria-label="${esc(n)}"><input class="in num" type="number" min="${mn}" max="${mx}" step="${stp}" value="${v}" ${at} title="Allowed range ${mn} – ${mx}"><span class="unit">${unitOf(g,n,u)}</span></div>${hint?`<div class="small muted">${esc(hint)}</div>`:''}</div>`;}).join('')}${isW?`<div class="small" style="color:${tot===100?'#15803d':'#b45309'}">Sum: ${+tot.toFixed(2)}% ${tot===100?'✓':'– normalised automatically to 100%'}</div>`:''}</div>`;}).join('')}</div>`;
+}
+function rScoring(){
+  const R=M.R,apps=sorted(state.apps);
+  let h=`<div class="card"><h2>3 · Scoring framework</h2><p class="sub">Each application is scored on three pillars. Scores are 1 (poor) to 5 (excellent); costs are annual run costs in $K. Pillar scores are weighted averages; the composite score ranks applications competing for the same capabilities.</p>
+  <div class="grid g3">
+    <div style="border-left:4px solid #16a34a;padding-left:10px"><b>Business value (BV)</b><div class="small muted">${BVC.map(c=>`${c.n} ${state.settings.wBV[c.k]}%`).join(' · ')}</div></div>
+    <div style="border-left:4px solid #2563eb;padding-left:10px"><b>Technical health (TH)</b><div class="small muted">${THC.map(c=>`${c.n} ${state.settings.wTH[c.k]}%`).join(' · ')}</div></div>
+    <div style="border-left:4px solid #f59e0b;padding-left:10px"><b>Total cost of ownership (TCO)</b><div class="small muted">${COST.map(c=>c.n).join(' + ')} → cost-efficiency score 1–5 (log-scaled, cheapest = 5)</div></div>
+  </div>
+  <div class="formula">Composite = (${state.settings.wComp.bv}% × BV + ${state.settings.wComp.th}% × TH + ${state.settings.wComp.cost}% × Cost efficiency)   / ${sum(Object.values(state.settings.wComp),v=>+v||0)}% &nbsp;−&nbsp; ${f2(+state.settings.ovl.ovPen||0)} × Redundancy % <span class="small muted">(floor 1.0)</span></div>
+   <p class="small muted">Redundancy % = share of the app’s Primary/Secondary capabilities that another application also serves at Primary/Secondary level. Redundant spend = TCO × Redundancy % – the annual run cost paying for duplicated capability. Portfolio redundant spend: <b>${money(M.K.redB)}</b> today → <b>${money(M.K.redA)}</b> in the target state.</p>
+   <details><summary>Edit weights &amp; overlap penalty</summary>${paramsHtml(['wBV','wTH','wComp','ovl'])}</details>
+  <details><summary>Scoring rubric (what 1 and 5 mean)</summary><table class="t"><thead><tr><th>Pillar</th><th>Criterion</th><th>1 = </th><th>5 = </th></tr></thead><tbody>${BVC.map(c=>`<tr><td>Business value</td><td class="b">${c.n}</td><td>${c.lo}</td><td>${c.hi}</td></tr>`).join('')}${THC.map(c=>`<tr><td>Technical health</td><td class="b">${c.n}</td><td>${c.lo}</td><td>${c.hi}</td></tr>`).join('')}</tbody></table></details></div>`;
+  h+=`<div class="grid g12"><div class="card"><h3>Portfolio map – business value vs technical health <span class="small muted">(bubble size = TCO, colour = disposition)</span></h3>${scatter()}</div>
+    <div class="card"><h3>Ranking by composite score</h3><div style="max-height:470px;overflow:auto">${apps.slice().sort((a,b)=>R[b.id].comp-R[a.id].comp).map((a,i)=>`<div class="hbar" style="grid-template-columns:22px 190px 1fr 40px;cursor:pointer" data-act="openApp" data-id="${esc(a.id)}"><span class="muted">${i+1}</span><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(a.name)}</span><div class="bar"><i style="width:${(R[a.id].comp-1)/4*100}%;background:${DISP[R[a.id].disp].c}"></i></div><b>${f2(R[a.id].comp)}</b></div>`).join('')}</div></div></div>`;
+  h+=`<div class="card"><h3>Score sheet <span class="small muted">– edit any value; results recalculate instantly</span></h3><div id="scoreWrap" data-keepscroll style="overflow:auto;max-height:70vh"><table class="t" style="font-size:12px"><thead><tr><th style="min-width:200px">Application</th>
+    ${BVC.map(c=>`<th title="${esc(c.n)}" style="background:#f0fdf4">${esc(c.n.split(' ')[0])}</th>`).join('')}<th style="background:#dcfce7">BV</th>
+    ${THC.map(c=>`<th title="${esc(c.n)}" style="background:#eff6ff">${esc(c.n.split(' ')[0])}</th>`).join('')}<th style="background:#dbeafe">TH</th>
+    ${COST.map(c=>`<th title="${esc(c.n)}" style="background:#fffbeb">${esc(c.n.split(' ')[0])} $K</th>`).join('')}<th style="background:#fef3c7" class="num">TCO</th><th style="background:#fef3c7">Cost eff.</th><th style="background:#f3e8ff" title="Share of Primary/Secondary capabilities duplicated by another app">Redund. %</th><th style="background:#f3e8ff" class="num" title="TCO × Redundancy %">Redundant $K</th><th title="Weighted score before overlap penalty → composite after penalty">Composite</th><th>Disposition</th></tr></thead><tbody>`;
+  apps.forEach(a=>{const r=R[a.id];
+    h+=`<tr><td><a href="#" data-act="openApp" data-id="${esc(a.id)}" class="b">${esc(a.name)}</a><div>${a.domainIds.map(dchip).join('')}</div></td>
+    ${BVC.map(c=>`<td><input class="sc ${sclass(a.bv[c.k])}" type="number" min="1" max="5" step="1" value="${esc(a.bv[c.k])}" data-ch="score" data-id="${esc(a.id)}" data-g="bv" data-k="${c.k}"></td>`).join('')}<td class="b ${sclass(r.bv)}" style="text-align:center">${f2(r.bv)}</td>
+    ${THC.map(c=>`<td><input class="sc ${sclass(a.th[c.k])}" type="number" min="1" max="5" step="1" value="${esc(a.th[c.k])}" data-ch="score" data-id="${esc(a.id)}" data-g="th" data-k="${c.k}"></td>`).join('')}<td class="b ${sclass(r.th)}" style="text-align:center">${f2(r.th)}</td>
+    ${COST.map(c=>`<td><input class="in num" style="width:66px" type="number" min="0" step="10" value="${esc(a.cost[c.k])}" data-ch="score" data-id="${esc(a.id)}" data-g="cost" data-k="${c.k}"></td>`).join('')}<td class="num b">${money(r.tco)}</td><td class="b ${sclass(r.cs)}" style="text-align:center">${f2(r.cs)}</td><td style="text-align:center;color:${r.redund>=0.5?'#9333ea':'inherit'}" title="${r.redCaps.length} of ${r.ps.length} P/S capabilities duplicated">${Math.round(r.redund*100)}%</td><td class="num">${r.redSpend?money(r.redSpend):''}</td><td class="b" style="text-align:center">${r.ovPen>0?`<span class="small muted" style="font-weight:400">${f2(r.compBase)} → </span>`:''}${f2(r.comp)}</td><td>${dpill(r.disp)}</td></tr>`;});
+  h+=`</tbody><tfoot><tr><td class="b">Portfolio total / average</td><td colspan="5"></td><td class="b" style="text-align:center">${f2(avg(state.apps,a=>R[a.id].bv))}</td><td colspan="6"></td><td class="b" style="text-align:center">${f2(M.K.thB)}</td>${COST.map(c=>`<td class="num b">${money(sum(state.apps,a=>+a.cost[c.k]||0))}</td>`).join('')}<td class="num b">${money(M.K.tcoB)}</td><td></td><td></td><td class="num b">${money(M.K.redB)}</td><td colspan="2"></td></tr></tfoot></table></div></div>`;
+    h+=aiReadinessCard();
+    return h;
+  }
+  function aiReadinessCard(){
+    const R=M.R,apps=sorted(state.apps),on=aiOn(),st=state.settings.ai;
+    if(!on)return `<div class="card aibox"><h3 style="color:#0e7490">4th pillar · AI agent readiness <span class="offb">Disabled – AI toggle OFF</span></h3><p class="small">Each application carries a prefilled agent-readiness score (portfolio average <b>${f2(M.K.arsAvg)}/5</b>). It does not change the disposition – it determines how much AI agents can accelerate the work. Switch <b>AI Agents Readiness</b> ON in the top bar to view and edit the scores and apply them to effort, duration and cost.</p></div>`;
+    let h=`<div class="card aibox"><h3 style="color:#0e7490">🤖 4th pillar · AI agent readiness <span class="onb">Active</span> <span class="small muted">– how much AI agents can accelerate each app’s transition (does not change the disposition)</span></h3>
+    <div class="formula">Readiness (ARS) = average of ${AIRC.map(c=>c.n).join(', ')} &nbsp;→&nbsp; Multiplier = 0.3 + 0.7 × (ARS − 1) / 4 &nbsp;→&nbsp; Acceleration = outcome % × multiplier</div>
+    <p class="small muted">Outcome % (editable in Settings): Invest ${st.accInvest}% · Retain ${st.accRetain}% · Migrate ${st.accMigrate}% · Consolidate ${st.accConsolidate}% · Retire ${st.accRetire}%. Scores were prefilled from app type (in-house code is fully readable by agents, SaaS is a black box) and the technical-health scores (vendor, technology, data, integration) – validate them with the AI Readiness team.</p>
+    <details><summary>Readiness rubric (what 1 and 5 mean)</summary><table class="t"><thead><tr><th>Criterion</th><th>1 = </th><th>5 = </th></tr></thead><tbody>${AIRC.map(c=>`<tr><td class="b">${c.n}</td><td>${c.lo}</td><td>${c.hi}</td></tr>`).join('')}</tbody></table></details>
+    <div id="aiWrap" data-keepscroll style="overflow:auto;max-height:60vh;margin-top:8px"><table class="t" style="font-size:12px"><thead><tr><th style="min-width:200px">Application</th><th>Type</th>${AIRC.map(c=>`<th class="aicol" title="${esc(c.n)}">${esc(c.n.split(/[ /]/)[0])}</th>`).join('')}<th class="aicol">ARS</th><th class="aicol">Multiplier</th><th>Disposition</th><th class="num">Acceleration</th><th class="num">Duration (mo)</th><th class="num">One-off $K</th></tr></thead><tbody>`;
+    apps.forEach(a=>{const r=R[a.id],b=M.base.R[a.id],x=a.air||aiDefault(a);
+      h+=`<tr><td><a href="#" data-act="openApp" data-id="${esc(a.id)}" class="b">${esc(a.name)}</a></td><td class="small">${esc(a.type)}</td>${AIRC.map(c=>`<td><input class="sc ${sclass(x[c.k])}" type="number" min="1" max="5" step="1" value="${esc(x[c.k])}" data-ch="score" data-id="${esc(a.id)}" data-g="air" data-k="${c.k}"></td>`).join('')}<td class="b ${sclass(r.ars)}" style="text-align:center">${f2(r.ars)}</td><td style="text-align:center">×${f2(r.aiMult)}</td><td>${dpill(r.disp)}</td><td class="num b" style="color:#0e7490">−${Math.round(r.aiAcc*100)}%</td><td class="num">${r.durBase?`${b.dur} → <b>${r.dur}</b>`:'BAU'}</td><td class="num">${money(b.oneOff)} → <b>${money(r.oneOff)}</b></td></tr>`;});
+    h+=`</tbody></table></div></div>`;
+    return h;
+  }
+
+/* ====================== RENDER: DISPOSITION ====================== */
+function onboardTip(r){
+  const fin=state.settings.fin;
+  let s=`Transformation effort: ${money(r.oneOffBase)} (${f1(r.points||0)} pts × ${money(fin.costPerPoint)})`;
+  if(r.aiAcc)s+=`\n🤖 AI agents: −${Math.round(r.aiAcc*100)}% effort (readiness ${f2(r.ars)} → ×${f2(r.aiMult)}); without AI ${money(r.oneOffNoAI)}`;
+  if(r.onboardItems.length){
+    s+=`\nAbsorption onboarding: ${money(r.onboard)}${r.aiAcc||aiOn()?` (without AI ${money(sum(r.onboardItems,it=>it.totalBase))})`:''}`;
+    r.onboardItems.forEach(it=>{s+=`\n • ${appName(it.from)}: training ${money(it.train)} (${it.users} users × ${money(fin.trainPerUser)}${it.train<it.trainBase?` − ${state.settings.ai.train}% AI tutors`:''}) + data migration ${money(it.data)} (${money(fin.dataMigBase)} + ${it.ncaps} caps × ${money(fin.dataMigPerCap)}${it.data<it.dataBase?`, − ${Math.round((1-it.data/it.dataBase)*100)}% mapping agents`:''})`;});
+  }
+  return s;
+}
+function rDispo(){
+  const R=M.R,f=ui.dispo,apps=state.apps;
+  let h=`<div class="card"><h2>4 · Disposition &amp; transformation effort</h2><p class="sub">Each application is classified by an ordered rule set applied to its scores and overlaps (full logic in <a href="#" data-act="tab" data-tab="howto">How-to</a>). Use the <b>Override</b> column to record a management decision – the override flows through to target state and benefits.</p>
+  <div class="flow"><div class="fb"><b>Rule 1 – Overlap</b>≥ ${Math.round(state.settings.thr.dom*100)}% of primary capabilities covered by a higher-composite app → Consolidate (or Retire if low/low)${+state.settings.ovl.protectInvest?' · <i>Invest-grade apps protected</i>':' · applies to Invest-grade apps too'}</div><span class="ar">→</span><div class="fb"><b>Rule 2 – Invest</b>BV ≥ ${state.settings.thr.investBV} and TH ≥ ${state.settings.thr.investTH} and not redundant to a better platform</div><span class="ar">→</span><div class="fb"><b>Rule 3 – Quadrant</b>High BV + healthy → Retain · High BV + unhealthy → Migrate · Low BV + healthy → Retain (tolerate) · Low/low → Retire</div><span class="ar">→</span><div class="fb">  <b>Effort</b>base points × complexity (interfaces, capabilities, integration, users) → S/M/L/XL, duration, one-off cost <b>+ absorption onboarding</b> (training + data migration of every app absorbed)</div></div>
+    <details><summary>Edit thresholds, overlap &amp; effort parameters</summary>${paramsHtml(['thr','ovl','effort','plan'])}</details></div>`;
+  if(aiOn())h+=`<div class="card aibox small"><b style="color:#0e7490">🤖 AI Agents Readiness ON</b> – effort, duration and onboarding cost per app are reduced by <i>outcome acceleration % × readiness multiplier</i>; wave staggers compressed by ${state.settings.ai.stagger}%. Dispositions are unchanged. Plan end month ${M.base.K.planEnd} → <b>${M.K.planEnd}</b>; app one-off ${money(M.base.K.investApps)} → <b>${money(M.K.investApps)}</b> (+ ${money(M.K.aiSetup)} agent platform).<br>Typical agent use: <b>Retire</b> – discovery & archival agents (dependency scan, data extraction, retention evidence); <b>Consolidate</b> – data-mapping, reconciliation & config-translation agents, AI tutors for absorbed users; <b>Migrate</b> – code-conversion, test-generation & cut-over agents; <b>Invest</b> – coding copilots & requirement-to-test agents; <b>Retain</b> – AIOps, documentation & ticket-triage agents.</div>`;
+  h+=`<div class="grid g5">${DORDER.map(d=>{const l=apps.filter(a=>R[a.id].disp===d);return `<div class="card kpi" style="border-top:4px solid ${DISP[d].c};cursor:pointer" data-act="gotoDispo" data-d="${d}"><div class="l">${d}</div><div class="v">${l.length} <span class="small muted">apps</span></div><div class="small">TCO ${money(sum(l,a=>R[a.id].tco))} · one-off ${money(sum(l,a=>R[a.id].oneOff))}${aiOn()?` <span style="color:#0e7490">(was ${money(sum(l,a=>M.base.R[a.id].oneOff))})</span>`:''}</div>${sum(l,a=>R[a.id].onboard)?`<div class="small" style="color:#7e22ce">incl. onboarding ${money(sum(l,a=>R[a.id].onboard))} (training + data migration)</div>`:''}${sum(l,a=>R[a.id].redSpend)?`<div class="small" style="color:#9333ea">redundant spend ${money(sum(l,a=>R[a.id].redSpend))}/yr</div>`:''}<div class="small muted">${DISP[d].d}</div></div>`;}).join('')}</div>`;
+  // domain impact
+  h+=`<div class="grid g${Math.min(3,Math.max(1,M.dstats.length))}" style="${M.dstats.length>3?'grid-template-columns:repeat(3,1fr)':''}">${M.dstats.map(s=>{
+    const cons=s.list.filter(a=>REMOVED(R[a.id].disp));const migs=s.list.filter(a=>R[a.id].disp==='Migrate');
+    const tot=s.list.length||1;
+    return `<div class="card" style="border-top:4px solid ${col(s.d.color)}"><div style="display:flex;justify-content:space-between"><h3>${esc(s.d.name)}</h3><a href="#" data-act="gotoDomain" data-dom="${esc(s.d.id)}">Drill down ›</a></div>
+    <div style="display:flex;height:14px;border-radius:4px;overflow:hidden;margin-bottom:8px">${DORDER.map(d=>s.cnt[d]?`<div style="width:${s.cnt[d]/tot*100}%;background:${DISP[d].c}" data-tip="${d}: ${s.cnt[d]}"></div>`:'').join('')}</div>
+    <div class="grid g3" style="gap:6px"><div><div class="small muted">Apps</div><b>${s.list.length} → ${s.after}</b></div><div><div class="small muted">Run cost</div><b>${money(s.tcoB)} → ${money(s.tcoA)}</b></div><div><div class="small muted">Investment</div><b>${money(s.invest)}</b></div></div>
+    <div class="small" style="margin-top:8px">${cons.length?`<b>Decommission:</b> ${cons.map(a=>esc(a.name)+(R[a.id].absorber?' → '+esc(appName(R[a.id].absorber)):'')).join('; ')}.`:'No decommissioning.'} ${migs.length?`<br><b>Modernise:</b> ${migs.map(a=>esc(a.name)).join(', ')}.`:''} <br><b>Savings:</b> ${money(s.tcoB-s.tcoA)}/yr (${pctOf(s.tcoB-s.tcoA,s.tcoB)}%).</div></div>`;}).join('')}</div>`;
+  // overlap clusters
+  const ovc=state.caps.filter(c=>M.capB.per[c.id].length>=2);
+  h+=`<div class="card"><details ${ovc.length<=25?'open':''}><summary>Overlap clusters – ${ovc.length} capabilities served by 2+ applications (Primary/Secondary)</summary><table class="t"><thead><tr><th>Capability</th><th>Domain</th><th>Current applications</th><th>Target platform(s)</th></tr></thead><tbody>
+  ${ovc.map(c=>`<tr><td class="b">${esc(c.name)}</td><td>${dchip(c.domainId)}</td><td>${M.capB.per[c.id].map(id=>achip(id,'gone')).join('')}</td><td>${M.capA.per[c.id].map(id=>achip(id)).join('')||'<span class="pill" style="background:#dc2626">Gap</span>'}</td></tr>`).join('')}</tbody></table></details></div>`;
+  // table
+  let list=sorted(apps).filter(a=>(f.dom==='all'||a.domainIds.includes(f.dom))&&(f.d==='all'||R[a.id].disp===f.d));
+  h+=`<div class="card" id="dispoTable"><h3>Application dispositions</h3><div class="toolbar"><label>Domain <select class="in" data-ch="dispoF" data-k="dom"><option value="all">All</option>${state.domains.map(d=>`<option value="${esc(d.id)}" ${f.dom===d.id?'selected':''}>${esc(d.name)}</option>`).join('')}</select></label><label>Disposition <select class="in" data-ch="dispoF" data-k="d"><option value="all">All</option>${DORDER.map(d=>`<option ${f.d===d?'selected':''}>${d}</option>`).join('')}</select></label><span class="muted small">${list.length} applications · click a name for the full drill-down</span></div>
+  <div style="overflow:auto"><table class="t"><thead><tr><th>Application</th><th>Domains</th><th class="num">BV</th><th class="num">TH</th><th class="num">Cost eff.</th><th class="num">Composite</th><th class="num">Overlap</th><th class="num" title="TCO × share of P/S capabilities duplicated by another app">Redundant spend</th><th>Disposition</th><th>Override</th><th>Target / absorber</th><th>Effort</th><th class="num">One-off</th><th>Wave · timing</th><th class="num">Annual saving</th></tr></thead><tbody>
+  ${list.map(a=>{const r=R[a.id];return `<tr><td><a href="#" class="b" data-act="openApp" data-id="${esc(a.id)}">${esc(a.name)}</a><div class="small muted">${esc(a.vendor)}</div></td><td>${a.domainIds.map(dchip).join('')}</td><td class="num ${sclass(r.bv)}">${f2(r.bv)}</td><td class="num ${sclass(r.th)}">${f2(r.th)}</td><td class="num">${f2(r.cs)}</td><td class="num b">${f2(r.comp)}</td><td class="num" data-tip="${esc(r.domCaps.map(x=>state.caps.find(c=>c.id===x.cap).name+' ← '+appName(x.by)).join('\n')  ||'No primary capability covered by a better app')}">${Math.round(r.domRatio*100)}%</td><td class="num" style="color:${r.redund>=0.5?'#9333ea':'inherit'}" data-tip="${esc(`Redundancy ${Math.round(r.redund*100)}% (${r.redCaps.length}/${r.ps.length} P/S capabilities)\nComposite penalty −${f2(r.ovPen)}\nTarget state: ${money(r.redSpendAfter)}/yr`)}">${r.redSpend?money(r.redSpend):'–'}</td>
+    <td>${dpill(r.disp)}${a.override?' <span class="badge">manual</span>':''}</td>
+    <td><select class="in" style="width:115px" data-ch="override" data-id="${esc(a.id)}"><option value="">Auto (rules)</option>${DORDER.map(d=>`<option ${a.override===d?'selected':''}>${d}</option>`).join('')}</select>${REMOVED(a.override)?`<select class="in" style="width:115px;margin-top:3px" data-ch="overrideTarget" data-id="${esc(a.id)}"><option value="">Auto target</option>${sorted(state.apps).filter(x=>x.id!==a.id).map(x=>`<option value="${esc(x.id)}" ${a.overrideTarget===x.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select>`:''}</td>
+    <td>${r.absorber?achip(r.absorber):REMOVED(r.disp)?'<span class="pill" style="background:#dc2626">Gap – decide</span>':r.disp==='Migrate'?'<span class="small">Modernised version (cloud / upgrade)</span>':''}</td>
+    <td><b>${r.disp==='Retain'?'BAU':r.size}</b> <span class="small muted">${r.durBase?(r.dur!==r.durBase?`<s>${r.durBase}</s> → <b style="color:#0e7490">${r.dur} mo</b>`:r.dur+' mo'):''}</span>${r.aiAcc?`<div class="small" style="color:#0e7490" data-tip="${esc(`AI agent readiness ${f2(r.ars)}/5 → multiplier ×${f2(r.aiMult)}\n${r.disp} acceleration ${state.settings.ai[AI_ACC[r.disp]]}% × ${f2(r.aiMult)} = ${Math.round(r.aiAcc*100)}%`)}">🤖 −${Math.round(r.aiAcc*100)}% · ARS ${f1(r.ars)}</div>`:''}</td><td class="num" data-tip="${esc(onboardTip(r))}">${money(r.oneOff)}${r.onboard?`<div class="small" style="color:#7e22ce">incl. ${money(r.onboard)} onboarding</div>`:''}</td><td class="small">${r.wave}${r.dur?` · M${r.start}–M${r.end}`:''}</td><td class="num b" style="color:${r.saving>=0?'#15803d':'#b91c1c'}">${money(r.saving)}</td></tr>`;}).join('')}
+  </tbody><tfoot><tr><td class="b" colspan="7">Total (${list.length} apps)</td><td class="num b">${money(sum(list,a=>R[a.id].redSpend))}</td><td colspan="4"></td><td class="num b">${money(sum(list,a=>R[a.id].oneOff))}</td><td></td><td class="num b">${money(sum(list,a=>R[a.id].saving))}</td></tr></tfoot></table></div></div>`;
+  return h;
+}
+
+/* ====================== RENDER: TARGET STATE ====================== */
+function rTarget(){
+  const R=M.R,v=ui.target.view,after=v==='target';
+  const mp=after?M.mapAfter:state.map;
+  const list=after?M.survivors:state.apps;
+  let h=`<div class="card"><h2>5 · Target-state architecture (north star)</h2><p class="sub">Application landscape per domain and capability area ${after?'<b>after</b>':'<b>before</b>'} the rationalisation plan. Chips are coloured by disposition; consolidated applications’ capabilities are transferred to their surviving platform.</p>
+  <div class="toolbar"><button class="btn ${after?'ghost':''}" data-act="tview" data-v="current">Current state (${state.apps.length} apps)</button><button class="btn ${after?'':'ghost'}" data-act="tview" data-v="target">Target state (${M.survivors.length} apps)</button><span class="lg">${DORDER.map(d=>`<span class="dot" style="background:${DISP[d].c}"></span>${d}`).join(' &nbsp;')}</span></div>`;
+  state.domains.forEach(d=>{
+    const dc=state.caps.filter(c=>c.domainId===d.id);if(!dc.length)return;
+    h+=`<div class="ns-dom" style="--c:${col(d.color)}"><div class="ns-dl">${esc(d.name)}</div><div>`;
+    [...new Set(dc.map(c=>c.group))].forEach(g=>{
+      const gc=dc.filter(c=>c.group===g);
+      const ap=list.filter(a=>gc.some(c=>(+mp[a.id+'|'+c.id]||0)>=2));
+      const gaps=gc.filter(c=>!list.some(a=>(+mp[a.id+'|'+c.id]||0)>=2));
+      h+=`<div class="ns-row"><div class="ns-g">${esc(g)} <span style="opacity:.6;font-weight:400">· ${gc.length}</span></div><div>${ap.map(a=>{const r=R[a.id];const abs=after&&M.absorbs[a.id]?` <small>+${M.absorbs[a.id].length} absorbed</small>`:'';const tag=after&&r.disp==='Migrate'?' <small>modernised</small>':'';return `<span class="achip ${!after&&REMOVED(r.disp)?'gone':''}" style="background:${DISP[r.disp].c}" data-act="openApp" data-id="${esc(a.id)}" data-tip="${esc(a.name+' – '+r.disp+(M.absorbs[a.id]?'\nAbsorbs: '+M.absorbs[a.id].map(appName).join(', '):'')+(r.absorber?'\n→ '+appName(r.absorber):''))}">${esc(a.name)}${tag}${abs}</span>`;}).join('')}${gaps.length?`<span class="pill" style="background:#fee2e2;color:#b91c1c;margin-left:6px" data-tip="${esc('No Primary/Secondary platform:\n'+gaps.map(c=>c.name).join('\n'))}">${gaps.length} gap${gaps.length>1?'s':''}</span>`:''}</div></div>`;
+    });
+    h+=`<details style="margin-top:4px"><summary class="small">Capability-level view – ${esc(d.name)}</summary><table class="t"><thead><tr><th>Capability</th><th>Owner</th><th>Current platforms</th><th>Target platforms</th><th>Change</th></tr></thead><tbody>${dc.map(c=>{const b=M.capB.per[c.id],a=M.capA.per[c.id];const ch=b.slice().sort().join()!==a.slice().sort().join();return `<tr><td>${esc(c.name)}</td><td class="small">${esc((role(c.owner)||{}).name||'—')}</td><td>${b.map(id=>achip(id,'gone')).join('')}</td><td>${a.map(id=>achip(id)).join('')||'<span class="pill" style="background:#dc2626">Gap</span>'}</td><td>${ch?'<span class="badge" style="background:#fef3c7;color:#92400e">changes</span>':'<span class="small muted">—</span>'}</td></tr>`;}).join('')}</tbody></table></details>`;
+    h+='</div></div>';
+  });
+  h+='</div>';
+  // transformation roadmap
+  const rows=state.apps.filter(a=>R[a.id].disp!=='Retain').sort((a,b)=>R[a.id].start-R[b.id].start||R[a.id].end-R[b.id].end);
+  const AIon=aiOn(),BR=M.base.R;
+  const HZ=Math.max(60,...rows.map(a=>Math.max(R[a.id].end,BR[a.id].end)));
+  h+=`<div class="card"><h3>3–5 year rationalisation roadmap${AIon?' <span class="onb">🤖 AI-accelerated</span>':''}</h3><p class="sub">Initiatives sequenced by wave: retirements first (quick wins), migrations staggered by vendor-support urgency, consolidations scheduled after their target platform is ready. Bar = start → completion; savings start at completion.${AIon?` <b style="color:#0e7490">Dashed outline = baseline timing without AI agents.</b> Plan completes in month ${M.K.planEnd} instead of ${M.base.K.planEnd}.`:''}</p>
+  <div class="tr-row" style="font-weight:700;color:var(--navy)"><div>Initiative</div><div style="display:grid;grid-template-columns:repeat(${Math.ceil(HZ/12)},1fr)">${Array.from({length:Math.ceil(HZ/12)},(_,i)=>`<div style="padding-left:4px">Year ${i+1}</div>`).join('')}</div></div>
+  ${rows.map(a=>{const r=R[a.id];return `<div class="tr-row"><div class="small" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><span class="dot" style="background:${DISP[r.disp].c}"></span>${esc(a.name)}</div><div class="tr-track" style="background-size:${1200/HZ}% 100%">${AIon?`<div class="tr-bar" style="left:${BR[a.id].start/HZ*100}%;width:${Math.max(1,BR[a.id].dur)/HZ*100}%;background:transparent;border:1.5px dashed #94a3b8;pointer-events:none"></div>`:''}<div class="tr-bar" style="left:${r.start/HZ*100}%;width:${Math.max(1,r.dur)/HZ*100}%;background:${DISP[r.disp].c}" data-act="openApp" data-id="${esc(a.id)}" data-tip="${esc(`${a.name}: ${r.disp}${r.absorber?' → '+appName(r.absorber):''}\n${r.wave} · month ${r.start} → ${r.end} · ${r.size}${AIon?`\nBaseline (no AI): month ${BR[a.id].start} → ${BR[a.id].end} · AI acceleration −${Math.round(r.aiAcc*100)}% (ARS ${f2(r.ars)})`:''}\nOne-off ${money(r.oneOff)} · saving ${money(r.saving)}/yr`)}">${r.disp}${r.absorber?' → '+esc(appName(r.absorber)):''}</div></div></div>`;}).join('')}
+  <div class="small muted" style="margin-top:6px">${state.apps.filter(a=>R[a.id].disp==='Retain').length} Retain applications continue under BAU and are not shown.</div></div>`;
+  // teams
+  h+=`<div class="grid g2"><div class="card"><h3>Teams impacted</h3><table class="t"><thead><tr><th>Team</th><th>Type</th><th>Impact</th><th>Applications changing</th><th class="num">Users</th></tr></thead><tbody>${M.teamList.map(t=>`<tr><td class="b">${esc(t.name)}</td><td>${t.type}</td><td><span class="pill" style="background:${t.level==='High'?'#dc2626':t.level==='Medium'?'#f59e0b':'#64748b'}">${t.level}</span></td><td>${t.apps.map(x=>`<span class="small" style="white-space:nowrap"><span class="dot" style="background:${DISP[R[x.id].disp].c}"></span>${esc(appName(x.id))} <span class="muted">(${esc(x.how)})</span></span>`).join('<br>')}</td><td class="num">${t.users}</td></tr>`).join('')}</tbody></table><div class="small muted">Impact score: Retire/Consolidate 3, Migrate 2, Invest 1, +1 per app absorbed. High ≥ 6, Medium ≥ 3.</div></div>
+  <div class="card"><h3>Process owners impacted</h3><table class="t"><thead><tr><th>Process owner</th><th class="num">Capabilities changing platform</th><th>Capabilities</th></tr></thead><tbody>${Object.entries(M.owners).sort((a,b)=>b[1].length-a[1].length).map(([rid,cl])=>`<tr><td class="b">${esc((role(rid)||{}).name||'Unassigned')}</td><td class="num">${cl.length}</td><td class="small">${cl.map(id=>esc(state.caps.find(c=>c.id===id).name)).join('; ')}</td></tr>`).join('')}</tbody></table></div></div>`;
+  return h;
+}
+
+/* ====================== RENDER: BENEFITS ====================== */
+function rBenefits(){
+  const K=M.K,R=M.R;
+  const rows=[
+    ['Cost','Annual run cost (TCO)',K.tcoB,K.tcoA,true,money,'Σ TCO of surviving apps after migration savings / invest uplift + absorption uplift on survivors'],
+    ['Cost','Internal run FTE cost',K.peopleB,K.peopleA,true,money,'People cost of surviving apps (migrated apps reduced by migration saving %)'],
+    ['Cost','Redundant spend (duplicated capability)',K.redB,K.redA,true,money,'Σ TCO × share of each app’s Primary/Secondary capabilities also served by another app'],
+    ['Cost','One-off transformation investment',0,K.invest,true,money,`Σ effort points × cost per point + absorption onboarding (training + data migration) ${money(K.onboard)}`],
+    ['Cost','of which absorption onboarding',0,K.onboard,true,money,`Training ${money(state.settings.fin.trainPerUser)}/user of each absorbed app + data migration ${money(state.settings.fin.dataMigBase)}/app + ${money(state.settings.fin.dataMigPerCap)}/capability; charged to the receiving platform (${money(K.onboardInvest)} on Invest platforms)`],
+    ...(K.ai?[
+      ['AI acceleration','Plan duration (months to last completion)',M.base.K.planEnd,K.planEnd,true,v=>v+' mo',`Baseline → AI-assisted; per-app duration × (1 − outcome % × readiness multiplier), floor ${state.settings.ai.floor} months; staggers −${state.settings.ai.stagger}%`],
+      ['AI acceleration','Payback month',M.base.K.payback==null?60:M.base.K.payback,K.payback==null?60:K.payback,true,v=>v>=60?'> 60':'M'+v,'Baseline vs AI-assisted cumulative cash-flow break-even'],
+      ['AI acceleration','App transformation one-off (excl. platform)',M.base.K.investApps,K.investApps,true,money,'Effort points reduced by AI acceleration + AI-reduced training & data migration'],
+      ['AI acceleration','Agent platform & enablement (one-off)',0,K.aiSetup,true,money,'Agent platform, LLM access, guardrails, agent factory build – spread months 0–5, included in investment'],
+      ['AI acceleration','Agent platform run cost (annual)',0,K.aiRun,true,money,'Licences / tokens / support – included in target run cost'],
+      ['AI acceleration','AIOps run-cost reduction on surviving apps (annual)',0,K.aiOps,false,money,`${state.settings.ai.opsSave}% of FTE + change cost × readiness multiplier, from month ${state.settings.ai.opsStart}`]
+    ]:[]),
+    ['Cost','5-year net benefit / NPV',0,K.net5,false,money,`Cumulative cash-flow month 0–59; NPV ${money(K.npv)} at ${state.settings.fin.discount}%`],
+    ['Simplification','Applications',K.appsB,K.appsA,true,v=>Math.round(v),'Apps not Consolidated / Retired'],
+    ['Simplification','Vendors / platforms',K.vendB,K.vendA,true,v=>Math.round(v),'Distinct vendors of surviving apps (in-house counted once)'],
+    ['Simplification','Interfaces',K.intfB,K.intfA,true,v=>Math.round(v),'Interfaces of survivors + 25% of removed apps’ interfaces re-pointed'],
+    ['Simplification','Capabilities with overlapping apps',K.ovB,K.ovA,true,v=>v,'Capabilities with ≥ 2 apps at Primary/Secondary'],
+    ['Simplification','Avg applications per capability',K.avgB,K.avgA,true,f2,'Mean number of apps mapped (any level) per covered capability'],
+    ['Risk','Apps at vendor-support risk (score ≤ 2)',K.eolB,K.eolA,true,v=>v,'Migrated apps assumed on supported versions (score 4)'],
+    ['Risk','High-criticality capabilities without a healthy platform',K.critB,K.critA,true,v=>v,`No Primary/Secondary app with TH ≥ ${state.settings.thr.th}`],
+    ['Risk','Average security posture',K.secB,K.secA,false,f2,'Migrated apps raised to ≥ 4'],
+    ['Risk','Average technical health',K.thB,K.thA,false,f2,`Migrate → max(TH, ${state.settings.fin.migTH}); Invest +0.3`],
+    ['Agility','Average change lead time (days)',K.leadB,K.leadA,true,v=>Math.round(v),`Migrate −${state.settings.fin.leadMig}%, Invest −${state.settings.fin.leadInv}%`],
+    ['Agility','On-premise applications',K.onpremB,K.onpremA,true,v=>v,'Migrated apps assumed moved to cloud / modern hosting'],
+    ['Regulatory','Regulatory capabilities on healthy platforms',K.regB*100,K.regA*100,false,v=>Math.round(v)+'%','Share of regulatory capabilities with a Primary/Secondary app with TH ≥ threshold'],
+    ['Regulatory','Capability gaps (no Primary/Secondary platform)',K.gapsB,K.gapsA,true,v=>v,'Gaps must be resolved before decommissioning']
+  ];
+  const cats=['Cost','Simplification','Risk','Agility','Regulatory',...(K.ai?['AI acceleration']:[])],cc={Cost:'#16a34a',Simplification:'#4338ca',Risk:'#dc2626',Agility:'#0e7490',Regulatory:'#be185d','AI acceleration':'#0891b2'};
+  let h=`<div class="card"><h2>6 · Quantified benefits</h2><p class="sub">Measurable outcomes compared between baseline and target state. Every metric is recalculated from the dispositions; assumptions are editable below.</p>
+  <div class="grid g5">${[['Annual saving',money(K.save),`−${pctOf(K.save,K.tcoB)}% run cost`],['Investment',money(K.invest),`one-off, incl. ${money(K.onboard)} training & data migration`],['Payback',K.payback!=null?`${(K.payback/12).toFixed(1)} yrs`:'> 5 yrs',K.payback!=null?`month ${K.payback}`:'extend horizon'],['Simplification index',Math.round(K.simp)+'%','avg reduction apps, vendors, interfaces, overlaps'],['Reg. coverage on healthy platforms',`${Math.round(K.regA*100)}%`,`from ${Math.round(K.regB*100)}%`]].map(([l,v,d])=>`<div class="kpi" style="border:1px solid var(--line);border-radius:8px"><div class="l">${l}</div><div class="v">${v}</div><div class="small muted">${d}</div></div>`).join('')}</div>
+  <details><summary>Edit financial &amp; benefit assumptions</summary>${paramsHtml(['fin'])}</details></div>`;
+  h+=`<div class="card"><h3>Outcome scorecard</h3><table class="t"><thead><tr><th>Category</th><th>Metric</th><th class="num">Baseline</th><th class="num">Target</th><th class="num">Change</th><th>How it is calculated</th></tr></thead><tbody>${cats.map(c=>rows.filter(r=>r[0]===c).map((r,i)=>`<tr>${i===0?`<td rowspan="${rows.filter(x=>x[0]===c).length}" style="border-left:4px solid ${cc[c]};font-weight:700;color:${cc[c]}">${c}</td>`:''}<td class="b">${r[1]}</td><td class="num">${r[2]===0&&r[0]==='Cost'&&/investment|net|onboarding/i.test(r[1])?'—':r[5](r[2])}</td><td class="num b">${r[5](r[3])}</td><td class="num">${r[2]===0&&/investment|net|onboarding/i.test(r[1])?'':delta(r[2],r[3],r[4],v=>r[5](v))}</td><td class="small muted">${r[6]}</td></tr>`).join('')).join('')}</tbody></table></div>`;
+  h+=aiCard();
+  h+=`<div class="grid g12"><div class="card"><h3>Cumulative net benefit (J-curve, 5 years)</h3>${jcurve()}<div class="small muted">Investment is spread evenly over each initiative’s duration (absorption onboarding over the absorbed app’s migration window); savings start the month after completion; Invest run-cost uplift starts immediately. Peak funding need: <b>${money(K.peak)}</b>.</div></div>
+  <div class="card"><h3>Run cost by domain</h3>${M.dstats.map(s=>{const mx=Math.max(...M.dstats.map(x=>x.tcoB),1);return `<div style="margin:8px 0"><div class="b">${esc(s.d.name)} <span class="muted small">−${money(s.tcoB-s.tcoA)} (−${pctOf(s.tcoB-s.tcoA,s.tcoB)}%)</span></div>${hbar('Baseline',s.tcoB,mx,'#94a3b8',money(s.tcoB))}${hbar('Target',s.tcoA,mx,col(s.d.color),money(s.tcoA))}</div>`;}).join('')}</div></div>`;
+  const contrib=state.apps.filter(a=>Math.abs(R[a.id].saving)>0.5).sort((a,b)=>R[b.id].saving-R[a.id].saving);
+  const mx=Math.max(1,...contrib.map(a=>Math.abs(R[a.id].saving)));
+  h+=`<div class="card"><h3>Saving contributors (annual, steady state)</h3><div class="pgrid">${contrib.map(a=>{const r=R[a.id];return `<div class="hbar" style="grid-template-columns:200px 1fr 64px;cursor:pointer" data-act="openApp" data-id="${esc(a.id)}"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><span class="dot" style="background:${DISP[r.disp].c}"></span>${esc(a.name)}</span><div class="bar"><i style="width:${Math.abs(r.saving)/mx*100}%;background:${r.saving>=0?DISP[r.disp].c:'#94a3b8'}"></i></div><b style="color:${r.saving>=0?'#15803d':'#b91c1c'}">${money(r.saving)}</b></div>`;}).join('')}</div><div class="small muted">Negative values = Invest run-cost uplift. Removed apps’ saving is net of the absorption uplift on the survivor.</div></div>`;
+  return h;
+}
+
+/* ====================== RENDER: HOW-TO ====================== */
+function rHowto(){
+  const st=state.settings;
+  if(!ui.howApp||!M.R[ui.howApp])ui.howApp=(state.apps.find(a=>M.R[a.id].disp==='Consolidate')||state.apps[0]||{}).id;
+  const r=M.R[ui.howApp];
+  const rows=[
+    ['Capability model','Capabilities (L1/L2), owners, criticality, regulatory flag','Entered in <b>1 · Capabilities</b>; owner roles and domains configured in <b>Settings</b>.'],
+    ['Coverage level','P / S / · in the matrix','3 = Primary (system of record), 2 = Secondary (significant functional use), 1 = Partial / data feed. Set by clicking matrix cells.'],
+    ['Overlap','Purple “Overlap” flag; “Overlapping capabilities” KPI','A capability is overlapping when ≥ 2 applications serve it at Primary or Secondary level. Gap = no Primary/Secondary app.'],
+    ['Business value (BV)','1–5 score per app',`Weighted average of ${BVC.map(c=>c.n+' ('+st.wBV[c.k]+')').join(', ')}; weights normalised to 100%.`],
+    ['Technical health (TH)','1–5 score per app',`Weighted average of ${THC.map(c=>c.n+' ('+st.wTH[c.k]+')').join(', ')}.`],
+    ['TCO','Annual run cost per app ($K)','Licence + infrastructure + vendor support + internal FTE + change/enhancement run-rate.'],
+    ['Cost efficiency','1–5 score','1 + 4 × (ln TCOmax − ln TCO) / (ln TCOmax − ln TCOmin). Log scale so that one very expensive platform does not flatten all others; cheapest = 5.'],
+    ['Composite score','Ranking 1–5',`(${st.wComp.bv} × BV + ${st.wComp.th} × TH + ${st.wComp.cost} × Cost efficiency) / ${sum(Object.values(st.wComp),v=>+v||0)} − overlap penalty (${st.ovl.ovPen} × Redundancy %), floor 1. Used to decide which app survives in an overlap; the penalty means duplicated spend lowers an app’s rank, so platforms with more unique capability are preferred as survivors.`],
+    ['Redundancy & redundant spend','Matrix footer, Scoring & Disposition columns, Summary KPI, Benefits',`Redundancy % = Primary/Secondary capabilities of the app also served at Primary/Secondary by another app ÷ the app’s Primary/Secondary capabilities. Redundant spend = TCO × Redundancy % (annual money paying for duplicated capability). Target-state redundant spend is recalculated on the survivors and transferred mappings; any remaining overlap is flagged in the app’s decision path.`],
+    ['Overlap / dominance %','“Overlap” column in Disposition','Share of an app’s Primary capabilities (or Secondary if it has none) where another app at ≥ Secondary level has a higher composite. The app dominating the most capabilities is the absorber.'],
+    ['Disposition','Invest / Retain / Migrate / Consolidate / Retire',`Ordered rules: (0) manual override; (1) dominance ≥ ${Math.round(st.thr.dom*100)}% → Consolidate (Retire if BV < ${st.thr.bv} and TH < ${st.thr.th}) – ${+st.ovl.protectInvest?'apps meeting the Invest bar are protected from this rule (setting “Protect Invest” = 1)':'applies also to apps meeting the Invest bar, so two overlapping platforms are not both funded (set “Protect Invest” = 1 to revert)'}; (2) BV ≥ ${st.thr.investBV} & TH ≥ ${st.thr.investTH} → Invest; (3) quadrant: high BV & healthy → Retain; high BV & unhealthy → Migrate; low BV & healthy → Retain (tolerate); low/low → Retire.`],
+    ['Absorber chain','Target platform of a removed app','If the absorber is itself consolidated, the chain is followed to the final surviving platform.'],
+    ['Effort','Points, size, duration, one-off cost',`Points = base(disposition: ${DORDER.map(d=>d+' '+st.effort[d]).join(', ')}) × complexity; complexity = 1 + 0.02 × interfaces + 0.04 × capabilities mapped + 0.1 × (5 − integration score) + 0.2 if users > 300. Size: S < 4, M < 9, L < 13, XL ≥ 13 points → ${Object.entries(SIZE_DUR).map(([k,v])=>k+' '+v+' mo').join(', ')}. One-off = points × $${st.fin.costPerPoint}K + absorption onboarding.`],
+    ['Absorption onboarding','One-off tooltip in Disposition, app drill-down, Benefits “of which onboarding”',`For every Consolidated/Retired app with a target platform, the receiving platform carries: training = users of the absorbed app × $${st.fin.trainPerUser}K, plus data migration = $${st.fin.dataMigBase}K + $${st.fin.dataMigPerCap}K × capabilities mapped on the absorbed app. Included in the receiver’s one-off (so an Invest platform’s budget covers the training and data migration of everything it absorbs) and phased over the absorbed app’s migration window.`],
+    ['Waves & timing','Start / end month, Wave 1–3',`Invest starts months 0–4; migrations start at month ${st.plan.migStart} every ${st.plan.migStagger} months (lowest vendor-support first); retirements at month ${st.plan.retStart} every ${st.plan.retStagger}; consolidations at month ${st.plan.conStart} every ${st.plan.conStagger}. A removed app waits until its absorber’s migration ends (or half of its Invest programme). Wave = start in year 1, 2 or 3+.`],
+    ['AI Agents Readiness (toggle)','Top-bar switch; Scoring “AI agent readiness”, Disposition 🤖, Roadmap dashed bars, Benefits “AI acceleration”, Team 🤖 roles',`Agent-readiness score (ARS) = average of ${AIRC.map(c=>c.n).join(', ')} (1–5, prefilled from app type / vendor / TH, editable). Multiplier = 0.3 + 0.7 × (ARS − 1)/4. Per-app acceleration = outcome % (Invest ${st.ai.accInvest}%, Retain ${st.ai.accRetain}%, Migrate ${st.ai.accMigrate}%, Consolidate ${st.ai.accConsolidate}%, Retire ${st.ai.accRetire}%) × multiplier. Effort points and duration × (1 − acceleration) (duration floor ${st.ai.floor} mo); wave staggers −${st.ai.stagger}%; training −${st.ai.train}%, data migration −${st.ai.data}% × the absorbed app’s multiplier. Adds agent platform $${st.ai.platSetup}K one-off + $${st.ai.platRun}K/yr, and AIOps saving ${st.ai.opsSave}% × multiplier of FTE + change cost on survivors from month ${st.ai.opsStart}. Dispositions and composite scores are not changed – AI changes <i>how fast and how cheaply</i>, not <i>what</i>.`],
+    ['Target run cost','TCO after per app',`Retain = TCO; Migrate = TCO × (1 − ${st.fin.migSave}%); Invest = TCO × (1 + ${st.fin.investUp}%); Consolidate/Retire = 0, plus ${st.fin.absorb}% of its TCO added to the survivor (absorption uplift).`],
+    ['Annual saving','Per app and portfolio','TCO before − TCO after − absorption uplift.'],
+    ['Cash-flow, payback, NPV','J-curve','Monthly: −one-off spread over duration (onboarding over the absorbed app’s window); + saving/12 from completion (Invest uplift from start). Payback = first month cumulative turns positive and stays positive. NPV discounted monthly.'],
+    ['Target matrix','Matrix “target state” toggle; Target State tab','Survivors keep their mappings; each removed app’s mappings are transferred to its absorber at max(level).'],
+    ['Risk metrics','Vendor-support risk, critical capabilities, security, TH',`Vendor-support risk = vendor score ≤ 2 (migrated apps assumed 4). Critical capability at risk = High criticality without a Primary/Secondary app with TH ≥ ${st.thr.th}. Migrated apps: TH → max(TH, ${st.fin.migTH}), security → ≥ 4.`],
+    ['Agility','Change lead time',`Average of per-app lead time (days); Migrate −${st.fin.leadMig}%, Invest −${st.fin.leadInv}%, removed apps drop out.`],
+    ['Regulatory','% regulatory capabilities on healthy platforms','Regulatory-flagged capabilities with at least one Primary/Secondary app with TH ≥ threshold, divided by all regulatory capabilities.'],
+    ['Simplification index','% in Benefits','Average % reduction of applications, vendors, interfaces and overlapping capabilities.'],
+    ['Teams impacted','Impact level per team','Business & IT teams of each app: Retire/Consolidate 3, Migrate 2, Invest 1 point, +1 per absorbed app for receiving teams. High ≥ 6, Medium ≥ 3.'],
+    ['Process owners impacted','Owners whose capabilities change platform','Capability’s Primary/Secondary app set differs between current and target.'],
+    ['Domain summary','Exec summary / Disposition cards','Apps aggregated by their primary domain (first domain assigned to the app).']
+  ];
+  let h=`<div class="card"><h2>How-to – how the dots connect</h2><p class="sub">The workbench is a single chain of calculations. Change any input and every downstream view recalculates instantly.</p>
+  <div class="flow">${[['Settings','Domains, owner roles, applications'],['1 · Capabilities','L1/L2 model + owners'],['2 · Matrix','App ↔ capability (P/S/·)'],['3 · Scoring','BV, TH, TCO → composite'],['4 · Disposition','Rules + overlaps → 5 R’s, effort, waves'],['5 · Target state','Survivors, transfers, teams'],['6 · Benefits','Cost, risk, simplification, agility, regulatory'],['Executive summary','KPIs, messages, roadmap']].map((x,i,a)=>`<div class="fb"><b>${x[0]}</b><span class="small">${x[1]}</span></div>${i<a.length-1?'<span class="ar">→</span>':''}`).join('')}</div></div>
+  <div class="card"><h3>Using the workbench</h3><ol style="margin:0;padding-left:20px"><li><b>Settings</b> – configure domains, process-owner roles and applications (multi-domain mapping, first domain = primary).</li><li><b>Capabilities</b> – validate the L1/L2 model with each process owner; add, rename or delete freely.</li><li><b>Matrix</b> – click cells to map applications to capabilities; use “Overlaps only” to run overlap workshops.</li><li><b>Scoring</b> – capture BV with business owners, TH with IT/architecture, TCO with Finance; calibrate weights at SteerCo.</li><li><b>Disposition</b> – review rule outcomes, record management overrides, check effort and timing.</li><li><b>Target State &amp; Benefits</b> – validate the north star, impacted teams and the business case.</li><li><b>Export</b> the JSON (Settings) to version the baseline; import it to restore. Data is also saved automatically in this browser.</li></ol></div>
+  <div class="card"><h3>Calculation reference</h3><table class="t"><thead><tr><th style="width:170px">Item</th><th style="width:230px">Where displayed</th><th>How it is calculated</th></tr></thead><tbody>${rows.map(x=>`<tr><td class="b">${x[0]}</td><td class="small">${x[1]}</td><td>${x[2]}</td></tr>`).join('')}</tbody></table></div>`;
+  if(r){
+    const a=r.app;
+    h+=`<div class="card"><h3>Worked example</h3><div class="toolbar"><label>Application <select class="in" data-ch="howApp">${sorted(state.apps).map(x=>`<option value="${esc(x.id)}" ${x.id===ui.howApp?'selected':''}>${esc(x.name)}</option>`).join('')}</select></label></div>
+    <div class="formula">BV = ${BVC.map(c=>`${a.bv[c.k]}×${st.wBV[c.k]}`).join(' + ')} / ${sum(Object.values(st.wBV),v=>+v||0)} = ${f2(r.bv)}
+TH = ${THC.map(c=>`${a.th[c.k]}×${st.wTH[c.k]}`).join(' + ')} / ${sum(Object.values(st.wTH),v=>+v||0)} = ${f2(r.th)}
+TCO = ${COST.map(c=>a.cost[c.k]).join(' + ')} = ${money(r.tco)}  →  cost efficiency = ${f2(r.cs)}
+Composite = (${st.wComp.bv}×${f2(r.bv)} + ${st.wComp.th}×${f2(r.th)} + ${st.wComp.cost}×${f2(r.cs)}) / ${sum(Object.values(st.wComp),v=>+v||0)} = ${f2(r.compBase)}
+Redundancy = ${r.redCaps.length} of ${r.ps.length} P/S capabilities also served by another app = ${Math.round(r.redund*100)}%  →  redundant spend ${money(r.redSpend)}/yr (target state ${money(r.redSpendAfter)})
+Composite after overlap penalty = ${f2(r.compBase)} − ${st.ovl.ovPen}×${f2(r.redund)} = ${f2(r.comp)}
+Dominance = ${r.domCaps.length} of ${r.domBase} primary capabilities covered by a better app = ${Math.round(r.domRatio*100)}%${r.dominator?' (best: '+appName(r.dominator)+')':''}
+Decision path:
+  - ${r.why.join('\n  - ')}
+Effort = ${st.effort[r.disp]} × complexity ${f2(r.cf)} = ${f1(r.pointsBase)} points → ${r.disp==='Retain'?'BAU':r.size}, ${r.durBase} months${r.aiAcc?`
+ 🤖 AI agents: readiness ${f2(r.ars)} → multiplier ${f2(r.aiMult)}; ${r.disp} ${st.ai[AI_ACC[r.disp]]}% × ${f2(r.aiMult)} = −${Math.round(r.aiAcc*100)}%
+    → ${f1(r.points)} points, ${r.dur} months`:''}, effort cost ${money(r.oneOffBase)}${r.onboardItems.map(it=>`
+ + onboarding ${appName(it.from)}: training ${it.users}×${money(st.fin.trainPerUser)} = ${money(it.trainBase)}${it.train<it.trainBase?` → AI ${money(it.train)}`:''}, data migration ${money(st.fin.dataMigBase)} + ${it.ncaps}×${money(st.fin.dataMigPerCap)} = ${money(it.dataBase)}${it.data<it.dataBase?` → AI ${money(it.data)}`:''}`).join('')}${r.aiOps?`
+Run cost after includes AIOps saving −${money(r.aiOps)}/yr`:''}
+ = one-off ${money(r.oneOff)}
+Timing = ${r.wave}, month ${r.start} → ${r.end}
+Run cost after = ${money(r.tcoAfter)} ${r.absorbCost?'+ absorption uplift '+money(r.absorbCost)+' on '+appName(r.absorber):''}  →  annual saving ${money(r.saving)}</div></div>`;
+  }
+  return h;
+}
+
+/* ====================== RENDER: SETTINGS ====================== */
+function rSettings(){
+  const R=M.R;
+  let h=`<div class="card"><h2>Global settings</h2><p class="sub">Configure domains, process-owner roles and the application inventory. All changes are saved automatically in this browser; use Export to keep a versioned copy.</p>
+  <div class="toolbar"><button class="btn" data-act="exportJson">Export JSON</button><button class="btn ghost" data-act="importJson">Import JSON</button><button class="btn ghost" data-act="exportCsv">Export dispositions (CSV)</button><button class="btn danger" data-act="resetDemo">Reset to demo data</button></div></div>`;
+  h+=`<div class="grid g2"><div class="card"><div style="display:flex;justify-content:space-between"><h3>Domains</h3><button class="btn sm" data-act="addDom">+ Add domain</button></div><table class="t"><thead><tr><th>Name</th><th>Colour</th><th class="num">Capabilities</th><th class="num">Apps</th><th></th></tr></thead><tbody>${state.domains.map(d=>`<tr><td><input class="in b" value="${esc(d.name)}" data-ch="dom" data-id="${esc(d.id)}" data-f="name"></td><td><input type="color" value="${col(d.color)}" data-ch="dom" data-id="${esc(d.id)}" data-f="color"></td><td class="num">${state.caps.filter(c=>c.domainId===d.id).length}</td><td class="num">${state.apps.filter(a=>a.domainIds.includes(d.id)).length}</td><td><button class="btn danger" data-act="delDom" data-id="${esc(d.id)}">✕</button></td></tr>`).join('')}${draftOf('dom')?draftRows(`<td><input ${dAttr('name','placeholder="Domain name (e.g. Treasury)"')} value="${dVal('name')}"></td><td><input type="color" value="${col(ui.draft.rec.color)}" data-ch="draft" data-f="color"></td><td></td><td></td>`,5):''}</tbody></table></div>
+  <div class="card"><div style="display:flex;justify-content:space-between"><h3>Process-owner roles</h3><button class="btn sm" data-act="addRole">+ Add role</button></div><div id="rolesWrap" data-keepscroll style="max-height:360px;overflow:auto"><table class="t"><thead><tr><th>Role</th><th>Domain</th><th class="num">Capabilities owned</th><th></th></tr></thead><tbody>${state.roles.map(r=>`<tr><td><input class="in" value="${esc(r.name)}" data-ch="role" data-id="${esc(r.id)}" data-f="name"></td><td><select class="in" data-ch="role" data-id="${esc(r.id)}" data-f="domainId">${state.domains.map(d=>`<option value="${esc(d.id)}" ${r.domainId===d.id?'selected':''}>${esc(d.name)}</option>`).join('')}</select></td><td class="num">${state.caps.filter(c=>c.owner===r.id).length}</td><td><button class="btn danger" data-act="delRole" data-id="${esc(r.id)}">✕</button></td></tr>`).join('')}${draftOf('role')?draftRows(`<td><input ${dAttr('name','placeholder="Role name (e.g. Head of Treasury)"')} value="${dVal('name')}"></td><td><select ${dAttr('domainId')}>${state.domains.map(d=>`<option value="${esc(d.id)}" ${ui.draft.rec.domainId===d.id?'selected':''}>${esc(d.name)}</option>`).join('')}</select></td><td></td>`,4):''}</tbody></table></div></div></div>`;
+  h+=`<div class="card"><div style="display:flex;justify-content:space-between"><h3>Applications (${state.apps.length})</h3><button class="btn sm" data-act="addApp">+ Add application</button></div><div id="appsWrap" data-keepscroll style="overflow:auto;max-height:70vh"><table class="t"><thead><tr><th style="min-width:190px">Name</th><th style="min-width:160px">Vendor</th><th>Domains (tick all that apply)</th><th>Primary</th><th>Type</th><th>Deployment</th><th>Business team</th><th>IT team</th><th class="num" style="cursor:help;text-decoration:underline dotted" data-tip="Interfaces – number of system-to-system integrations of the application (inbound + outbound data feeds, APIs, file transfers, message queues). Not the number of screens.&#10;Used in: effort complexity factor (+0.02 per interface) and the Interfaces simplification KPI (removed apps’ interfaces count 25% as they are re-pointed to the absorbing app).">Intf.</th><th class="num">Users</th><th>Contract end</th><th></th></tr></thead><tbody>
+  ${sorted(state.apps).map(a=>`<tr><td><input class="in b" value="${esc(a.name)}" data-ch="app" data-id="${esc(a.id)}" data-f="name"></td><td><input class="in" value="${esc(a.vendor)}" data-ch="app" data-id="${esc(a.id)}" data-f="vendor"></td>
+  <td style="white-space:nowrap">${state.domains.map(d=>`<label class="small" style="margin-right:6px"><input type="checkbox" ${a.domainIds.includes(d.id)?'checked':''} data-ch="appDom" data-id="${esc(a.id)}" data-dom="${esc(d.id)}">${esc(d.name)}</label>`).join('')}</td>
+  <td><select class="in" style="width:110px" data-ch="appPrim" data-id="${esc(a.id)}">${a.domainIds.map(id=>`<option value="${esc(id)}">${esc(dom(id).name)}</option>`).join('')}</select></td>
+  <td><select class="in" style="width:110px" data-ch="app" data-id="${esc(a.id)}" data-f="type">${['COTS','SaaS','In-house','Platform','Data platform'].map(x=>`<option ${a.type===x?'selected':''}>${x}</option>`).join('')}</select></td>
+  <td><select class="in" style="width:115px" data-ch="app" data-id="${esc(a.id)}" data-f="deploy">${['On-premise','Private cloud','Public cloud','SaaS','Hybrid'].map(x=>`<option ${a.deploy===x?'selected':''}>${x}</option>`).join('')}</select></td>
+  <td><input class="in" style="width:150px" value="${esc(a.bizTeam)}" data-ch="app" data-id="${esc(a.id)}" data-f="bizTeam"></td><td><input class="in" style="width:130px" value="${esc(a.itTeam)}" data-ch="app" data-id="${esc(a.id)}" data-f="itTeam"></td>
+  <td><input class="in num" style="width:55px" type="number" min="0" value="${esc(a.interfaces)}" data-ch="app" data-id="${esc(a.id)}" data-f="interfaces"></td><td><input class="in num" style="width:65px" type="number" min="0" value="${esc(a.users)}" data-ch="app" data-id="${esc(a.id)}" data-f="users"></td>
+  <td><input class="in" style="width:120px" type="month" value="${esc(a.contractEnd)}" data-ch="app" data-id="${esc(a.id)}" data-f="contractEnd"></td>
+  <td style="white-space:nowrap"><button class="btn ghost sm" data-act="editApp" data-id="${esc(a.id)}">Edit all</button> <button class="btn danger" data-act="delApp" data-id="${esc(a.id)}">✕</button></td></tr>`).join('')}
+  ${draftOf('app')?(r=>draftRows(`<td><input ${dAttr('name','placeholder="Application name"')} value="${dVal('name')}"></td><td><input ${dAttr('vendor','placeholder="Vendor"')} value="${dVal('vendor')}"></td>
+  <td style="white-space:nowrap${ui.draft.err.domainIds?';outline:2px solid #dc2626':''}">${state.domains.map(d=>`<label class="small" style="margin-right:6px"><input type="checkbox" ${r.domainIds.includes(d.id)?'checked':''} data-ch="draftDom" data-dom="${esc(d.id)}">${esc(d.name)}</label>`).join('')}</td>
+  <td class="small">${r.domainIds[0]?esc(dom(r.domainIds[0]).name):'—'}</td>
+  <td><select ${dAttr('type','style="width:110px"')}>${['COTS','SaaS','In-house','Platform','Data platform'].map(x=>`<option ${r.type===x?'selected':''}>${x}</option>`).join('')}</select></td>
+  <td><select ${dAttr('deploy','style="width:115px"')}>${['On-premise','Private cloud','Public cloud','SaaS','Hybrid'].map(x=>`<option ${r.deploy===x?'selected':''}>${x}</option>`).join('')}</select></td>
+  <td><input ${dAttr('bizTeam','style="width:150px"')} value="${dVal('bizTeam')}"></td><td><input ${dAttr('itTeam','style="width:130px"')} value="${dVal('itTeam')}"></td>
+  <td><input ${dAttr('interfaces','style="width:55px" type="number" min="0"')} value="${dVal('interfaces')}"></td><td><input ${dAttr('users','style="width:65px" type="number" min="0"')} value="${dVal('users')}"></td>
+  <td><input ${dAttr('contractEnd','style="width:120px" type="month"')} value="${dVal('contractEnd')}"></td>`,12))(ui.draft.rec):''}
+  </tbody></table></div><div class="small muted">Scores and costs are edited in <a href="#" data-act="tab" data-tab="scoring">3 · Scoring</a> or via “Edit all”. Capability mappings are edited in the <a href="#" data-act="tab" data-tab="matrix">matrix</a>.</div></div>`;
+  h+=`<div class="card"><h3>Model parameters</h3>${paramsHtml(Object.keys(PARAMS))}<div class="toolbar"><button class="btn ghost" data-act="resetParams">Reset parameters to defaults</button></div></div>`;
+  return h;
+}
+
+/* ====================== MODALS ====================== */
+function appDrill(id){
+  const r=M.R[id];if(!r)return '';const a=r.app,st=state.settings;
+  const m=(x,c)=>+state.map[x+'|'+c]||0;
+  const capRows=r.caps.map(cid=>{const c=state.caps.find(x=>x.id===cid);const others=state.apps.filter(o=>o.id!==id&&m(o.id,cid)>0);return `<tr><td>${esc(c.name)}</td><td>${dchip(c.domainId)}</td><td><b>${LVL[m(id,cid)]}</b></td><td>${others.map(o=>`<span class="small" style="white-space:nowrap"><span class="dot" style="background:${DISP[M.R[o.id].disp].c}"></span>${esc(o.name)} (${LSYM[m(o.id,cid)]}, ${f2(M.R[o.id].comp)})</span>`).join('<br>')||'<span class="muted small">—</span>'}</td><td>${M.capA.per[cid].map(x=>achip(x)).join('')||'<span class="pill" style="background:#dc2626">Gap</span>'}</td></tr>`;}).join('');
+  const mxT=Math.max(1,...COST.map(c=>+a.cost[c.k]||0));
+  return `<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><h2 style="margin:0">${esc(a.name)}</h2>${dpill(r.disp)}${a.override?'<span class="badge">manual override</span>':''}<span class="muted">${esc(a.vendor)} · ${esc(a.type)} · ${esc(a.deploy)}</span>${a.domainIds.map(dchip).join('')}<button class="btn ghost sm" data-act="editApp" data-id="${esc(id)}">Edit</button></div>
+  <div class="grid g5" style="margin-top:12px">${[['Business value',f2(r.bv)],['Technical health',f2(r.th)],['Annual TCO',money(r.tco)],['Composite',r.ovPen>0?`${f2(r.comp)} <span class="small muted">(${f2(r.compBase)} − ${f2(r.ovPen)} overlap)</span>`:f2(r.comp)],['Redundancy',`${Math.round(r.redund*100)}% <span class="small muted">${money(r.redSpend)}/yr</span>`]].map(([l,v])=>`<div class="kpi" style="border:1px solid var(--line);border-radius:8px"><div class="l">${l}</div><div class="v">${v}</div></div>`).join('')}</div>
+  <div class="grid g3" style="margin-top:12px">
+   <div><h4>Business value</h4>${BVC.map(c=>hbar(c.n,a.bv[c.k],5,'#16a34a',a.bv[c.k])).join('')}<h4>Technical health</h4>${THC.map(c=>hbar(c.n,a.th[c.k],5,'#2563eb',a.th[c.k])).join('')}
+   <div style="${aiOn()?'':'opacity:.5'}"><h4>🤖 AI agent readiness ${aiOn()?'':'<span class="offb">toggle off</span>'}</h4>${AIRC.map(c=>hbar(c.n,(a.air||{})[c.k]||0,5,'#0891b2',(a.air||{})[c.k]||'–')).join('')}<div class="small">ARS <b>${f2(r.ars)}</b> → multiplier ×${f2(r.aiMult)}${aiOn()&&r.aiAcc?` · ${r.disp} acceleration <b>−${Math.round(r.aiAcc*100)}%</b> · ${r.durBase} → <b>${r.dur} mo</b> · one-off ${money(M.base.R[id].oneOff)} → <b>${money(r.oneOff)}</b>`:aiOn()?'':' · switch on “AI Agents Readiness” to apply'}${r.aiOps?` · AIOps −${money(r.aiOps)}/yr`:''}</div></div></div>
+   <div><h4>Cost breakdown (annual)</h4>${COST.map(c=>hbar(c.n,+a.cost[c.k]||0,mxT,'#f59e0b',money(a.cost[c.k]))).join('')}<div class="small" style="margin-top:6px">TCO ${money(r.tco)} → target ${money(r.tcoAfter)}${r.absorbCost?` (+${money(r.absorbCost)} uplift on ${esc(appName(r.absorber))})`:''} · <b style="color:#15803d">saving ${money(r.saving)}/yr</b></div>
+   <h4>Context</h4><div class="small">Business team: <b>${esc(a.bizTeam)}</b><br>IT team: <b>${esc(a.itTeam)}</b><br>Users: ${esc(a.users)} · Interfaces: ${esc(a.interfaces)}<br>Contract end: ${esc(a.contractEnd||'n/a (in-house)')} · Change lead time: ${esc(a.leadTime)} days${a.notes?'<br>Notes: '+esc(a.notes):''}</div></div>
+   <div><h4>Decision path</h4><ol style="margin:0;padding-left:18px" class="small">${r.why.map(w=>`<li style="margin:3px 0">${esc(w)}</li>`).join('')}</ol>
+   <h4>Effort &amp; timing</h4><div class="small">${st.effort[r.disp]} base points × ${f2(r.cf)} complexity = <b>${f1(r.points)} points</b> → <b>${r.disp==='Retain'?'BAU':r.size}</b>${r.dur?`, ${r.dur} months`:''}<br>Effort cost: ${money(r.oneOffBase)}${r.onboardItems.length?`<br>Absorption onboarding: <b>${money(r.onboard)}</b><ul style="margin:2px 0;padding-left:16px">${r.onboardItems.map(it=>`<li>${esc(appName(it.from))}: training ${money(it.train)} (${it.users} users) + data migration ${money(it.data)} (${it.ncaps} caps) · M${it.start}${it.dur?'–M'+(it.start+it.dur):''}</li>`).join('')}</ul>`:''}<br>One-off cost: <b>${money(r.oneOff)}</b><br>${r.wave}${r.dur?` · month ${r.start} → ${r.end}`:''}</div>
+   ${M.absorbs[id]?`<h4>Absorbs</h4>${M.absorbs[id].map(x=>achip(x)).join('')}`:''}${r.absorber?`<h4>Target platform</h4>${achip(r.absorber)}`:''}</div></div>
+  <h4>Capabilities served (${r.caps.length})</h4><table class="t"><thead><tr><th>Capability</th><th>Domain</th><th>Level</th><th>Other apps (level, composite)</th><th>Target platform(s)</th></tr></thead><tbody>${capRows||'<tr><td colspan="5" class="muted">Not mapped to any capability – use the matrix.</td></tr>'}</tbody></table>`;
+}
+function appEdit(id){
+  const a=appById(id);if(!a)return '';
+  const fld=(f,l,type='text',extra='')=>`<div><label>${l}</label><input class="in" type="${type}" value="${esc(a[f])}" data-ch="app" data-id="${esc(id)}" data-f="${f}" ${extra}></div>`;
+  return `<h2>Edit application</h2><div class="formgrid">${fld('name','Name')}${fld('vendor','Vendor')}
+  <div><label>Type</label><select class="in" data-ch="app" data-id="${esc(id)}" data-f="type">${['COTS','SaaS','In-house','Platform','Data platform'].map(x=>`<option ${a.type===x?'selected':''}>${x}</option>`).join('')}</select></div>
+  <div><label>Deployment</label><select class="in" data-ch="app" data-id="${esc(id)}" data-f="deploy">${['On-premise','Private cloud','Public cloud','SaaS','Hybrid'].map(x=>`<option ${a.deploy===x?'selected':''}>${x}</option>`).join('')}</select></div>
+  ${fld('bizTeam','Business team')}${fld('itTeam','IT team')}${fld('interfaces','Interfaces','number','min="0"')}${fld('users','Users','number','min="0"')}${fld('contractEnd','Contract end','month')}${fld('leadTime','Change lead time (days)','number','min="0"')}
+  <div style="grid-column:span 2"><label>Domains (first ticked = primary)</label>${state.domains.map(d=>`<label class="small" style="display:inline;margin-right:8px;color:inherit"><input type="checkbox" ${a.domainIds.includes(d.id)?'checked':''} data-ch="appDom" data-id="${esc(id)}" data-dom="${esc(d.id)}">${esc(d.name)}</label>`).join('')}</div>
+  <div style="grid-column:span 4"><label>Notes</label><input class="in" value="${esc(a.notes)}" data-ch="app" data-id="${esc(id)}" data-f="notes"></div></div>
+  <div class="grid g3" style="margin-top:12px"><div><h4>Business value (1–5)</h4>${BVC.map(c=>`<label class="prm"><span>${c.n}</span><input class="sc ${sclass(a.bv[c.k])}" type="number" min="1" max="5" value="${esc(a.bv[c.k])}" data-ch="score" data-id="${esc(id)}" data-g="bv" data-k="${c.k}"></label>`).join('')}</div>
+  <div><h4>Technical health (1–5)</h4>${THC.map(c=>`<label class="prm"><span>${c.n}</span><input class="sc ${sclass(a.th[c.k])}" type="number" min="1" max="5" value="${esc(a.th[c.k])}" data-ch="score" data-id="${esc(id)}" data-g="th" data-k="${c.k}"></label>`).join('')}</div>
+  <div><h4>Annual cost ($K)</h4>${COST.map(c=>`<label class="prm"><span>${c.n}</span><input class="in num" type="number" min="0" step="10" value="${esc(a.cost[c.k])}" data-ch="score" data-id="${esc(id)}" data-g="cost" data-k="${c.k}"></label>`).join('')}</div></div>
+    <div style="margin-top:12px"><h4>🤖 AI agent readiness (1–5) ${aiOn()?'':'<span class="offb">used only when the toggle is ON</span>'}</h4><div class="grid g5">${AIRC.map(c=>`<label class="prm" data-tip="${esc('1 = '+c.lo+'\n5 = '+c.hi)}"><span>${c.n}</span><input class="sc ${sclass((a.air||{})[c.k])}" type="number" min="1" max="5" value="${esc((a.air||{})[c.k])}" data-ch="score" data-id="${esc(id)}" data-g="air" data-k="${c.k}"></label>`).join('')}</div></div>
+    <div class="toolbar" style="margin-top:12px"><button class="btn" data-act="openApp" data-id="${esc(id)}">Done – view drill-down</button><button class="btn ghost" data-act="closeModal">Close</button></div>`;
+}
+function openModal(html){$('#mbody').innerHTML=html;$('#modal').classList.remove('hide');}
+function closeModal(){$('#modal').classList.add('hide');ui.modal=null;}
+
+/* ====================== TOOLTIP ====================== */
+const tip=$('#tip');
+function showTip(e,text){tip.textContent=text;tip.style.display='block';const x=Math.min(e.clientX+14,window.innerWidth-tip.offsetWidth-10),y=Math.min(e.clientY+14,window.innerHeight-tip.offsetHeight-10);tip.style.left=x+'px';tip.style.top=y+'px';}
+function hideTip(){tip.style.display='none';}
+document.addEventListener('mouseover',e=>{if(e.target.closest('#mx'))return;const el=e.target.closest('[data-tip]');if(el)showTip(e,el.dataset.tip);else hideTip();});
+document.addEventListener('mousemove',e=>{if(tip.style.display==='block'&&!e.target.closest('#mx td.c')){const el=e.target.closest('[data-tip]');if(el)showTip(e,el.dataset.tip);}});
+
+/* ====================== RENDER CORE ====================== */
+const RENDER={summary:rSummary,caps:rCaps,matrix:rMatrix,scoring:rScoring,dispo:rDispo,target:rTarget,benefits:rBenefits,howto:rHowto,settings:rSettings};
+/* Remember which collapsible sections the user opened/closed so re-renders don't reset them */
+const detKey=d=>{const s=d.querySelector(':scope>summary');return s?(d.closest('#mbody')?'modal':ui.tab)+'|'+s.textContent.replace(/[\d.,$%]+/g,'#').trim():null;};
+function restoreDetails(){
+  ui.det=ui.det||{};
+  document.querySelectorAll('#view details,#mbody details').forEach(d=>{const k=detKey(d);if(k&&k in ui.det)d.open=ui.det[k];});
+}
+document.addEventListener('toggle',e=>{const d=e.target;if(d.tagName!=='DETAILS')return;const k=detKey(d);if(k){ui.det=ui.det||{};ui.det[k]=d.open;}},true);
+function render(keepScroll){
+  const sy=window.scrollY,mw=$('#mxwrap'),ms=mw?[mw.scrollTop,mw.scrollLeft]:null;
+  const ks=[...document.querySelectorAll('[data-keepscroll]')].map(el=>[el.id,el.scrollTop,el.scrollLeft]);
+  M=compute();M.base=aiOn()?compute(false):M;
+  const on=aiOn();$('#aiToggle').classList.toggle('on',on);$('#aiLbl').textContent='AI Agents Readiness: '+(on?'ON':'OFF');
+  $('#tabs').innerHTML=TABS.map(([k,n])=>`<button class="${ui.tab===k?'on':''}" data-act="tab" data-tab="${k}">${n}</button>`).join('');
+  $('#view').innerHTML=RENDER[ui.tab]();
+  if(ui.tab==='matrix'){mxBind();const w=$('#mxwrap');if(keepScroll&&w&&ms){w.scrollTop=ms[0];w.scrollLeft=ms[1];}}
+  if(keepScroll){window.scrollTo(0,sy);ks.forEach(([id,t,l])=>{const el=document.getElementById(id);if(el){el.scrollTop=t;el.scrollLeft=l;}});}
+  if(ui.modal)openModal(ui.modal.type==='edit'?appEdit(ui.modal.id):appDrill(ui.modal.id));
+  restoreDetails();
+  if(ui.draft){
+    const row=$('#draftRow');
+    if(row&&ui.draft.scroll){row.scrollIntoView({block:'center'});const i=row.querySelector('.in.bad')||row.querySelector('input[data-f="name"]');if(i){i.focus({preventScroll:true});if(i.select)i.select();}}
+    ui.draft.scroll=false;ui.draft.flash=false;
+  }
+  hideTip();
+}
+let dlgFn=null,toastT=null;
+function askConfirm(title,msg,okLabel,fn){dlgFn=fn;$('#dlgBody').innerHTML=`<h3>${esc(title)}</h3><p>${esc(msg)}</p>`;$('#dlgOk').textContent=okLabel;$('#dlg').classList.remove('hide');$('#dlgOk').focus();}
+function closeDlg(){$('#dlg').classList.add('hide');dlgFn=null;}
+function toast(msg,kind){const t=$('#toast');t.textContent=msg;t.style.background=kind==='err'?'#dc2626':kind==='warn'?'#b45309':'#15803d';t.style.display='block';clearTimeout(toastT);toastT=setTimeout(()=>{t.style.display='none';},3500);}
+function startDraft(kind,rec){
+  if(ui.draft){
+    ui.tab=ui.draft.kind==='cap'?'caps':'settings';
+    if(ui.draft.kind==='cap'&&ui.caps.dom!=='all'&&ui.caps.dom!==ui.draft.rec.domainId)ui.caps.dom='all';
+    Object.assign(ui.draft,{scroll:true,flash:true});render(true);toast('Save or cancel the unsaved row first.','warn');return;
+  }
+  ui.draft={kind,rec,err:{},scroll:true,flash:false};render(true);
+}
+function draftErrors(){
+  const {kind,rec}=ui.draft,e={},n=String(rec.name||'').trim(),same=(a,b)=>String(a).trim().toLowerCase()===b.toLowerCase();
+  if(!n)e.name='Name is required';
+  if(kind==='dom'&&n&&state.domains.some(x=>same(x.name,n)))e.name='A domain with this name already exists';
+  if(kind==='role'){if(n&&state.roles.some(x=>same(x.name,n)))e.name='A role with this name already exists';if(!rec.domainId)e.domainId='Domain is required';}
+  if(kind==='cap'){if(!String(rec.group||'').trim())e.group='Capability area is required';if(n&&state.caps.some(x=>x.domainId===rec.domainId&&same(x.name,n)))e.name='This capability already exists in the domain';}
+  if(kind==='app'){if(n&&state.apps.some(x=>same(x.name,n)))e.name='An application with this name already exists';if(!rec.domainIds.length)e.domainIds='Tick at least one domain';}
+  return e;
+}
+function setDraft(el){
+  if(!ui.draft)return;const f=el.dataset.f;
+  ui.draft.rec[f]=el.type==='checkbox'?el.checked:['interfaces','users'].includes(f)?Math.max(0,parseFloat(el.value)||0):el.value;
+  if(ui.draft.err[f]){delete ui.draft.err[f];el.classList.remove('bad');el.removeAttribute('title');}
+}
+function commit(){save();render(true);}
+
+/* ====================== ACTIONS ====================== */
+const ACT={
+  tab:d=>{ui.tab=d.tab;render();window.scrollTo(0,0);},
+  toggleAI:()=>{const s=state.settings.ai;s.on=+s.on?0:1;commit();const K=M.K,B=M.base.K;toast(+s.on?`AI Agents Readiness ON – plan ${(B.planEnd/12).toFixed(1)} → ${(K.planEnd/12).toFixed(1)} years, payback ${B.payback!=null?'M'+B.payback:'>5y'} → ${K.payback!=null?'M'+K.payback:'>5y'}.`:'AI Agents Readiness OFF – baseline plan restored.');},
+  openApp:d=>{ui.modal={type:'drill',id:d.id};openModal(appDrill(d.id));},
+  editApp:d=>{ui.modal={type:'edit',id:d.id};openModal(appEdit(d.id));},
+  closeModal:()=>closeModal(),
+  gotoDomain:d=>{ui.dispo={dom:d.dom,d:'all'};ui.tab='dispo';render();const t=$('#dispoTable');if(t)t.scrollIntoView();},
+  gotoDispo:d=>{ui.dispo={dom:'all',d:d.d};ui.tab='dispo';render();const t=$('#dispoTable');if(t)t.scrollIntoView();},
+  tview:d=>{ui.target.view=d.v;render(true);},
+  mx:(d,el)=>{const k=el.dataset.a+'|'+el.dataset.k,v=+state.map[k]||0,nv={0:3,3:2,2:1,1:0}[v];if(nv)state.map[k]=nv;else delete state.map[k];commit();},
+  addCap:d=>{const g=state.caps.filter(c=>c.domainId===d.dom).map(c=>c.group);startDraft('cap',{domainId:d.dom,group:g[g.length-1]||'',name:'',desc:'',owner:'',crit:'M',reg:false});},
+  delCap:d=>{const c=state.caps.find(x=>x.id===d.id);if(!c)return;askConfirm('Delete capability',`Delete capability "${c.name}" and its application mappings?`,'Delete',()=>{state.caps=state.caps.filter(x=>x.id!==d.id);Object.keys(state.map).forEach(k=>{if(k.endsWith('|'+d.id))delete state.map[k];});commit();});},
+  addDom:()=>startDraft('dom',{name:'',color:'#'+Math.floor(Math.random()*0x888888+0x222222).toString(16).padStart(6,'0')}),
+  delDom:d=>{const x=dom(d.id),n=state.caps.filter(c=>c.domainId===d.id).length;askConfirm('Delete domain',`Delete domain "${x.name}"? This also deletes its ${n} capabilities and their mappings. Apps are unlinked from the domain.`,'Delete',()=>{if(ui.draft&&(ui.draft.rec.domainId===d.id))ui.draft=null;if(draftOf('app'))ui.draft.rec.domainIds=ui.draft.rec.domainIds.filter(i=>i!==d.id);const ids=new Set(state.caps.filter(c=>c.domainId===d.id).map(c=>c.id));state.caps=state.caps.filter(c=>!ids.has(c.id));Object.keys(state.map).forEach(k=>{if(ids.has(k.split('|')[1]))delete state.map[k];});state.apps.forEach(a=>{a.domainIds=a.domainIds.filter(i=>i!==d.id);});state.domains=state.domains.filter(z=>z.id!==d.id);if(ui.caps.dom===d.id)ui.caps.dom='all';if(ui.mx.dom===d.id)ui.mx.dom='all';if(ui.dispo.dom===d.id)ui.dispo.dom='all';commit();});},
+  addRole:()=>startDraft('role',{name:'',domainId:(state.domains[0]||{}).id||''}),
+  delRole:d=>{const r=role(d.id);const n=state.caps.filter(c=>c.owner===d.id).length;askConfirm('Delete role',`Delete role "${r.name}"?${n?` ${n} capabilities will become unassigned.`:''}`,'Delete',()=>{state.roles=state.roles.filter(x=>x.id!==d.id);state.caps.forEach(c=>{if(c.owner===d.id)c.owner='';});commit();});},
+  addApp:()=>startDraft('app',{name:'',vendor:'',domainIds:[(state.domains[0]||{}).id].filter(Boolean),type:'COTS',deploy:'On-premise',bizTeam:'',itTeam:'',interfaces:5,users:50,contractEnd:''}),
+  delApp:d=>{const a=appById(d.id);if(!a)return;askConfirm('Delete application',`Delete application "${a.name}" and all its capability mappings?`,'Delete',()=>{state.apps=state.apps.filter(x=>x.id!==d.id);Object.keys(state.map).forEach(k=>{if(k.startsWith(d.id+'|'))delete state.map[k];});state.apps.forEach(x=>{if(x.overrideTarget===d.id)x.overrideTarget='';});if(ui.modal&&ui.modal.id===d.id)closeModal();commit();});},
+  draftSave:()=>{
+    const d=ui.draft;if(!d)return;
+    d.err=draftErrors();if(Object.keys(d.err).length){d.scroll=true;d.flash=true;render(true);return;}
+    const r=d.rec;r.name=String(r.name).trim();
+    if(d.kind==='dom')state.domains.push({id:uid('D'),name:r.name,color:col(r.color)});
+    if(d.kind==='role')state.roles.push({id:uid('R'),name:r.name,domainId:r.domainId});
+    if(d.kind==='cap'){const last=state.caps.map(x=>x.domainId).lastIndexOf(r.domainId);state.caps.splice(last+1,0,Object.assign({id:uid('C')},r,{group:String(r.group).trim()}));}
+    if(d.kind==='app')state.apps.push(Object.assign({id:uid('A')},r,{leadTime:45,bv:Object.fromEntries(BVC.map(c=>[c.k,3])),th:Object.fromEntries(THC.map(c=>[c.k,3])),cost:Object.fromEntries(COST.map(c=>[c.k,0])),override:'',overrideTarget:'',notes:''}));
+    if(d.kind==='app'){const na=state.apps[state.apps.length-1];na.air=aiDefault(na);}
+    ui.draft=null;commit();
+    toast(d.kind==='app'?`“${r.name}” saved. Scores default to 3 and costs to 0 – use “Edit all” to complete them.`:`“${r.name}” saved.`);
+  },
+  draftCancel:()=>{ui.draft=null;render(true);},
+  dlgOk:()=>{const f=dlgFn;closeDlg();if(f)f();},
+  dlgCancel:()=>closeDlg(),
+  exportJson:()=>download('rationalisation_workbench_'+new Date().toISOString().slice(0,10)+'.json',JSON.stringify(state,null,1),'application/json'),
+  importJson:()=>$('#fileIn').click(),
+  exportCsv:()=>{const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';const rows=[['Application','Vendor','Domains','BV','TH','TCO $K','Cost efficiency','Composite before overlap penalty','Redundancy %','Redundant spend $K','Redundant spend after $K','Composite','Disposition','Target platform','Effort','Effort cost $K','Onboarding (training + data migration) $K','One-off $K','Wave','Start month','End month','Annual saving $K','AI toggle','AI readiness (ARS)','AI multiplier','AI acceleration %','Duration without AI (mo)','Duration (mo)','One-off without AI $K','AIOps saving $K']];sorted(state.apps).forEach(a=>{const r=M.R[a.id];rows.push([a.name,a.vendor,a.domainIds.map(i=>dom(i).name).join('/'),f2(r.bv),f2(r.th),Math.round(r.tco),f2(r.cs),f2(r.compBase),Math.round(r.redund*100),Math.round(r.redSpend),Math.round(r.redSpendAfter),f2(r.comp),r.disp,r.absorber?appName(r.absorber):'',r.disp==='Retain'?'BAU':r.size,Math.round(r.oneOffBase),Math.round(r.onboard),Math.round(r.oneOff),r.wave,r.start,r.end,Math.round(r.saving),aiOn()?'ON':'OFF',f2(r.ars),f2(r.aiMult),Math.round(r.aiAcc*100),r.durBase,r.dur,Math.round(M.base.R[a.id].oneOff),Math.round(r.aiOps)]);});download('dispositions.csv',rows.map(r=>r.map(q).join(',')).join('\n'),'text/csv');},
+  resetDemo:()=>askConfirm('Reset to demo data','Replace all current data with the synthetic demo data? Export JSON first if you want to keep your changes.','Reset',()=>{state=demoData();ui.howApp=null;ui.draft=null;commit();toast('Demo data restored.');}),
+  resetParams:()=>askConfirm('Reset parameters','Reset all weights, thresholds and assumptions to defaults?','Reset',()=>{state.settings=JSON.parse(JSON.stringify(DEFAULT_SETTINGS));commit();toast('Parameters reset to defaults.');})
+};
+function download(name,content,type){const b=new Blob([content],{type});const u=URL.createObjectURL(b);const l=document.createElement('a');l.href=u;l.download=name;document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);}
+document.addEventListener('click',e=>{
+  if(e.target.id==='dlg'){closeDlg();return;}
+  if(e.target.id==='modal'){closeModal();return;}
+  const el=e.target.closest('[data-act]');if(!el)return;
+  if(el.tagName==='A')e.preventDefault();
+  const f=ACT[el.dataset.act];if(f)f(el.dataset,el,e);
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){if(!$('#dlg').classList.contains('hide'))closeDlg();else if(ui.modal)closeModal();else if(ui.draft)ACT.draftCancel();return;}
+  if(e.key==='Enter'&&e.target.closest('#draftRow')&&e.target.tagName==='INPUT'){e.preventDefault();setDraft(e.target);ACT.draftSave();}
+  if(e.key==='Tab'&&!e.ctrlKey&&!e.altKey&&e.target.matches('input[data-ch],select[data-ch],textarea[data-ch]')&&e.target.dataset.ch!=='draft'){
+    // In score grids, Tab jumps only between score fields (skipping app-name links)
+    const grid=e.target.closest('#scoreWrap,#aiWrap');
+    const root=grid||e.target.closest('#mbody')||e.target.closest('#view');if(!root)return;
+    const FOC=grid?'input[data-ch="score"]:not(:disabled)':'input:not([type="hidden"]):not(:disabled):not([tabindex="-1"]),select:not(:disabled),textarea:not(:disabled),button:not(:disabled),a[href],summary';
+    const vis=x=>x.offsetParent!==null||x.getClientRects().length>0;
+    const list=[...root.querySelectorAll(FOC)].filter(vis),idx=list.indexOf(e.target)+(e.shiftKey?-1:1),nx=list[idx];
+    if(!nx)return;
+    e.preventDefault();
+    // Leaving the field triggers a re-render, so re-find the target afterwards (by its data attributes, else by position)
+    let s=null;
+    if(nx.dataset.ch)s=nx.tagName.toLowerCase()+(nx.type?`[type="${nx.type}"]`:'')+['ch','id','g','k','f','dom','i'].filter(a=>nx.dataset[a]!=null).map(a=>`[data-${a}="${CSS.escape(nx.dataset[a])}"]`).join('');
+    e.target.blur();
+    const r2=e.target.isConnected?root:(root.id?document.getElementById(root.id):root);
+    const n=(s&&r2.querySelector(s))||[...r2.querySelectorAll(FOC)].filter(vis)[idx];
+    if(n){n.focus();if(n.select&&/^(text|number|search|email|url|tel|)$/.test(n.type||''))n.select();}
+  }
+});
+document.addEventListener('input',e=>{
+  const el=e.target.closest('[data-ch="draft"]');if(el)setDraft(el);
+  // Keep a parameter's slider and number box in sync while dragging/typing (commit happens on change)
+  const p=e.target.closest('.pc2 [data-ch="param"]');
+  if(p)p.closest('.pc2').querySelectorAll('[data-ch="param"]').forEach(o=>{if(o!==p)o.value=p.value;});
+});
+
+/* ====================== CHANGE HANDLERS ====================== */
+const CH={
+  cap:el=>{const c=state.caps.find(x=>x.id===el.dataset.id);if(!c)return;c[el.dataset.f]=el.type==='checkbox'?el.checked:el.value;commit();},
+  capsDom:el=>{ui.caps.dom=el.value;render();},
+  capsQ:el=>{ui.caps.q=el.value;render(true);},
+  mx:el=>{const k=el.dataset.k;ui.mx[k]=el.type==='checkbox'?el.checked:el.value;render(true);},
+  dispoF:el=>{ui.dispo[el.dataset.k]=el.value;render(true);},
+  howApp:el=>{ui.howApp=el.value;render(true);},
+  param:el=>{
+    let v;
+    if(el.type==='checkbox')v=el.checked?1:0;
+    else{const mn=parseFloat(el.min),mx=parseFloat(el.max);v=parseFloat(el.value);if(!isFinite(v))v=isFinite(mn)?mn:0;if(isFinite(mn))v=Math.max(mn,v);if(isFinite(mx))v=Math.min(mx,v);}
+    state.settings[el.dataset.g][el.dataset.k]=v;commit();
+  },
+  score:el=>{const a=appById(el.dataset.id);if(!a)return;let v=parseFloat(el.value)||0;if(el.dataset.g!=='cost')v=Math.max(1,Math.min(5,Math.round(v)));else v=Math.max(0,v);if(el.dataset.g==='air'&&!a.air)a.air=aiDefault(a);a[el.dataset.g][el.dataset.k]=v;commit();},
+  override:el=>{const a=appById(el.dataset.id);a.override=el.value;if(!REMOVED(el.value))a.overrideTarget='';commit();},
+  overrideTarget:el=>{appById(el.dataset.id).overrideTarget=el.value;commit();},
+  dom:el=>{const d=state.domains.find(x=>x.id===el.dataset.id);if(!d)return;d[el.dataset.f]=el.value;commit();},
+  role:el=>{const r=role(el.dataset.id);if(!r)return;r[el.dataset.f]=el.value;commit();},
+  app:el=>{const a=appById(el.dataset.id);if(!a)return;const f=el.dataset.f;a[f]=['interfaces','users','leadTime'].includes(f)?Math.max(0,parseFloat(el.value)||0):el.value;commit();},
+  appDom:el=>{const a=appById(el.dataset.id);if(!a)return;const d=el.dataset.dom;if(el.checked){if(!a.domainIds.includes(d))a.domainIds.push(d);}else a.domainIds=a.domainIds.filter(x=>x!==d);commit();},
+  appPrim:el=>{const a=appById(el.dataset.id);if(!a)return;a.domainIds=[el.value,...a.domainIds.filter(x=>x!==el.value)];commit();},
+  importFile:el=>{const f=el.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{state=normalise(JSON.parse(rd.result));ui.howApp=null;ui.draft=null;commit();toast('Workbench data imported.');}catch(err){toast('Import failed: '+err.message,'err');}el.value='';};rd.readAsText(f);},
+  draft:el=>setDraft(el),
+  draftDom:el=>{const r=ui.draft&&ui.draft.rec;if(!r)return;const d=el.dataset.dom;r.domainIds=el.checked?[...new Set([...r.domainIds,d])]:r.domainIds.filter(x=>x!==d);delete ui.draft.err.domainIds;render(true);}
+};
+document.addEventListener('change',e=>{const el=e.target.closest('[data-ch]');if(!el)return;const f=CH[el.dataset.ch];if(f)f(el);});
+
+render();
+</script>
+</body>
+</html>

@@ -1,26 +1,121 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sign in · Securitisation Ingestion System</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Portfolio</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --indigo: #4f46e5;
+      --teal: #0d9488;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+      color: var(--ink);
+      background: #f1f5f9;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      background: radial-gradient(1200px 400px at 20% -10%, #312e81 0%, transparent 60%),
+                  radial-gradient(900px 400px at 90% 0%, #134e4a 0%, transparent 60%),
+                  var(--bg);
+      color: #fff;
+      padding: 72px 24px 140px;
+      text-align: center;
+    }
+    .brand {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
+      color: #cbd5e1; border: 1px solid rgba(255,255,255,.15);
+      padding: 6px 14px; border-radius: 999px; background: rgba(255,255,255,.04);
+    }
+    .brand .dot { width: 8px; height: 8px; border-radius: 50%; background: #22d3ee; box-shadow: 0 0 10px #22d3ee; }
+    h1 { font-size: clamp(28px, 4vw, 44px); font-weight: 700; margin: 22px 0 12px; letter-spacing: -.02em; }
+    header p { max-width: 640px; margin: 0 auto; color: #cbd5e1; font-size: 16px; line-height: 1.6; }
+
+    main {
+      flex: 1;
+      max-width: 1040px; width: 100%;
+      margin: -96px auto 0; padding: 0 24px 64px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;
+    }
+    .card {
+      --accent: var(--indigo);
+      position: relative; display: flex; flex-direction: column;
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 32px; text-decoration: none; color: inherit; overflow: hidden;
+      box-shadow: 0 10px 30px rgba(15,23,42,.08);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .card.teal { --accent: var(--teal); }
+    .card::before {
+      content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--accent);
+    }
+    .card:hover, .card:focus-visible {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(15,23,42,.14);
+      border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+      outline: none;
+    }
+    .icon {
+      width: 52px; height: 52px; border-radius: 12px; display: grid; place-items: center;
+      background: color-mix(in srgb, var(--accent) 12%, #fff); color: var(--accent); margin-bottom: 20px;
+    }
+    .icon svg { width: 26px; height: 26px; }
+    .tag { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+    .card h2 { font-size: 22px; margin: 6px 0 10px; letter-spacing: -.01em; }
+    .card p { color: var(--muted); font-size: 14.5px; line-height: 1.6; margin: 0 0 24px; flex: 1; }
+    .cta { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; color: var(--accent); }
+    .cta svg { width: 16px; height: 16px; transition: transform .2s ease; }
+    .card:hover .cta svg { transform: translateX(4px); }
+
+    footer { text-align: center; color: var(--muted); font-size: 12.5px; padding: 24px; border-top: 1px solid var(--border); background: #fff; }
+  </style>
 </head>
-<body class="login-page">
-  <form id="login-form" class="card login-card">
-    <div class="card-body">
-      <div class="form-field">
-        <label class="required" for="login-username">Username</label>
-        <input id="login-username" name="username" type="text" autocomplete="username" value="Guest" disabled>
+<body>
+  <header>
+    <span class="brand"><span class="dot"></span>Project Portfolio</span>
+    <h1>Select a project to continue</h1>
+    <p>Choose one of the available applications below to launch its workspace.</p>
+  </header>
+
+  <main>
+    <a class="card" href="./rationalization/index.html">
+      <div class="icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg>
       </div>
-      <div class="form-field">
-        <label class="required" for="login-password">Password</label>
-        <input id="login-password" name="password" type="password" autocomplete="current-password" required autofocus>
+      <span class="tag">Project 01</span>
+      <h2>Rationalization Assessment Tool</h2>
+      <p>Assess and score the application landscape across Risk, Finance &amp; Compliance to identify consolidation and decommissioning opportunities.</p>
+      <span class="cta">Open tool
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </a>
+
+    <a class="card teal" href="./securitization/index.html">
+      <div class="icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/><path d="M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/></svg>
       </div>
-      <p id="login-error" class="login-error" role="alert" hidden></p>
-      <button class="button button-primary" type="submit">Sign in</button>
-    </div>
-  </form>
-  <script src="js/login.js"></script>
+      <span class="tag">Project 02</span>
+      <h2>Securitization Ingestion System</h2>
+      <p>Ingest, map and cleanse loan-level data, configure transactions and run model scenarios for securitization analysis.</p>
+      <span class="cta">Open system
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </a>
+  </main>
+
+  <footer>&copy; <span id="year"></span> Project Portfolio. All rights reserved.</footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
