@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pool Covenants · Securitisation Ingestion System</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>html.sis-loading body{visibility:hidden}#sis-loader{position:fixed;inset:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;background:#f4f6f9;font:14px/1.4 Segoe UI,system-ui,-apple-system,sans-serif;color:#1f2937}#sis-loader .sis-loader-box{width:min(420px,calc(100vw - 48px))}#sis-loader strong{display:block;margin-bottom:14px;font-size:16px;font-weight:600}#sis-loader .sis-loader-track{position:relative;height:8px;overflow:hidden;border-radius:4px;background:#dde3ea}#sis-loader .sis-loader-bar{height:100%;width:0;border-radius:4px;background:#0f5ea8;transition:width .15s ease-out}#sis-loader.sis-loader-indeterminate .sis-loader-bar{width:35%!important;animation:sis-loader-slide 1.1s ease-in-out infinite}#sis-loader .sis-loader-meta{display:flex;justify-content:space-between;gap:12px;margin-top:8px;color:#5b6573;font-size:12px}@keyframes sis-loader-slide{0%{transform:translate(-100%)}to{transform:translate(290%)}}</style>
+  <script>(()=>{var{scripts:x}={"scripts":[{"src":"../lib/xlsx.full.min.js","bytes":951904},{"src":"../lib/sql-wasm-inline.js","bytes":964922},{"src":"../js/pool-covenants.js","bytes":237882}]},M=200,h=document.documentElement,w=/^https?:$/.test(location.protocol)&&typeof fetch=="function"&&typeof ReadableStream=="function",l=0,d=0,r=[],i=0,n=null,m=null,u="Loading application";h.classList.add("sis-loading");function $(){return n?.isConnected||(n=document.createElement("div"),n.id="sis-loader",n.setAttribute("role","progressbar"),n.setAttribute("aria-valuemin","0"),n.setAttribute("aria-valuemax","100"),n.innerHTML='<div class="sis-loader-box"><strong>Securitisation Ingestion System</strong><div class="sis-loader-track"><div class="sis-loader-bar"></div></div><div class="sis-loader-meta"><span class="sis-loader-status"></span><span class="sis-loader-percent"></span></div></div>',h.append(n)),n}function g(t){return t>=1048576?`${(t/1048576).toFixed(1)} MB`:`${Math.max(1,Math.round(t/1024))} KB`}function c(){if(!n?.isConnected)return;let t=i>0,e=t&&l?Math.min(100,Math.floor(d/l*100)):100;n.classList.toggle("sis-loader-indeterminate",!t),n.querySelector(".sis-loader-bar").style.width=`${e}%`,n.setAttribute("aria-valuenow",String(e)),n.querySelector(".sis-loader-status").textContent=t&&l?`${u} \xB7 ${g(Math.min(d,l))} of ${g(l)}`:u,n.querySelector(".sis-loader-percent").textContent=t?`${e}%`:""}function v(){m||(m=setTimeout(()=>{$(),c()},M))}function S(){i>0||r.length>0||setTimeout(()=>{i>0||r.length>0||(clearTimeout(m),m=null,h.classList.remove("sis-loading"),n?.remove())},0)}async function _(t){let e=await fetch(t.src);if(!e.ok)throw new Error(`HTTP ${e.status}`);let s=e.body.getReader(),a=[],o=0;for(;;){let{done:f,value:p}=await s.read();if(f)break;a.push(p);let L=Math.max(0,Math.min(p.length,t.bytes-o));o+=p.length,d+=L,c()}return d+=Math.max(0,t.bytes-o),new TextDecoder().decode(await new Blob(a).arrayBuffer())}function y(t,e){return new Promise((s,a)=>{let o=document.createElement("script");if(e!=null){o.textContent=`${e}
+//# sourceURL=${new URL(t,location.href).href}`,document.head.append(o),s();return}o.async=!1,o.src=t,o.onload=()=>s(),o.onerror=()=>a(new Error(`${t} could not be loaded.`)),document.head.append(o)})}async function b(t,e){u=e,i===0&&(l=0,d=0),i+=1,l+=t.reduce((s,a)=>s+a.bytes,0),v(),c();try{let s=t.map(a=>w?_(a).catch(()=>null):null);document.readyState==="loading"&&await new Promise(a=>document.addEventListener("DOMContentLoaded",a,{once:!0}));for(let[a,o]of t.entries()){let f=await s[a];f==null?await y(o.src).finally(()=>{w||(d+=o.bytes),c()}):await y(o.src,f)}}finally{i-=1,i===0&&r.length>0&&(u=r.at(-1)),c(),S()}}window.__sisLoader={loadScript:(t,e,s="Loading data")=>b([{src:t,bytes:e}],s),hold(t="Starting"){r.push(t),i===0&&(u=t),v(),c();let e=!1;return()=>{e||(e=!0,r.splice(r.lastIndexOf(t),1),r.length>0&&i===0&&(u=r.at(-1),c()),S())}}};b(x,"Loading application").catch(t=>console.error(t));})();</script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="deals.html"><span class="brand-mark" aria-label="SIS"><span>S</span><span class="brand-i"><span class="brand-heart">♥</span>ı</span><span>S</span></span><span class="brand-copy"><strong>Securitisation Ingestion System</strong><span>Pool analytics workspace</span></span></a>
+    <a class="topbar-meta topbar-meta-link" href="configuration.html"><svg class="database-icon" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5M3 12c0 1.7 4 3 9 3s9-1.3 9-3"/></svg><span>Database Config</span></a>
+  </header>
+
+  <div class="app-layout">
+    <nav id="app-nav" class="step-nav" aria-label="Application navigation"></nav>
+
+    <main class="page-shell">
+      <div class="page-header">
+        <div>
+          <p class="eyebrow">Pool analytics</p>
+          <h1>Pool covenants</h1>
+          <p class="page-subtitle">Pool metrics monitored against a limit. A result past the limit is a <strong>Breach</strong>, a result inside the warning zone next to the limit is a <strong>Warning</strong>, any other result is <strong>Compliant</strong>, and a missing (NULL) result is <strong>Missing</strong>. Covenants are recalculated at the end of every successful ingestion.</p>
+        </div>
+        <button id="restore-defaults-button" class="button button-secondary" type="button">Restore defaults</button>
+      </div>
+
+      <div id="page-notice" hidden></div>
+
+      <div id="empty-state" class="empty-state card" hidden>
+        <strong>No ingested loans</strong>
+        <p>Pool covenants are calculated once loan data has been successfully ingested.</p>
+        <a class="button button-primary" href="ingestion-report.html">Go to Ingestion report</a>
+      </div>
+
+      <div id="pool-content" hidden>
+        <section class="stats-grid configuration-stats covenant-stats">
+          <div class="stat-card covenant-stat-breach"><span>Breach</span><strong id="breach-count">—</strong><small>Result past the limit</small></div>
+          <div class="stat-card covenant-stat-warning"><span>Warning</span><strong id="warning-count">—</strong><small>Inside the warning zone</small></div>
+          <div class="stat-card covenant-stat-compliant"><span>Compliant</span><strong id="compliant-count">—</strong><small>Outside the warning zone</small></div>
+          <div class="stat-card covenant-stat-missing"><span>Missing</span><strong id="missing-count">—</strong><small>No result (NULL)</small></div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <div><h2>Covenants</h2><p>Ordered Missing, Breach, Warning, then Compliant. Select a covenant to edit its limit, warning threshold, operator or SQL.</p></div>
+          </div>
+          <div class="card-body pool-layout-covenants">
+            <div class="pool-metric-header" aria-hidden="true"><span>Covenant</span><span>Limit</span><span>Result</span><span>Status</span></div>
+            <div class="configuration-editor-list">
+              <div id="pool-metric-list" class="configuration-editor-list"></div>
+              <details id="new-pool-metric-card" class="configuration-editor-card pool-metric-card pool-new-card"></details>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+</body>
+</html>

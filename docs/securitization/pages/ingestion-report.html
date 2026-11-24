@@ -5,11 +5,150 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ingestion report · Securitisation Ingestion System</title>
   <link rel="stylesheet" href="../css/styles.css">
-  <script src="../lib/xlsx.full.min.js"></script>
-  <script src="../lib/sql-wasm-inline.js"></script>
+  <style>html.sis-loading body{visibility:hidden}#sis-loader{position:fixed;inset:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;background:#f4f6f9;font:14px/1.4 Segoe UI,system-ui,-apple-system,sans-serif;color:#1f2937}#sis-loader .sis-loader-box{width:min(420px,calc(100vw - 48px))}#sis-loader strong{display:block;margin-bottom:14px;font-size:16px;font-weight:600}#sis-loader .sis-loader-track{position:relative;height:8px;overflow:hidden;border-radius:4px;background:#dde3ea}#sis-loader .sis-loader-bar{height:100%;width:0;border-radius:4px;background:#0f5ea8;transition:width .15s ease-out}#sis-loader.sis-loader-indeterminate .sis-loader-bar{width:35%!important;animation:sis-loader-slide 1.1s ease-in-out infinite}#sis-loader .sis-loader-meta{display:flex;justify-content:space-between;gap:12px;margin-top:8px;color:#5b6573;font-size:12px}@keyframes sis-loader-slide{0%{transform:translate(-100%)}to{transform:translate(290%)}}</style>
+  <script>(()=>{var{scripts:x}={"scripts":[{"src":"../lib/xlsx.full.min.js","bytes":951904},{"src":"../lib/sql-wasm-inline.js","bytes":964922},{"src":"../js/ingestion-report.js","bytes":240936}]},M=200,h=document.documentElement,w=/^https?:$/.test(location.protocol)&&typeof fetch=="function"&&typeof ReadableStream=="function",l=0,d=0,r=[],i=0,n=null,m=null,u="Loading application";h.classList.add("sis-loading");function $(){return n?.isConnected||(n=document.createElement("div"),n.id="sis-loader",n.setAttribute("role","progressbar"),n.setAttribute("aria-valuemin","0"),n.setAttribute("aria-valuemax","100"),n.innerHTML='<div class="sis-loader-box"><strong>Securitisation Ingestion System</strong><div class="sis-loader-track"><div class="sis-loader-bar"></div></div><div class="sis-loader-meta"><span class="sis-loader-status"></span><span class="sis-loader-percent"></span></div></div>',h.append(n)),n}function g(t){return t>=1048576?`${(t/1048576).toFixed(1)} MB`:`${Math.max(1,Math.round(t/1024))} KB`}function c(){if(!n?.isConnected)return;let t=i>0,e=t&&l?Math.min(100,Math.floor(d/l*100)):100;n.classList.toggle("sis-loader-indeterminate",!t),n.querySelector(".sis-loader-bar").style.width=`${e}%`,n.setAttribute("aria-valuenow",String(e)),n.querySelector(".sis-loader-status").textContent=t&&l?`${u} \xB7 ${g(Math.min(d,l))} of ${g(l)}`:u,n.querySelector(".sis-loader-percent").textContent=t?`${e}%`:""}function v(){m||(m=setTimeout(()=>{$(),c()},M))}function S(){i>0||r.length>0||setTimeout(()=>{i>0||r.length>0||(clearTimeout(m),m=null,h.classList.remove("sis-loading"),n?.remove())},0)}async function _(t){let e=await fetch(t.src);if(!e.ok)throw new Error(`HTTP ${e.status}`);let s=e.body.getReader(),a=[],o=0;for(;;){let{done:f,value:p}=await s.read();if(f)break;a.push(p);let L=Math.max(0,Math.min(p.length,t.bytes-o));o+=p.length,d+=L,c()}return d+=Math.max(0,t.bytes-o),new TextDecoder().decode(await new Blob(a).arrayBuffer())}function y(t,e){return new Promise((s,a)=>{let o=document.createElement("script");if(e!=null){o.textContent=`${e}
+//# sourceURL=${new URL(t,location.href).href}`,document.head.append(o),s();return}o.async=!1,o.src=t,o.onload=()=>s(),o.onerror=()=>a(new Error(`${t} could not be loaded.`)),document.head.append(o)})}async function b(t,e){u=e,i===0&&(l=0,d=0),i+=1,l+=t.reduce((s,a)=>s+a.bytes,0),v(),c();try{let s=t.map(a=>w?_(a).catch(()=>null):null);document.readyState==="loading"&&await new Promise(a=>document.addEventListener("DOMContentLoaded",a,{once:!0}));for(let[a,o]of t.entries()){let f=await s[a];f==null?await y(o.src).finally(()=>{w||(d+=o.bytes),c()}):await y(o.src,f)}}finally{i-=1,i===0&&r.length>0&&(u=r.at(-1)),c(),S()}}window.__sisLoader={loadScript:(t,e,s="Loading data")=>b([{src:t,bytes:e}],s),hold(t="Starting"){r.push(t),i===0&&(u=t),v(),c();let e=!1;return()=>{e||(e=!0,r.splice(r.lastIndexOf(t),1),r.length>0&&i===0&&(u=r.at(-1),c()),S())}}};b(x,"Loading application").catch(t=>console.error(t));})();</script>
 </head>
 <body>
-  <script src="../js/ingestion-report.js"></script>
-  <script src="../js/page-loader.js"></script>
+  <header class="topbar">
+    <a class="brand" href="deals.html"><span class="brand-mark" aria-label="SIS"><span>S</span><span class="brand-i"><span class="brand-heart">♥</span>ı</span><span>S</span></span><span class="brand-copy"><strong>Securitisation Ingestion System</strong><span>Loan data onboarding workspace</span></span></a>
+    <a class="topbar-meta topbar-meta-link" href="configuration.html" aria-label="Open standard field configuration"><svg class="database-icon" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5M3 12c0 1.7 4 3 9 3s9-1.3 9-3"/></svg><span>Database Config</span></a>
+  </header>
+
+  <div class="app-layout">
+    <nav id="app-nav" class="step-nav" aria-label="Application navigation"></nav>
+
+    <main class="page-shell">
+      <div class="page-header">
+        <div>
+          <p class="eyebrow">Monthly ingestion · Step 4 of 4</p>
+          <h1>Data ingestion report</h1>
+          <p class="page-subtitle">Validate each mapped cell, transform accepted rows, insert valid loans into <code>dbo.loans</code>, and review row-level rejection reasons.</p>
+        </div>
+      </div>
+
+      <div class="page-action-anchor">
+        <div id="page-action-bar" class="page-action-bar" role="toolbar" aria-label="Ingestion report actions">
+          <strong class="page-action-title">Data ingestion report</strong>
+          <div class="page-action-buttons">
+            <button class="button button-secondary button-small" type="button" data-scroll-to="predefined-metrics-card">Predefined metrics</button>
+            <button class="button button-secondary button-small" type="button" data-scroll-to="sql-console-card">SQL query console</button>
+            <div class="navigate-to" data-navigate-to>
+              <select class="navigate-to-select page-action-select" aria-label="Navigate to" disabled>
+                <option value="" selected disabled>Navigate to…</option>
+                <option value="pool-metrics">Pool metrics</option>
+                <option value="pool-covenants">Pool covenants</option>
+                <option value="model-inputs">RMBS S&amp;P Credit Model</option>
+              </select>
+              <button class="button button-primary button-small navigate-to-go" type="button" aria-label="Go to the selected page" disabled>&rarr;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="page-notice" hidden></div>
+
+      <section class="card">
+        <div class="card-header">
+          <div><h2>Run configuration</h2><p>Confirm the workflow inputs before replacing the current loan pool with the validated rows from the source workbook.</p></div>
+        </div>
+        <div class="card-body">
+          <div id="config-summary" class="config-summary"></div>
+          <div style="height:20px"></div>
+          <div class="form-field">
+            <span class="field-label">Data-quality policy</span>
+            <div class="notice notice-info"><div>A row is rejected when any mapped nonblank cell fails its configured type or lookup-key validation. Each run replaces the current contents of <code>dbo.loans</code> in the same database transaction.</div></div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a class="button button-secondary" href="data-cleansing.html">Back</a>
+          <button id="start-button" class="button button-primary" type="button">Start ingestion</button>
+          <button id="rmbs-model-button" class="button button-secondary" type="button" disabled title="Available once loans have been ingested">RMBS S&amp;P Credit Model</button>
+        </div>
+      </section>
+
+      <section id="report-card" class="card">
+        <div class="card-header">
+          <div><h2>Latest ingestion result</h2><p id="report-context">No ingestion has been run in this workspace yet.</p></div>
+          <button id="download-rejections" class="button button-secondary button-small" type="button" hidden>Download rejections CSV</button>
+        </div>
+        <div class="card-body">
+          <div id="report-empty" class="empty-state"><strong>No report available</strong><p>Complete the configuration above and start an ingestion run.</p></div>
+          <div id="report-content" hidden>
+            <div class="stats-grid">
+              <div class="stat-card success"><div class="stat-label">Inserted loans</div><div id="inserted-count" class="stat-value">0</div><div class="stat-detail">Rows committed to dbo.loans</div></div>
+              <div class="stat-card danger"><div class="stat-label">Rejected loans</div><div id="rejected-count" class="stat-value">0</div><div class="stat-detail">Rows failing data quality</div></div>
+              <div class="stat-card warning"><div class="stat-label">Skipped rows</div><div id="skipped-count" class="stat-value">0</div><div class="stat-detail">Blank rows across mapped columns</div></div>
+              <div class="stat-card"><div class="stat-label">Run identifier</div><div id="run-id" class="stat-value">—</div><div id="run-duration" class="stat-detail">—</div></div>
+            </div>
+            <div style="height:20px"></div>
+            <div id="rejection-section" hidden>
+              <div class="toolbar">
+                <div class="summary-line"><strong>Rejected source rows</strong> and data-quality reasons</div>
+                <div class="toolbar-group">
+                  <button id="previous-rejections" class="button button-secondary button-small" type="button">Previous</button>
+                  <span id="rejection-page-label" class="badge badge-slate"></span>
+                  <button id="next-rejections" class="button button-secondary button-small" type="button">Next</button>
+                </div>
+              </div>
+              <div id="rejection-table" class="table-wrap"></div>
+            </div>
+            <div id="no-rejections" class="notice notice-success" hidden><div><strong>All populated rows passed data quality</strong>No loans were rejected in this ingestion run.</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" id="predefined-metrics-card">
+        <div class="card-header"><div><h2>Predefined metrics</h2><p>Live results from the configured SQL presets. Metrics refresh after ingestion and when the report opens.</p></div><button id="refresh-metrics" class="button button-secondary button-small" type="button">Refresh metrics</button></div>
+        <div class="card-body"><div id="metrics-status" class="field-hint" role="status">Loading metrics…</div><div id="predefined-metrics-list" class="metrics-list" aria-live="polite"></div></div>
+      </section>
+
+      <section class="card" id="sql-console-card">
+        <div class="card-header">
+          <div><h2>SQL query console</h2><p>Build or enter one read-only SQLite aggregate query against the attached <code>dbo</code> database. Results are capped at 1,000 rows.</p></div>
+          <span class="badge badge-purple">Read only</span>
+        </div>
+        <div class="card-body">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="predefined-query">Predefined SQL query</label>
+              <select id="predefined-query"></select>
+              <p class="field-hint">Selecting a predefined query also selects its recommended result type.</p>
+            </div>
+            <div class="form-field">
+              <label for="result-type">Result type</label>
+              <select id="result-type">
+                <option value="currency">Currency</option>
+                <option value="percentage">Percentage</option>
+                <option value="plain">Plain</option>
+              </select>
+              <p class="field-hint">Currency uses $ with two decimals; percentage multiplies numeric values by 100 and uses three decimals.</p>
+            </div>
+          </div>
+          <div style="height:16px"></div>
+          <sql-query-builder id="sql-query-builder"></sql-query-builder>
+          <div style="height:12px"></div>
+          <div class="toolbar">
+            <div id="query-meta" class="query-meta">Use SQLite syntax and the schema-qualified table name dbo.loans.</div>
+            <button id="run-query-button" class="button button-primary" type="button">Run query</button>
+          </div>
+          <div id="query-result" class="table-wrap" hidden></div>
+        </div>
+      </section>
+
+      <div class="page-bottom-actions">
+        <div class="navigate-to" data-navigate-to>
+          <select class="navigate-to-select" aria-label="Navigate to" disabled>
+            <option value="" selected disabled>Navigate to…</option>
+            <option value="pool-metrics">Pool metrics</option>
+            <option value="pool-covenants">Pool covenants</option>
+            <option value="model-inputs">RMBS S&amp;P Credit Model</option>
+          </select>
+          <button class="button button-primary navigate-to-go" type="button" aria-label="Go to the selected page" disabled>&rarr;</button>
+        </div>
+      </div>
+    </main>
+  </div>
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
 </body>
 </html>

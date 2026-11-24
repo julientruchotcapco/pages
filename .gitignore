@@ -1,0 +1,2 @@
+﻿# Plain sources of the protected projects: never publish them (see tools/protect.mjs).
+private/

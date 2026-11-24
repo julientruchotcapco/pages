@@ -79,8 +79,37 @@
     .cta svg { width: 16px; height: 16px; transition: transform .2s ease; }
     .card:hover .cta svg { transform: translateX(4px); }
 
+    .card.teal { --accent: #0d9488; }
+
+    .login {
+      max-width: 420px; width: 100%; margin: -96px auto 64px; padding: 0 24px; flex: 1;
+    }
+    .login form {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 32px; box-shadow: 0 10px 30px rgba(15,23,42,.08); display: grid; gap: 14px;
+    }
+    .login h2 { margin: 0; font-size: 20px; }
+    .login p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+    .login label { font-size: 13px; font-weight: 600; }
+    .login input {
+      font: inherit; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; width: 100%;
+    }
+    .login input:focus { outline: 2px solid var(--blue); outline-offset: 1px; }
+    .login button, .signout {
+      font: inherit; font-weight: 600; cursor: pointer; border-radius: 10px;
+    }
+    .login button { padding: 11px; border: 0; background: var(--navy); color: #fff; }
+    .login button:disabled { opacity: .6; cursor: progress; }
+    .login .error { color: #dc2626; font-size: 13.5px; }
+    .signout {
+      margin-left: 12px; padding: 4px 12px; font-size: 12.5px; border: 1px solid var(--border); background: #fff; color: var(--muted);
+    }
+    [hidden] { display: none !important; }
+
     footer { text-align: center; color: var(--muted); font-size: 12.5px; padding: 24px; border-top: 1px solid var(--border); background: #fff; }
   </style>
+  <script src="./auth/config.js"></script>
+  <script src="./auth/guard.js"></script>
 </head>
 <body>
   <header>
@@ -89,7 +118,18 @@
     <p>Choose one of the available applications below to launch its workspace.</p>
   </header>
 
-  <main>
+  <section class="login" id="login" hidden>
+    <form id="login-form">
+      <h2>Password required</h2>
+      <p>Enter the access password to open the projects.</p>
+      <label for="login-password">Password</label>
+      <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+      <p class="error" id="login-error" role="alert" hidden></p>
+      <button type="submit">Unlock</button>
+    </form>
+  </section>
+
+  <main id="projects" hidden>
     <a class="card" href="./rationalization/index.html">
       <div class="icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg>
@@ -113,8 +153,66 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </span>
     </a>
+
+    <a class="card teal" href="./hr-policy/index.html">
+      <div class="icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg>
+      </div>
+      <span class="tag">Project 03</span>
+      <h2>HR Policy Assistant</h2>
+      <p>Ask questions about HR policies and get answers grounded in the policy documents, with semantic search over the policy library.</p>
+      <span class="cta">Open assistant
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </a>
   </main>
 
-  <footer>Julien Truchot @ Capco</footer>
+  <footer>Julien Truchot @ Capco<button class="signout" id="signout" type="button" hidden>Sign out</button></footer>
+
+  <script>
+    (async () => {
+      const auth = window.PortfolioAuth;
+      const next = auth.resolveNext(new URLSearchParams(location.search).get("next"));
+      const login = document.getElementById("login");
+      const form = document.getElementById("login-form");
+      const error = document.getElementById("login-error");
+      const button = form.querySelector("button");
+
+      function open() {
+        if (next) return location.replace(next);
+        login.hidden = true;
+        document.getElementById("projects").hidden = false;
+        document.getElementById("signout").hidden = false;
+      }
+
+      document.getElementById("signout").addEventListener("click", () => {
+        auth.clearSession();
+        location.replace(location.pathname);
+      });
+
+      if (await auth.readSession()) return open();
+      login.hidden = false;
+      form.password.focus();
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        error.hidden = true;
+        button.disabled = true;
+        button.textContent = "Checking…";
+        try {
+          await auth.login(form.password.value);
+          open();
+        } catch (failure) {
+          error.textContent = failure.message;
+          error.hidden = false;
+          form.password.value = "";
+          form.password.focus();
+        } finally {
+          button.disabled = false;
+          button.textContent = "Unlock";
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
