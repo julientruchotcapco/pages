@@ -3,12 +3,10 @@
 //   node tools/protect.mjs            (prompts for the password, or reads the PORTFOLIO_PASSWORD environment variable)
 //
 // - Plain sources live in private/<project>/ (git-ignored, never published). Each HTML file is written to docs/ as an
-//   encrypted shell that docs/auth/guard.js decrypts after login; the other files are copied as they are.
-// - docs/securitization/ comes from the securitisation-ingestion-system standalone build (with login enabled). When
-//   its own js/login.js is present, its pages are re-keyed to the portfolio key and its login page is replaced, so the
-//   portfolio login unlocks it too.
+//   encrypted shell that docs/auth/guard.js decrypts after login; the other files are copied as they are, except the
+//   embedded scripts, which travel inside the encrypted index.html and leave an empty stub behind.
 // - docs/auth/config.js is created on the first run (salt + SHA-256 of the derived key). Later runs reuse it and
-//   refuse a different password. To change the password, delete it and re-run with fresh sources for every project.
+//   refuse a different password. To change the password, delete it and re-run.
 import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -24,15 +22,22 @@ const sessionDays = 7;
 
 const projects = [
   { source: "private/rationalization", output: "docs/rationalization" },
+  { source: "private/ai-architecture", output: "docs/ai-architecture" },
   {
     source: "private/hr-policy",
     output: "docs/hr-policy",
     // The app code and data are loaded from this script by libs/loader.js: it travels inside the encrypted
     // index.html instead, right after the asset index, and the public file becomes an empty stub.
     embed: { pattern: /^libs\/assets\/\d+-modules\.json\.\d+\.js$/, after: '<script src="./libs/assets/index.js"></script>' }
+  },
+  {
+    // Standalone build of securitisation-ingestion-system. Its loader fetches the scripts listed in its manifest: the
+    // app scripts are inlined instead and dropped from the manifest, leaving it the public vendor libraries in lib/.
+    source: "private/securitization",
+    output: "docs/securitization",
+    embed: { pattern: /^js\/[\w-]+\.js$/, after: '<link rel="stylesheet" href="css/styles.css">', manifest: true }
   }
 ];
-const securitization = path.join(docs, "securitization");
 
 const toPosix = (value) => value.split(path.sep).join("/");
 const exists = (file) => fs.access(file).then(() => true, () => false);
@@ -78,14 +83,6 @@ function encrypt(key, text) {
   return Buffer.concat([iv, cipher.update(zipped), cipher.final(), cipher.getAuthTag()]).toString("base64");
 }
 
-function decrypt(key, payload, { gzip }) {
-  const bytes = Buffer.from(payload, "base64");
-  const decipher = crypto.createDecipheriv("aes-256-gcm", key, bytes.subarray(0, 12));
-  decipher.setAuthTag(bytes.subarray(-16));
-  const plain = Buffer.concat([decipher.update(bytes.subarray(12, -16)), decipher.final()]);
-  return (gzip ? zlib.gunzipSync(plain) : plain).toString("utf8");
-}
-
 // Path from a file in docs/ to docs/auth/.
 const authPath = (file) => toPosix(path.relative(path.dirname(file), path.join(docs, "auth")));
 
@@ -115,6 +112,31 @@ async function listFiles(dir) {
   return entries.filter((entry) => entry.isFile()).map((entry) => toPosix(path.relative(dir, path.join(entry.parentPath, entry.name))));
 }
 
+// Inlines the embedded scripts into index.html, after embed.after (in manifest order when embed.manifest is set).
+async function embedScripts(html, sourceDir, embed, embedded) {
+  if (!html.includes(embed.after)) throw new Error(`${toPosix(path.relative(repoRoot, sourceDir))}/index.html has no ${embed.after}`);
+  let names = embedded;
+  if (embed.manifest) {
+    const marker = '{"scripts":[';
+    const start = html.indexOf(marker);
+    if (start < 0) throw new Error("No script manifest found in index.html.");
+    const end = html.indexOf("]", start) + 1;
+    const scripts = JSON.parse(html.slice(start + 1, end).replace(/^"scripts":/, ""));
+    names = scripts.map((script) => script.src).filter((src) => embedded.includes(src));
+    if (names.length !== embedded.length) throw new Error("Some embedded scripts are missing from the manifest.");
+    const kept = scripts.filter((script) => !embedded.includes(script.src));
+    html = html.slice(0, start) + `{"scripts":${JSON.stringify(kept)}` + html.slice(end);
+  }
+  const scripts = await Promise.all(
+    names.map(async (name) => {
+      const code = await fs.readFile(path.join(sourceDir, name), "utf8");
+      if (/<\/script/i.test(code)) throw new Error(`${name} contains </script> and can't be inlined.`);
+      return `<script>${code}</script>`;
+    })
+  );
+  return html.replace(embed.after, () => `${embed.after}\n  ${scripts.join("\n  ")}`);
+}
+
 async function protectProject(key, { source, output, embed }) {
   const sourceDir = path.join(repoRoot, source);
   const outputDir = path.join(repoRoot, output);
@@ -133,11 +155,7 @@ async function protectProject(key, { source, output, embed }) {
       await fs.writeFile(to, "// Embedded in the encrypted index.html.\n");
     } else if (/\.html?$/i.test(file)) {
       let html = await fs.readFile(from, "utf8");
-      if (embedded.length && file === "index.html") {
-        if (!html.includes(embed.after)) throw new Error(`${source}/index.html has no ${embed.after}`);
-        const scripts = await Promise.all(embedded.map(async (name) => `<script>${await fs.readFile(path.join(sourceDir, name), "utf8")}</script>`));
-        html = html.replace(embed.after, `${embed.after}\n  ${scripts.join("\n  ")}`);
-      }
+      if (embedded.length && file === "index.html") html = await embedScripts(html, sourceDir, embed, embedded);
       await fs.writeFile(to, shell(key, html, to));
     } else {
       await fs.copyFile(from, to);
@@ -146,97 +164,7 @@ async function protectProject(key, { source, output, embed }) {
   console.log(`Protected ${output} (${files.length} files)`);
 }
 
-// The securitization build ships pages encrypted with its own key (PBKDF2 of the same password with its own salt).
-async function protectSecuritization(key, password) {
-  const loginScript = path.join(securitization, "js", "login.js");
-  const loaderScript = path.join(securitization, "js", "page-loader.js");
-  const pagesDir = path.join(securitization, "pages");
-  if (!(await exists(pagesDir))) return;
-
-  const pageNames = (await fs.readdir(pagesDir)).filter((name) => name.endsWith(".html")).map((name) => name.slice(0, -5));
-  if (!(await exists(loginScript))) {
-    // Already re-keyed: check the pages still open with the portfolio key.
-    const sample = (await fs.readFile(path.join(securitization, "js", `${pageNames[0]}.js`), "utf8")).match(/__sisPayload="([^"]+)"/);
-    if (!sample) throw new Error("docs/securitization pages aren't encrypted: rebuild securitisation-ingestion-system with login enabled.");
-    try {
-      decrypt(key, sample[1], { gzip: true });
-    } catch {
-      throw new Error("docs/securitization doesn't open with the portfolio key: copy a fresh securitization build.");
-    }
-    console.log("docs/securitization already uses the portfolio key");
-    return;
-  }
-
-  const login = await fs.readFile(loginScript, "utf8");
-  const field = (name) => login.match(new RegExp(`${name}:"?([^",}]+)"?`))?.[1];
-  const sisKey = pbkdf2(password, Buffer.from(field("keySalt"), "base64"), Number(field("iterations")));
-  const sisVerifier = pbkdf2(password, Buffer.from(field("verifySalt"), "base64"), Number(field("iterations"))).toString("base64");
-  if (sisVerifier !== field("verifier")) throw new Error("The password doesn't open docs/securitization.");
-  const defaultPage = login.match(/\?t:"([\w-]+)"/)?.[1] ?? pageNames[0];
-
-  for (const page of pageNames) {
-    const scriptFile = path.join(securitization, "js", `${page}.js`);
-    const payload = (await fs.readFile(scriptFile, "utf8")).match(/__sisPayload="([^"]+)"/)[1];
-    await fs.writeFile(scriptFile, `window.__sisPayload="${encrypt(key, decrypt(sisKey, payload, { gzip: false }))}";\n`);
-
-    const htmlFile = path.join(pagesDir, `${page}.html`);
-    const auth = authPath(htmlFile);
-    const html = (await fs.readFile(htmlFile, "utf8")).replace(
-      /[ \t]*<script src="\.\.\/js\/page-loader\.js"><\/script>/,
-      (tag) => `  <script src="${auth}/config.js"></script>\n  <script src="${auth}/guard.js"></script>\n${tag}`
-    );
-    await fs.writeFile(htmlFile, html);
-  }
-
-  await fs.writeFile(
-    loaderScript,
-    `// Generated by tools/protect.mjs: opens the securitization pages with the portfolio session (see docs/auth/guard.js).
-(async () => {
-  const auth = window.PortfolioAuth;
-  const payload = window.__sisPayload;
-  delete window.__sisPayload;
-  const key = await auth.readSession();
-  if (!key || !payload) return auth.redirectToLanding();
-  let page;
-  try {
-    page = JSON.parse(await auth.decrypt(key, payload));
-  } catch {
-    auth.clearSession();
-    return auth.redirectToLanding();
-  }
-  document.body.innerHTML = page.body;
-  const script = document.createElement("script");
-  script.textContent = page.script;
-  document.body.append(script);
-})();
-`
-  );
-
-  await fs.writeFile(
-    path.join(securitization, "index.html"),
-    `<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex, nofollow">
-  <title>Securitisation Ingestion System</title>
-  <script src="../auth/config.js"></script>
-  <script src="../auth/guard.js"></script>
-  <script>
-    PortfolioAuth.readSession().then((key) => key ? location.replace("pages/${defaultPage}.html") : PortfolioAuth.redirectToLanding());
-  </script>
-</head>
-<body></body>
-</html>
-`
-  );
-  await fs.rm(loginScript);
-  console.log(`Re-keyed docs/securitization (${pageNames.length} pages)`);
-}
-
 const password = await readPassword();
 if (!password) throw new Error("No password given.");
 const key = await loadKey(password);
 for (const project of projects) await protectProject(key, project);
-await protectSecuritization(key, password);

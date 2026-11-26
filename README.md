@@ -16,8 +16,9 @@ Plaintext sources live in `private/` (git-ignored):
 | Project | Source | Output |
 |---|---|---|
 | Rationalization | `private/rationalization/` | `docs/rationalization/` |
+| AI Architecture | `private/ai-architecture/` | `docs/ai-architecture/` |
 | HR Policy Assistant | `private/hr-policy/` (copy of `hr-prototype/dist`) | `docs/hr-policy/` |
-| Securitization | login-enabled standalone build copied into `docs/securitization/` | re-keyed in place |
+| Securitization | `private/securitization/` (copy of the `securitisation-ingestion-system` standalone build, login disabled) | `docs/securitization/` |
 
 Then run (prompts for the password, or reads `PORTFOLIO_PASSWORD`):
 
@@ -25,8 +26,8 @@ Then run (prompts for the password, or reads `PORTFOLIO_PASSWORD`):
 node tools/protect.mjs
 ```
 
-For securitization, build `securitisation-ingestion-system/standalone-build` with `loginEnabled = true`, copy the output into `docs/securitization/` (including `js/login.js`), and run the tool with the same password as that build. It re-encrypts the payloads with the portfolio key and swaps in the portfolio loader.
+App scripts (`libs/assets/*-modules.json.*.js` for HR, `js/*.js` for securitization) are inlined into the encrypted `index.html` and left as empty stubs in `docs/`; only public vendor libraries stay readable.
 
 ## Changing the password
 
-Delete `docs/auth/config.js`, provide fresh securitization build output, and run `node tools/protect.mjs` with the new password.
+Delete `docs/auth/config.js` and run `node tools/protect.mjs` with the new password.
